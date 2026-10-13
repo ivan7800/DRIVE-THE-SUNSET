@@ -2,9 +2,9 @@
 
 ![Carretera del Último Sol](assets/portal-cover.svg)
 
-Un juego original de conducción arcade y viajes mediterráneos. Cuatro carreteras, coches americanos ficticios de los años 70, 80 y 90, radio sintetizada y pequeñas historias para descubrir al detenerte.
+Un juego original de conducción arcade y viajes mediterráneos. Seis carreteras, siete coches americanos ficticios de los años 70, 80 y 90, radio sintetizada y pequeñas historias para descubrir al detenerte.
 
-**Versión: 1.1.0-rc.4.** Candidata a publicación con conducción diferenciada, doce encuentros, cámara dinámica, atmósferas por ruta y señales sonoras. WebGL es el renderizador exclusivo de conducción; la prueba física de móvil y audio audible siguen pendientes. Consulta [QA_REPORT.md](QA_REPORT.md).
+**Versión: 1.2.0-rc.1.** Candidata de contenido con conducción diferenciada, 18 encuentros, seis rutas y siete vehículos. WebGL es el renderizador exclusivo de conducción; esta ampliación pasó pruebas automatizadas locales. El ajuste humano de los coches y la prueba física de móvil/audio siguen pendientes. Consulta [QA_REPORT.md](QA_REPORT.md).
 
 ## Empezar
 
@@ -34,8 +34,10 @@ Abre `http://127.0.0.1:8080/`. Si introduces ese comando desde otra carpeta, deb
 | Sierra de los Susurros | 7,5 km | Puente del Viento, mirador, túnel de la Sierra, lago |
 | Carretera de los Viñedos | 9 km | Masía del Olivo, estación Solana, Alba, molino |
 | Carmelo 1984 | 6 km | Plaza de los Tilos, vistas, viaducto, cine Miralba |
+| Costa de las Linternas | 7,2 km | Puerto de Lucerna, faro, túnel del cabo, cala de medianoche |
+| Paso de los Olivos | 8,2 km | Molinos, casa del aceitero, mirador del viento, aldea |
 
-Los cuatro recorridos suman 30,5 km. Sus distancias son coordenadas del juego, no mediciones geográficas. **Carmelo es una reinterpretación ficticia de Barcelona**, no una reconstrucción del barrio ni de su trazado histórico.
+Los seis recorridos suman 45,9 km. Sus distancias son coordenadas del juego, no mediciones geográficas. **Carmelo es una reinterpretación ficticia de Barcelona**, no una reconstrucción del barrio ni de su trazado histórico.
 
 Hay tres desvíos: costa → sierra, sierra → viñedos y viñedos → Carmelo. Las señales y el atlas muestran la conexión. Al elegir un destino empiezas su recorrido en el km 0, conservas las métricas del viaje y la geometría de carretera se mezcla durante 420 m. No elegir mantiene la ruta actual. También puedes empezar cualquier carretera desde el menú.
 
@@ -45,6 +47,9 @@ Todos los vehículos y escenarios están disponibles desde el principio:
 - **Solstice LX 1984:** descapotable, crucero suave.
 - **Phantom XR 1987:** coupé, mayor agilidad y velocidad.
 - **Meridian S 1992:** sedán, peso visual y manejo propio.
+- **Ironclad V8 1970:** muscle clásico ancho, potente y con más inercia.
+- **Starlight GT 1988:** deportivo compacto y de dirección rápida.
+- **Longhorn LX 1995:** gran turismo estable y progresivo.
 
 El garaje permite seis pinturas, dos acabados de llantas, tráfico configurable, sensibilidad y cuatro ambientes: atardecer, amanecer, noche y lluvia. Elige coche y ruta antes de empezar o abre el garaje durante la conducción.
 
@@ -82,11 +87,11 @@ Los controles táctiles aparecen en dispositivos con puntero táctil. Hay entrad
 
 ## Recuerdos, radio y fotografías
 
-Las 16 historias son opcionales. Frena a menos de 115 m de una parada y por debajo de 5 km/h para guardar su recuerdo. Los relatos y las postales se consultan en el diario. En el mirador del faro hay además una postal del viaje costero.
+Las 24 historias son opcionales. Frena a menos de 115 m de una parada y por debajo de 5 km/h para guardar su recuerdo. Los relatos y las postales se consultan en el diario. En el mirador del faro hay además una postal del viaje costero.
 
 Activa **AUDIO** tras empezar. Las tres emisoras contienen piezas originales sintetizadas por el propio juego: *Cartas de verano*, *Luces de Miralba* y *Antes del regreso*. Música, motor y ambiente tienen volúmenes independientes. No hay canciones comerciales, muestras externas ni servicios de streaming. Su funcionamiento se ha inspeccionado y el control de radio se ha probado; la mezcla audible en navegador sigue pendiente de escucha.
 
-## Ocho encuentros y dieciséis despedidas
+## Dieciocho encuentros y veinticuatro despedidas
 
 Cada carretera tiene tres encuentros opcionales. Cuando aparezca el aviso, detente por debajo de 5 km/h a menos de 125 m del punto y pulsa **E / ESCUCHAR**. La conversación pausa el viaje y permite dos decisiones. Puedes cerrarla sin elegir o pasar de largo; las decisiones se guardan en el viaje.
 
@@ -96,6 +101,8 @@ Cada carretera tiene tres encuentros opcionales. Cuando aparezca el aviso, deten
 | Sierra | El mapa · km 0,64 | La segunda silla · km 6,85 |
 | Viñedos | Pan para Alba · km 0,57 | La mesa · km 8,17 |
 | Carmelo | Dos entradas · km 0,46 | El cine · km 5,45 |
+| Costa de las Linternas | La caja del puerto · km 0,56 | Luces en la cala · km 6,76 |
+| Paso de los Olivos | El perro del olivar · km 0,70 | La mesa de la plaza · km 7,78 |
 
 Cada ruta tiene cuatro despedidas: sin encuentro final, cumplir el encargo, compartir el momento sin encargo, o seguir hacia casa. Se descubren al alcanzar el final de la carretera y quedan en el diario. Repetir una ruta permite elegir de nuevo. Cambiar de carretera por un desvío conserva decisiones del viaje, pero solo registra la despedida de la carretera terminada.
 
@@ -119,13 +126,13 @@ La carretera se dibuja únicamente con **WebGL**: geometría 3D original, luz, f
 
 No requieren frameworks, CDN, fuentes descargadas ni archivos de modelos externos. La calidad «Ahorro» reduce detalle y resolución. «Automático» adapta la resolución interna tras 90 muestras lentas y la recupera de forma gradual; el HUD conserva su resolución. El terreno y los edificios se reutilizan entre tramos de 24 m. Los valores medidos pertenecen al equipo de prueba, no son FPS universales. Movimiento reducido, contraste y texto grande son independientes del clima; la preferencia del sistema para movimiento reducido se usa por defecto cuando aún no hay ajustes.
 
-La compilación, geometría y lectura de píxeles 3D se han comprobado mediante Mesa GLES por software. Eso **no** equivale a una prueba de WebGL en todos los navegadores ni de una GPU física. Carmelo cambia entre plaza, ladera abierta, talleres y cine; costa, sierra y viñedos varían la vegetación y los edificios por tramo. La luz progresiva del atardecer se puede desactivar en el garaje.
+La geometría del proyecto anterior se revisó mediante Mesa GLES por software. Esta RC1 amplía geometría y shader; sus nuevas escenas todavía no se han comprobado mediante WebGL real. Eso **no** equivale a una prueba de WebGL en todos los navegadores ni de una GPU física. Carmelo cambia entre plaza, ladera abierta, talleres y cine; las rutas nuevas usan puerto y olivares como referencias visuales. La luz progresiva del atardecer se puede desactivar en el garaje.
 
 ## GitHub Pages
 
 Esta carpeta está preparada para servirse como sitio estático desde la raíz del repositorio, incluso bajo una subruta como `/CHASE-404/`. `index.html` debe quedar en la raíz publicada junto con `js/`, `webgl/`, `assets/` y `style.css`.
 
-En un repositorio habilitado para Pages, selecciona la rama que contenga estos archivos y la carpeta `/ (root)`. Mantén `.nojekyll`. La comprobación de subruta se ha realizado en servidor local con recursos e imports relativos; **esta entrega no se ha publicado ni comprobado en una página desplegada**.
+En un repositorio habilitado para Pages, selecciona la rama que contenga estos archivos y la carpeta `/ (root)`. Mantén `.nojekyll`. `package-smoke` comprobó la estructura y las rutas relativas previstas para una subruta. El HTTP real bajo subruta quedó bloqueado en este entorno y esta RC1 **no se ha publicado**; la RC4 anterior sigue en la página existente.
 
 No hay Service Worker ni instalación PWA. Una vez descargado el proyecto, el servidor local funciona sin Internet. «Sin conexión» no significa que una página alojada se pueda recargar offline sin haber descargado antes los archivos.
 

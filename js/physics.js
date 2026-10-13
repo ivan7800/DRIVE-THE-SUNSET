@@ -4,14 +4,20 @@ export const VEHICLES={
  vesper:{name:'VESPER GT 1972',color:'#a54548',acceleration:1.18,braking:.91,steering:.83,topSpeed:158},
  solstice:{name:'SOLSTICE LX 1984',color:'#e7c58e',acceleration:.87,braking:1.05,steering:1.04,topSpeed:132},
  phantom:{name:'PHANTOM XR 1987',color:'#588c9c',acceleration:1.08,braking:1.18,steering:1.19,topSpeed:172},
- meridian:{name:'MERIDIAN S 1992',color:'#516c66',acceleration:.96,braking:1.12,steering:.92,topSpeed:146}
+ meridian:{name:'MERIDIAN S 1992',color:'#516c66',acceleration:.96,braking:1.12,steering:.92,topSpeed:146},
+ ironclad:{name:'IRONCLAD V8 1970',color:'#b45a3c',acceleration:1.22,braking:.84,steering:.69,topSpeed:164},
+ starlight:{name:'STARLIGHT GT 1988',color:'#724d83',acceleration:1.04,braking:1.08,steering:1.28,topSpeed:176},
+ longhorn:{name:'LONGHORN LX 1995',color:'#c5c9bb',acceleration:.92,braking:1.16,steering:.89,topSpeed:151}
 };
 export const TRAFFIC_LEVELS=['off','light','normal'];
 export const HANDLING=Object.freeze({
  vesper:{response:5.8,grip:5.2,slide:1.15,brakeDrag:90,label:'V8 · PESO Y PAR'},
  solstice:{response:6.8,grip:7.2,slide:.68,brakeDrag:103,label:'CRUCERO · SUAVE Y ESTABLE'},
  phantom:{response:9.2,grip:6.7,slide:.97,brakeDrag:98,label:'COUPÉ · ÁGIL Y DIRECTO'},
- meridian:{response:5.5,grip:8.2,slide:.54,brakeDrag:110,label:'SEDÁN · FIRME Y PROGRESIVO'}
+ meridian:{response:5.5,grip:8.2,slide:.54,brakeDrag:110,label:'SEDÁN · FIRME Y PROGRESIVO'},
+ ironclad:{response:4.8,grip:4.9,slide:1.28,brakeDrag:86,label:'V8 CLÁSICO · PESADO Y POTENTE'},
+ starlight:{response:9.8,grip:7.1,slide:.91,brakeDrag:100,label:'GT · LIGERO Y PRECISO'},
+ longhorn:{response:5.9,grip:8.5,slide:.48,brakeDrag:114,label:'GRAN TURISMO · ESTABLE Y SERENO'}
 });
 // Posiciones reproducibles: vehículos móviles sobre un circuito virtual largo.
 // La fase de tráfico es volátil; no altera los guardados existentes.
@@ -79,6 +85,8 @@ export function roadCurve(route,distance){
   case 'mountain': return Math.sin(d/175)*.77+Math.sin(d/420)*.60+Math.sin(d/980)*.34;
   case 'carmelo': return Math.sin(d/240)*.40+Math.sin(d/560)*.26+Math.sin(d/105)*.12;
   case 'vineyards': return Math.sin(d/610)*.52+Math.sin(d/1400)*.45;
+  case 'mooncoast': return Math.sin(d/255)*.72+Math.sin(d/760)*.62+Math.sin(d/1080)*.22;
+  case 'olivepass': return Math.sin(d/390)*.56+Math.sin(d/1120)*.74+Math.sin(d/175)*.10;
   default: return Math.sin(d/330)*.9+Math.sin(d/1220)*.85;
  }
 }
@@ -88,6 +96,8 @@ export function roadElevation(route,distance){
  if(route==='mountain')return Math.sin(d/520)*.65+Math.sin(d/180)*.22;
  if(route==='carmelo')return Math.sin(d/460)*.42+Math.sin(d/170)*.13;
  if(route==='vineyards')return Math.sin(d/820)*.25;
+ if(route==='mooncoast')return Math.sin(d/480)*.27+Math.sin(d/150)*.08;
+ if(route==='olivepass')return Math.sin(d/700)*.48+Math.sin(d/255)*.15;
  return Math.sin(d/930)*.19;
 }
 

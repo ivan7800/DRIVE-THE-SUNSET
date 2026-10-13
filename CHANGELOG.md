@@ -1,5 +1,13 @@
 # Cambios de CHASE-404: DRIVE THE SUNSET
 
+## 1.2.0-rc.1 — 13 octubre 2026
+
+- Añadidos tres coches ficticios con perfiles de aceleración, frenada, dirección, sonido y silueta 3D propios: Ironclad V8 1970, Starlight GT 1988 y Longhorn LX 1995.
+- Añadidas Costa de las Linternas (puerto, paseo, faro y cala nocturna) y Paso de los Olivos (olivares, lomas, molinos y aldea), cada una con cuatro secciones, hitos, encuentros y cuatro finales.
+- Las seis rutas tienen ya 18 encuentros opcionales y 24 finales; los guardados y copias conservan las decisiones y el diario ampliado sin invalidar formatos anteriores.
+- Las siete siluetas aparecen también en el tráfico; actualizados menú, atlas, radio, HUD y selección de ruta.
+- No se publica con este paquete: falta comprobación humana de manejo/lectura visual y repetición de QA gráfica en navegador/GPU.
+
 ## 1.1.0-rc.4 — 13 octubre 2026
 
 - Un encuentro narrativo nuevo en cada carretera (12 en total), con decisiones persistentes y recuperación mediante guardado. Los finales conservan sus 16 variantes y usan la última escena disponible.

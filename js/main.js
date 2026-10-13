@@ -26,7 +26,7 @@ let currentEncounter=null;
 let currentEncounterNotice='';
 const keys={gas:false,brake:false,left:false,right:false,handbrake:false};
 const aliases={KeyW:'gas',ArrowUp:'gas',KeyS:'brake',ArrowDown:'brake',KeyA:'left',ArrowLeft:'left',KeyD:'right',ArrowRight:'right',Space:'handbrake'};
-const routeOrder=['coast','mountain','vineyards','carmelo'];
+const routeOrder=Object.keys(ROUTES);
 const panelIds={intro:'intro',garage:'garagePane',routes:'routePane',journal:'journalPane',help:'helpPane',photo:'photoPane',finish:'finish',encounter:'encounterPane'};
 const panelFirst={intro:'start',garage:'closeGarage',routes:'closeRoutes',journal:'closeJournal',help:'closeHelp',photo:'capturePhoto',finish:'nextRoute',encounter:'encounterFirst'};
 const bind=(id,handler,event='click')=>{const el=$(id);if(el)el.addEventListener(event,handler);};
@@ -162,7 +162,7 @@ function renderJournal(){
   card.append(region,title,desc);container.append(card);
  }}
  const endings=$('endingEntries');if(endings){endings.replaceChildren();for(const [route,variants] of Object.entries(ENDINGS))for(const [kind,[title,description]] of Object.entries(variants)){const found=journalData.endings.includes(route+':'+kind);const item=document.createElement('article');item.className='memory-card'+(found?'':' locked');const heading=document.createElement('strong'),body=document.createElement('p');heading.textContent=found?title:getRoute(route).name+' · FINAL POR DESCUBRIR';body.textContent=found?description:'Termina esta carretera; tus encuentros cambian la despedida.';item.append(heading,body);endings.append(item);}}
- text('endingCount',journalData.endings.length+' / 16 DESENLACES');
+ text('endingCount',journalData.endings.length+' / '+Object.values(ENDINGS).reduce((n,variants)=>n+Object.keys(variants).length,0)+' DESENLACES');
  const log=$('activityLog');if(log){log.replaceChildren();
   if(!activityLog.records.length){const p=document.createElement('p');p.textContent='Elige una actividad opcional en el garaje para registrar tu próximo viaje.';log.append(p);}
   for(const entry of [...activityLog.records].reverse()){
@@ -318,7 +318,8 @@ function syncRoadEvents(){
  if(active){text('coast','1 · '+getRoute(junction.options[0]).name);text('mountain','2 · '+getRoute(junction.options[1]).name);}
  const routeJunction=getRoute(s.route).junction;
  if(routeJunction&&!s.choices.includes(s.route)&&s.distance>routeJunction.at+165){s.choices.push(s.route);s.selected=true;announce('SIGUIENDO '+getRoute(s.route).name);}
- hide('stop',!(s.route==='coast'&&s.distance>=2800&&s.distance<=3300&&!s.postcard&&started&&!paused&&!modal));
+ const postcard=STORIES[s.route]?.at(-1);
+ hide('stop',!(!s.postcard&&postcard&&Math.abs(s.distance-postcard.at)<=350&&started&&!paused&&!modal));
  if(s.distance>=getRoute(s.route).length&&!s.finished)finishTrip();
  updateStory();updateEncounter();updateHud();
 }

@@ -1,4 +1,49 @@
-# Drive the Sunset — auditoría de entrega 1.1.0-rc.4
+# Drive the Sunset — auditoría de entrega 1.2.0-rc.1
+
+## Anexo RC5 · coches y nuevas rutas
+
+**Veredicto actual:** ampliación jugable en pruebas automatizadas locales; candidata de contenido, todavía no certificada para publicar. La versión anterior RC4 sigue siendo la publicada. Esta intervención no cambia GitHub ni GitHub Pages.
+
+### Resumen ejecutivo
+
+- Se añadieron tres coches ficticios con valores de aceleración, frenada, giro, audio y geometría WebGL propios: Ironclad V8 1970, Starlight GT 1988 y Longhorn LX 1995.
+- El atlas ahora incluye Costa de las Linternas y Paso de los Olivos. Cada una tiene cuatro sectores, cuatro hitos, tres encuentros y cuatro finales.
+- Seis coches/rutas, el tráfico, la selección inicial, el atlas, los diarios, la ruta siguiente, la música y las partidas guardadas están conectados con el nuevo contenido.
+- Los formatos anteriores de guardado y copia se siguen aceptando. El viaje admite hasta 24 recuerdos y 18 decisiones para que recorrer varias rutas no invalide la partida.
+- No afirmo que se haya probado el tacto de los coches, la lectura visual en una GPU real, Safari/iPhone, audio audible ni duración larga.
+
+### Entorno y pruebas RC5
+
+Linux en entorno de trabajo, Node.js 24, Python 3.12. Se ejecutó `node tools/build.mjs`; después `bash QA_RUN.sh`. Sintaxis de módulos y bundle: superada. Las 25 pruebas `*.test.mjs`, los dos flujos de DOM/runtime simulado y `tests/package-smoke.py`: superados. `journey-driving.test.mjs` integró 42 recorridos completos con 321,3 km de física simulada para las combinaciones de seis rutas y siete coches. Esto verifica el modelo numérico, no sustituye conducción humana.
+
+`QA_RUN.sh` llegó a HTTP. `tests/http-smoke.py` quedó **bloqueado por el entorno**: Python no pudo abrir un socket loopback (`PermissionError: [Errno 1] Operation not permitted`). No se registró como un defecto reproducible del juego. El paquete sí pasó la revisión estática de archivos y rutas relativas prevista para `/CHASE-404/`; las respuestas HTTP 200 bajo subruta siguen pendientes.
+
+| ID | Prueba | Resultado | Evidencia y límite |
+|---|---|---|---|
+| RC5-01 | Sintaxis ESM, scripts y bundle reproducible | Superada | `QA_RUN.sh`; bundle de 15 módulos aislados |
+| RC5-02 | Controles/handling de siete vehículos, límites, deriva y recuperación | Superada en simulación | `journey-driving`, `systems`, `driving-iter*`; falta ajuste humano |
+| RC5-03 | 42 recorridos completos en todas las combinaciones coche/ruta | Superada en física | 321,3 km simulados, sin saltos de coordenadas; no mide sensaciones |
+| RC5-04 | Secciones, hitos y geometría de seis carreteras | Superada por contratos y datos | `routes`, `road-geometry`, `road-branch`; los nuevos paisajes no se verificaron con GPU real |
+| RC5-05 | 18 encuentros, 24 finales, diario y persistencia | Superada en lógica y DOM simulado | `journey-driving`, `journey-runtime`, `runtime-smoke`; sin navegador gráfico real |
+| RC5-06 | Guardados RC anteriores, importación y retención hasta 24 recuerdos | Superada en pruebas de datos | `save`, `backup`, `core-final`, `runtime-smoke` |
+| RC5-07 | Tráfico con siete modelos y sonido asociado al coche | Superada por contratos | `traffic`, `systems`; audio no escuchado físicamente |
+| RC5-08 | Archivos/rutas relativas para GitHub Pages | Superada estáticamente | `package-smoke.py`; HTTP bajo subruta bloqueado |
+| RC5-09 | Chrome/Firefox/Safari con WebGL, apariencia, rendimiento sostenido | Pendiente | No hubo navegador con WebGL disponible en este entorno |
+| RC5-10 | Manejo humano de los tres coches nuevos y las dos rutas nuevas | Pendiente | Requiere jugar con controles reales |
+| RC5-11 | iPhone/tacto, mando, Windows/Linux físicos y audio audible | Pendiente | No ejecutado |
+
+### Riesgos y criterio de salida
+
+No se encontró una regresión reproducible en las pruebas ejecutadas. El mayor riesgo antes de publicación es que las diferencias de handling y las escenas nuevas solo se han inspeccionado en código y contratos de renderizado; ninguna prueba automatizada confirma que se sientan bien o se vean bien en hardware real. Para cerrar esta candidata: abrir el ZIP por HTTP, conducir cada coche en curvas y cambios de dirección, recorrer ambas rutas, revisar el guardado tras recarga y tomar capturas con WebGL activo; repetir tacto/audio en iPhone si se ofrece compatibilidad móvil.
+
+El resto de este informe conserva la matriz e historial de RC4 y anteriores. Los resultados históricos no se atribuyen a RC5.
+
+---
+
+## Historial de RC4 y anteriores
+
+La matriz que sigue corresponde a versiones y pruebas indicadas en cada sección, no certifica RC5.
+
 
 ## Anexo RC4 · eventos, cámara y atmósfera
 
@@ -123,7 +168,7 @@ Licencia MIT presente. Geometría, síntesis sonora, relatos e interfaces están
 
 ## 6. Regresiones frente a 1.0.0-rc.3
 
-Se conservan 4 coches, 4 rutas, 3 desvíos, 16 recuerdos, 3 actividades, radio, foto, Canvas/WebGL y claves locales CHASE-404. Se repitieron controles, cámara, colisiones, persistencia, bundle y rutas. Guardados antiguos se normalizan sin finales; el historial nuevo incluye desenlaces.
+En RC2 se conservaron 4 coches, 4 rutas, 3 desvíos, 16 recuerdos, 3 actividades, radio, foto y claves locales CHASE-404. Ese alcance histórico fue ampliado en RC5; no se debe usar como descripción actual.
 
 La entrega previa no había logrado ejecutar Chromium ni HTTP en su entorno restringido. Esta auditoría sí ejecutó ambos. Los registros previos se sustituyen por evidencia de las fuentes actuales. El nombre visible no cambia el origen ni las claves del progreso.
 
@@ -156,3 +201,4 @@ Configuración remota, permisos, caché y URL publicada **pendientes**. No se mo
 ## 10. Conclusión
 
 **Release candidate con correcciones informadas por la prueba del usuario.** Sus 28 regresiones dirigidas pasan; no se volvió a ejecutar toda la suite Chromium/HTTP/GLES en RC2. Para cerrar el reporte, I. Roig debe verificar los controles y el audio en iPhone; después se puede repetir Chromium y subir los archivos al sitio. Sigue siendo RC, no publicación estable certificada.
+

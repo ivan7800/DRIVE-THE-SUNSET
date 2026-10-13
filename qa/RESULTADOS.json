@@ -1,12 +1,13 @@
 {
-  "version": "1.1.0-rc.4",
+  "version": "1.2.0-rc.1",
   "date": "2026-10-13",
-  "classification": "release candidate",
-  "change": "four additional narrative encounters, speed-aware camera, route atmosphere and interaction audio cues",
+  "classification": "content release candidate; not certified for publication",
+  "change": "three fictional vehicles, two distinct roads, 18 encounters, 24 endings, expanded persistence and UI",
   "passed": [
     "25 archivos tests/*.test.mjs: lógica, controles, guardado, audio cue, cámara y atmósfera",
-    "12 encuentros comprobados en lógica y recorrido de DOM simulado; decisiones persistentes",
-    "framing dinámico por velocidad y cuatro perfiles de luz comprobados",
+    "18 encuentros y 24 desenlaces comprobados en lógica y recorrido de DOM simulado; decisiones persistentes",
+    "framing dinámico por velocidad y seis perfiles de luz comprobados",
+    "42 recorridos físicos simulados: combinaciones de 6 rutas y 7 vehículos, 321.3 km",
     "runtime smoke con WebGL simulado y DOM",
     "journey runtime con DOM simulado",
     "bundle reproducible de 15 módulos y sintaxis",
@@ -16,14 +17,14 @@
     "tests/http-smoke.py no pudo abrir socket loopback: PermissionError [Errno 1] Operation not permitted; runner se detuvo antes de navegador/GLES"
   ],
   "not_executed": [
-    "Chromium E2E y WebGL en navegador real sobre RC4",
+    "Chromium E2E y WebGL en navegador real sobre RC5",
     "Safari/iPhone físico, controles táctiles físicos y escucha de audio",
     "GPU física, Windows, Linux Mint, mando y sesión larga"
   ],
-  "historical_only": "RC1 Chromium/SwiftShader/GLES evidence does not certify RC4",
+  "historical_only": "Previous RC1/RC4 browser and GLES evidence does not certify RC5",
   "publication": {
-    "status": "published to main; GitHub Pages workflow succeeded",
+    "status": "not published; RC4 remains the deployed version",
     "github_pages_rc4_observed": true,
-    "audit_browser_webgl": "unavailable; deployed page loaded with the WebGL warning visible"
+    "audit_browser_webgl": "not run for RC5; this environment has no available WebGL browser"
   }
 }

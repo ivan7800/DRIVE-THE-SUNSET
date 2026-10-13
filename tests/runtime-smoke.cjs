@@ -46,14 +46,14 @@ if(!hasCanvas){console.log('PENDIENTE: Canvas2D nativo. Para este smoke de desar
   game.storage.setItem=()=>{throw Error('denied')};game.click('postcard');assert.equal(game.qa.snapshot().state.postcard,false);assert.match(game.elements.get('postcardState').textContent,/NO GUARDADA/);assert.equal(game.store.has('last-light-postcard-v1'),false);
   game.qa.teleport({distance:1030,speed:0});game.click('collectMemory');assert.equal(game.qa.snapshot().journal.memories.length,0);assert.match(game.elements.get('toast').textContent,/NO SE HA GUARDADO/);
  });
- await test('16 memories, four route endings and journal reload',async()=>{
+ await test('24 memories, six route endings and journal reload',async()=>{
   const {ROUTES}=await import('../js/routes.js'),{STORIES}=await import('../js/stories.js');let game=await createGame();game.click('start');
   for(const [route,items] of Object.entries(STORIES)){
    for(const story of items){game.qa.teleport({route,distance:story.at,speed:0,finished:false});game.click('collectMemory');}
    game.qa.teleport({route,distance:ROUTES[route].length-.1,speed:20,finished:false});game.qa.tick(.1,{gas:true});assert.equal(game.qa.snapshot().state.finished,true);assert.equal(game.qa.snapshot().modal,'finish');assert.equal(game.qa.snapshot().state.speed,0);game.click('nextRoute');
   }
-  assert.equal(game.qa.snapshot().journal.memories.length,16);assert.equal(game.store.has('last-light-trip-v1'),true,'next route created resumable trip');
-  game=await createGame(Object.fromEntries(game.store));game.click('journal');assert.equal(game.qa.snapshot().journal.memories.length,16);assert.equal(game.elements.get('journalEntries').children.length,16);
+  assert.equal(game.qa.snapshot().journal.memories.length,24);assert.equal(game.store.has('last-light-trip-v1'),true,'next route created resumable trip');
+  game=await createGame(Object.fromEntries(game.store));game.click('journal');assert.equal(game.qa.snapshot().journal.memories.length,24);assert.equal(game.elements.get('journalEntries').children.length,24);
  });
  await test('backup download and photo PNG use rendered WebGL canvas pixels',async()=>{
   const game=await createGame();game.click('start');game.click('backupExport');assert(game.downloads.length>0);const backup=JSON.parse(await game.downloads.at(-1).blob.text());assert.equal(backup.app,'CHASE-404');

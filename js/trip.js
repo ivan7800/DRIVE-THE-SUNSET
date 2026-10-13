@@ -13,13 +13,13 @@ export function createRun(distance=0,id){
 export function validateRun(raw){
  if(!raw||typeof raw.id!=='string'||!/^trip-[a-z0-9-]{1,80}$/.test(raw.id))return null;
  for(const [key,max] of [['startDistance',100000],['elapsed',86400],['travelled',1000000],['contacts',100000],['offroadSeconds',86400],['maxSpeed',250]])if(!finite(raw[key],0,max))return null;
- if(!Number.isInteger(raw.contacts)||!Array.isArray(raw.memories)||raw.memories.length>16||!raw.memories.every(v=>typeof v==='string'&&/^[a-z]+:[a-z0-9-]+$/.test(v)))return null;
+ if(!Number.isInteger(raw.contacts)||!Array.isArray(raw.memories)||raw.memories.length>24||!raw.memories.every(v=>typeof v==='string'&&/^[a-z]+:[a-z0-9-]+$/.test(v)))return null;
  const journey=validJourney(raw.journey);if(!journey)return null;
  const activity=raw.activity;
  if(!activity||!Object.hasOwn(ACTIVITIES,activity.type)||!['active','complete'].includes(activity.status))return null;
  for(const [key,max] of [['startDistance',100000],['baseContacts',100000],['baseOffroad',86400],['progress',1000000],['streak',86400]])if(!finite(activity[key],0,max))return null;
  const stops=activity.stops===undefined?(activity.type==='explore'?raw.memories:[]):activity.stops;
- if(!Array.isArray(stops)||stops.length>16||!stops.every(key=>raw.memories.includes(key)))return null;
+ if(!Array.isArray(stops)||stops.length>24||!stops.every(key=>raw.memories.includes(key)))return null;
  if(!Array.isArray(raw.awards)||!raw.awards.every(v=>['clean','flow','explore'].includes(v)))return null;
  return {id:raw.id,startDistance:raw.startDistance,elapsed:raw.elapsed,travelled:raw.travelled,contacts:raw.contacts,offroadSeconds:raw.offroadSeconds,maxSpeed:raw.maxSpeed,memories:[...new Set(raw.memories)],journey,activity:{type:activity.type,status:activity.status,startDistance:activity.startDistance,baseContacts:activity.baseContacts,baseOffroad:activity.baseOffroad,progress:activity.progress,streak:activity.streak,stops:[...new Set(stops)]},awards:[...new Set(raw.awards)]};
 }

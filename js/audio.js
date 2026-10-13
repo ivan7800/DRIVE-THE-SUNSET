@@ -55,7 +55,7 @@ export function createAudio(){
   if(!context)return;const time=context.currentTime,active=enabled&&!isPaused&&context.state==='running';
   music.gain.setTargetAtTime(active?mix.musicVolume*(Math.abs(state.slide||0)>.2?.62:.82):0,time,.18);
   skid.gain.setTargetAtTime(active?mix.engineVolume*Math.min(.22,Math.abs(state.slide||0)*.19):0,time,.08);
-  const speed=Math.abs(state.speed||0),factor={vesper:.82,solstice:1.05,phantom:1.18,meridian:.91}[state.vehicle]||1;
+  const speed=Math.abs(state.speed||0),factor={vesper:.82,solstice:1.05,phantom:1.18,meridian:.91,ironclad:1.28,starlight:1.16,longhorn:.88}[state.vehicle]||1;
   engine.gain.setTargetAtTime(active?mix.engineVolume*(.045+Math.min(speed,180)*.00022):0,time,.09);
   const gear=Math.min(4,Math.floor(speed/37)),rpm=31+(speed-gear*22)*.75+(state.throttle||0)*9;
   engineOsc.frequency.setTargetAtTime(rpm*factor,time,.10);engineTone.frequency.setTargetAtTime(rpm*2*factor,time,.12);engineFilter.frequency.setTargetAtTime(280+speed*6.5,time,.14);

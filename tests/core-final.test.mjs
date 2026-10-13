@@ -15,7 +15,7 @@ const cadences=[10,30,60,120].map(hz=>{
 });
 for(const s of cadences){assert(Math.abs(s.distance-cadences[0].distance)<1e-8);assert(Math.abs(s.speed-cadences[0].speed)<1e-8);}
 let ticks=0;const bounded=createFixedStepper();bounded.update(120,()=>ticks++);assert(ticks<=16,'bounded catch-up after suspension');bounded.reset();assert.equal(bounded.remainder,0);
-assert.equal(Object.keys(VEHICLES).length,4);assert(VEHICLES.meridian.topSpeed>100);
+assert.equal(Object.keys(VEHICLES).length,7);assert(VEHICLES.meridian.topSpeed>100);assert(VEHICLES.ironclad.topSpeed>VEHICLES.longhorn.topSpeed);
 
 let run=selectActivity(createRun(0,'trip-test'),'clean',0);
 let previous={distance:0,speed:60,x:0,mode:'arcade'};
@@ -69,4 +69,4 @@ for(const [route,details] of Object.entries(ROUTES))if(details.junction){
  assert(Math.abs(roadShape(branch,420).curve-roadShape({route:target},420).curve)<1e-10);
  assert(writeTrip(storage,branch),'validated connection '+route+' -> '+target);
 }
-console.log('PASS core-final: rest, fixed-step 10/30/60/120 Hz, bounded suspension, 4 cars, 3 activities, migration, backup validation/rollback and route connections');
+console.log('PASS core-final: rest, fixed-step 10/30/60/120 Hz, bounded suspension, 7 cars, 3 activities, migration, backup validation/rollback and route connections');

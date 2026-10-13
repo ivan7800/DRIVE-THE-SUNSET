@@ -79,7 +79,7 @@ export function validateBackup(raw){
  if(!validSettings||(trip!==null&&!validTrip)||typeof postcard!=='boolean')return null;
  // Imported fields cannot be silently discarded: reject corrupt/incompatible backups.
  if(!journal||journal.schemaVersion!==1||!Array.isArray(journal.memories)||journal.memories.length>100||journal.memories.some(v=>!validJournal.memories.includes(v)))return null;
- if(journal.endings!==undefined&&(!Array.isArray(journal.endings)||journal.endings.length>16||journal.endings.some(v=>!validJournal.endings.includes(v))))return null;
+ if(journal.endings!==undefined&&(!Array.isArray(journal.endings)||journal.endings.length>24||journal.endings.some(v=>!validJournal.endings.includes(v))))return null;
  if(!activities||activities.schemaVersion!==1||!Array.isArray(activities.records)||activities.records.length>60||validActivities.records.length!==activities.records.length)return null;
  for(const key of Object.keys(DEFAULT_SETTINGS)){
   if(settings[key]!==undefined&&settings[key]!==validSettings[key])return null;

@@ -21,7 +21,7 @@ for(const [route,events] of Object.entries(ENCOUNTERS)){
   assert(writeTrip(db,trip));assert.deepEqual(readTrip(db).run.journey,journey);
  }
 }
-assert.equal(validJourney({'coast-letter':'<script>'}),null);assert.equal(validJourney({'missing':'home'}),null);
+assert.equal(endings.length,24);assert.equal(validJourney({'coast-letter':'<script>'}),null);assert.equal(validJourney({'missing':'home'}),null);
 const source=storage();writeJournal(source,{schemaVersion:1,memories:['coast:faro'],endings});const backup=createBackup(source);assert(validateBackup(backup));assert.equal(backup.schemaVersion,2,'new backups prevent older clients from silently dropping endings');const legacy=structuredClone(backup);legacy.schemaVersion=1;delete legacy.data.journal.endings;assert(validateBackup(legacy),'legacy backups migrate');const dest=storage();assert(importBackup(dest,backup).ok);assert.deepEqual(readJournal(dest).endings,endings);
 backup.data.journal.endings.push('coast:invented');assert.equal(validateBackup(backup),null);assert.equal(safeJournal({schemaVersion:1,memories:[]}).endings.length,0,'old journal migrates');
 const base={route:'coast',vehicle:'vesper',mode:'arcade',distance:100,speed:90,x:0};
@@ -33,7 +33,7 @@ for(const vehicle of Object.keys(VEHICLES)){
 }
 let hit=advance({...base,route:'carmelo',x:1.36,steerMomentum:1},{right:true,gas:true},1/60);assert(hit.wallContact);assert(hit.x<=1.36);hit=resolveTrafficContact(hit,[],1/60);assert(hit.contact,'border contact survives traffic step');
 const analogue=advance(base,{steerAxis:.4,throttle:.4},1/60),digital=advance(base,{right:true,gas:true},1/60);assert(analogue.steerMomentum<digital.steerMomentum&&analogue.speed<digital.speed);
-console.log('PASS: twelve encounters, sixteen endings, migration/backup validation, four handling profiles, drift recovery, pedal priority, analogue control and borders');
+console.log('PASS: eighteen encounters, twenty-four endings, migration/backup validation, seven handling profiles, drift recovery, pedal priority, analogue control and borders');
 // Traverse complete road distances with continuous integration, without teleporting.
 const tours=[];
 for(const route of Object.keys(ROUTES))for(const vehicle of Object.keys(VEHICLES)){
@@ -46,4 +46,4 @@ for(const route of Object.keys(ROUTES))for(const vehicle of Object.keys(VEHICLES
  assert(s.distance>=ROUTES[route].length,'complete route '+route+'/'+vehicle);
  tours.push({route,vehicle,simulatedSeconds:Math.round(steps/60),km:ROUTES[route].length/1000});
 }
-console.log('PASS: 16 full-distance continuous physics journeys, 122 simulated km; no browser or human driving claim');
+console.log('PASS: '+tours.length+' full-distance continuous physics journeys, '+tours.reduce((n,t)=>n+t.km,0).toFixed(1)+' simulated km; no browser or human driving claim');

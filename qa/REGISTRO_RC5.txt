@@ -1,0 +1,20 @@
+DRIVE THE SUNSET 1.2.0-rc.1 — coches y carreteras
+Fecha: 13 octubre 2026
+
+Verificado en esta intervención:
+- `node tools/build.mjs`: PASS; espejo opcional generado con 15 módulos.
+- `node tools/build.mjs --check`: PASS tras generar el bundle de las fuentes finales.
+- `bash QA_RUN.sh`: sintaxis, bundle, 25 pruebas `*.test.mjs`, runtime smoke, journey runtime y empaquetado estático: PASS.
+- `journey-driving.test.mjs`: 42 combinaciones ruta/coche, 321,3 km de integración física simulada; 18 encuentros y 24 desenlaces.
+- `runtime-smoke.cjs`: 24 recuerdos, 6 finales de ruta, recarga, copia JSON, importación, opciones y persistencia: PASS en DOM simulado.
+- `journey-runtime.cjs`: interfaz de 18 encuentros, seis finales, teclado/táctil simulado y guardados: PASS.
+- `tests/package-smoke.py`: PASS; estructura y referencias relativas previstas para `/CHASE-404/`.
+
+Bloqueado o pendiente:
+- `tests/http-smoke.py` no pudo abrir el socket local: `PermissionError: [Errno 1] Operation not permitted`. La suite termina ahí, antes de pasos opcionales de navegador.
+- Sin Chromium/WebGL disponible: shaders, píxeles, apariencia y FPS de la nueva geometría no se probaron en GPU real.
+- Sin partida humana: sensación de los tres coches y legibilidad de las dos rutas nuevas pendientes.
+- Safari/iPhone físico, mando, Windows/Linux físico, audio audible y sesión larga pendientes.
+- Esta RC1 no se publicó ni altera el estado remoto RC4.
+
+Conclusión: ampliación con regresiones automatizadas aprobadas. Mantener como release candidate local; cerrar la prueba visual/humana antes de publicar esta versión.
