@@ -78,10 +78,10 @@ if(!hasCanvas){console.log('PENDIENTE: Canvas2D nativo. Para este smoke de desar
  });
  await test('three radio stations and unavailable audio report a useful error',async()=>{
   const game=await createGame();const names=new Set([game.elements.get('radioStation').textContent]);game.click('radioNext');names.add(game.elements.get('radioStation').textContent);game.click('radioNext');names.add(game.elements.get('radioStation').textContent);assert.equal(names.size,3);
-  game.click('audio');await Promise.resolve();await Promise.resolve();assert.match(game.elements.get('toast').textContent,/AUDIO NO DISPONIBLE/);
+  game.click('audio');await Promise.resolve();await Promise.resolve();assert.match(game.elements.get('toast').textContent,/AUDIO (?:NO DISPONIBLE|BLOQUEADO)/);
  });
  await test('all routes, cars and weather draw real Canvas scenes; 3D-only settings are disabled',async()=>{
-  const game=await createGame();game.click('start');const {ROUTES}=await import('../js/routes.js');
+  const game=await createGame();game.click('start');game.click('garage');assert.match(game.elements.get('rendererHelp').textContent,/Canvas 2D/,'the active fallback is explained in the garage');game.click('closeGarage');const {ROUTES}=await import('../js/routes.js');
   for(const route of Object.keys(ROUTES))for(const mood of ['sunset','night','rain','dawn']){
    game.click('garage');game.change('moodPick',mood);game.click('closeGarage');game.qa.teleport({route,distance:ROUTES[route].landmarks[1].at,speed:50,finished:false});game.qa.render();
    if(evidence)game.savePng(path.join(evidence,`canvas-${route}-${mood}.png`));

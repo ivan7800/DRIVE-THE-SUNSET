@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {ENCOUNTERS,CHAPTERS,chooseEncounter,endingFor,validJourney} from '../js/journey.js';
+import {ENCOUNTERS,CHAPTERS,chooseEncounter,endingFor,encounterApproach,validJourney} from '../js/journey.js';
 import {advance,resolveTrafficContact,VEHICLES} from '../js/physics.js';
 import {ROUTES} from '../js/routes.js';
 import {createRun,validateRun} from '../js/trip.js';
@@ -10,6 +10,7 @@ const endings=[];
 for(const [route,events] of Object.entries(ENCOUNTERS)){
  assert.equal(events.length,2);assert.equal(CHAPTERS[route].length,ROUTES[route].sections.length);
  for(const event of events){assert(event.at>0&&event.at<ROUTES[route].length);assert.equal(event.options.length,2);}
+ const first=events[0];assert.equal(encounterApproach(route,first.at-400,{}).id,first.id,'encounter cue is visible before braking distance');assert.equal(encounterApproach(route,first.at+160,{}).id,first.id,'passed encounter remains recoverable briefly');
  for(const kind of ['quiet','promise','together','home']){
   let journey={};if(kind==='promise')journey=chooseEncounter(journey,events[0].id,0);
   if(kind==='together')journey=chooseEncounter(journey,events[0].id,1);

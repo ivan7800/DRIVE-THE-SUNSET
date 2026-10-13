@@ -36,6 +36,8 @@ export function validJourney(raw){
  const result={};for(const [id,value] of Object.entries(raw)){if(!choices.get(id)?.includes(value))return null;result[id]=value;}return result;
 }
 export function encounterNear(route,distance,journey={}){return ENCOUNTERS[route]?.find(e=>Math.abs(e.at-distance)<=125&&!journey[e.id])||null;}
+/** Tease an unanswered roadside scene early enough to slow down before reaching it. */
+export function encounterApproach(route,distance,journey={}){return ENCOUNTERS[route]?.find(e=>e.at-distance<=450&&e.at-distance>=-180&&!journey[e.id])||null;}
 export function chooseEncounter(journey,id,index){const event=Object.values(ENCOUNTERS).flat().find(e=>e.id===id);if(!event||!Number.isInteger(index)||!event.options[index]||journey[id])return journey;return {...journey,[id]:event.options[index][1]};}
 export function endingFor(route,journey={}){const events=ENCOUNTERS[route];const first=journey[events[0].id],last=journey[events[1].id];const kind=last==='home'?'home':last==='share'?(first==='promise'?'promise':'together'):'quiet';const [title,text]=ENDINGS[route][kind];return {id:route+':'+kind,title,text};}
 export function validEnding(id){const [route,kind,...extra]=String(id).split(':');return !extra.length&&Object.hasOwn(ENDINGS,route)&&Object.hasOwn(ENDINGS[route],kind);}

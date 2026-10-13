@@ -1,7 +1,7 @@
 import {readTrip,writeTrip,clearTrip,readSettings,writeSettings,readJournal,writeJournal,readActivityLog,writeActivityLog,readPostcard,writePostcard,createBackup,validateBackup,importBackup,validateTrip,validateSettings,DEFAULT_SETTINGS,SETTINGS_KEY,PREIMPORT_KEY} from './save.js';
 import {STORIES,storyKey,storyNear,safeJournal} from './stories.js';
 import {drawScene,drawMiniMap} from './visuals.js';
-import {CHAPTERS,ENCOUNTERS,ENDINGS,encounterNear,chooseEncounter,endingFor} from './journey.js';
+import {CHAPTERS,ENCOUNTERS,ENDINGS,encounterNear,encounterApproach,chooseEncounter,endingFor} from './journey.js';
 import {ROUTES,getRoute,nearestLandmark,routeSection} from './routes.js';
 import {advance,clamp,junctionApproach,VEHICLES,HANDLING,trafficCars,resolveTrafficContact} from './physics.js';
 import {ACTIVITIES,createRun,validateRun,selectActivity,tickRun,rememberStop,createFixedStepper} from './trip.js';
@@ -19,8 +19,9 @@ let raf=0,last=0,lastSaveTime=0,lastSavedDistance=-1,trafficClock=0,animationClo
 let audioEnabled=false,webgl=null,renderer='canvas',rendererFailed=false,storageWarning=false,toastTimer=0;
 let renderScale=1,performanceSamples=[],fastWindows=0;
 const audio=createAudio(),stepper=createFixedStepper();
-const keyCodes=new Set(),touchKeys=new Set();
+const keyCodes=new Set(),touchKeys=new Set(),pointerKeys=new Set();
 let currentEncounter=null;
+let currentEncounterNotice='';
 const keys={gas:false,brake:false,left:false,right:false,handbrake:false};
 const aliases={KeyW:'gas',ArrowUp:'gas',KeyS:'brake',ArrowDown:'brake',KeyA:'left',ArrowLeft:'left',KeyD:'right',ArrowRight:'right',Space:'handbrake'};
 const routeOrder=['coast','mountain','vineyards','carmelo'];
@@ -40,8 +41,8 @@ function announce(message){
 }
 function warnStorage(){if(!storageWarning){storageWarning=true;announce('GUARDADO NO DISPONIBLE · EXPORTA UNA COPIA ANTES DE CERRAR');}text('saveStatus','SIN GUARDADO LOCAL');}
 function focusRoad(){canvas.focus({preventScroll:true});}
-function clearKeys(){keyCodes.clear();touchKeys.clear();for(const name in keys)keys[name]=false;document.querySelectorAll('[data-control]').forEach(button=>button.classList.remove('pressed'));stepper.reset();}
-function syncKey(name){keys[name]=touchKeys.has(name)||[...keyCodes].some(code=>aliases[code]===name);}
+function clearKeys(){keyCodes.clear();touchKeys.clear();pointerKeys.clear();for(const name in keys)keys[name]=false;document.querySelectorAll('[data-control]').forEach(button=>button.classList.remove('pressed'));stepper.reset();}
+function syncKey(name){keys[name]=touchKeys.has(name)||pointerKeys.has(name)||[...keyCodes].some(code=>aliases[code]===name);}
 function saveTrip(force=false){
  if(!started||s.finished)return false;
  if(!force&&Math.abs(s.distance-lastSavedDistance)<20)return true;
@@ -140,7 +141,7 @@ for(const key of Object.keys(DEFAULT_SETTINGS)){
 }
 function setAudio(enabled){
  Promise.resolve(audio.enable(enabled)).then(ok=>{
-  if(ok===false){announce('AUDIO NO DISPONIBLE EN ESTE NAVEGADOR');return;}
+  if(ok===false){audioEnabled=false;text('audio','♪ AUDIO OFF');$('audio')?.setAttribute('aria-pressed','false');announce('AUDIO BLOQUEADO · TOCA AUDIO O REVISA EL MODO SILENCIO');return;}
   audioEnabled=enabled;text('audio',enabled?'♪ AUDIO ON':'♪ AUDIO OFF');$('audio')?.setAttribute('aria-pressed',String(enabled));updateRadio();
  }).catch(()=>announce('AUDIO NO DISPONIBLE EN ESTE NAVEGADOR'));
 }
@@ -201,11 +202,14 @@ for(const [button,index] of [['encounterFirst',0],['encounterSecond',1]])bind(bu
  saveTrip(true);closeModal();announce(event.options[index][2]);syncRoadEvents();
 });
 function updateEncounter(){
- const event=encounterNear(s.route,s.distance,s.run.journey);
+ const event=encounterApproach(s.route,s.distance,s.run.journey);
  const visible=!!event&&started&&!paused&&!modal&&!s.finished;
- hide('encounterStop',!visible);if(!visible)return;
- text('encounterTeaser',event.title);text('encounterHint',Math.abs(s.speed)<5?'Un encuentro opcional · E para escuchar':'Frena junto a la parada para escuchar');
- if($('meet'))$('meet').disabled=Math.abs(s.speed)>=5;
+ hide('encounterStop',!visible);if(!visible){currentEncounterNotice='';return;}
+ const remaining=event.at-s.distance,near=!!encounterNear(s.route,s.distance,s.run.journey);
+ text('encounterTeaser',event.title);
+ text('encounterHint',remaining>125?`Encuentro en ${(remaining/1000).toFixed(1)} km · Levanta el pie y frena antes de la parada`:remaining< -125?'Has pasado la parada · reduce y da marcha atrás para acercarte':Math.abs(s.speed)<5?'Parada cercana · toca ESCUCHAR para conocer la historia':'Parada cercana · frena por debajo de 5 km/h y toca ESCUCHAR');
+ if($('meet'))$('meet').disabled=!near||Math.abs(s.speed)>=5;
+ if(currentEncounterNotice!==event.id){currentEncounterNotice=event.id;announce(`PRÓXIMA HISTORIA · ${event.title} · PREPARA LA FRENADA`);}
 }
 function updateStory(){
  const entry=storyNear(s.route,s.distance,115),key=entry?storyKey(s.route,entry.id):'';
@@ -339,6 +343,7 @@ function showRenderer(){
  canvas.style.visibility='visible';canvas.style.opacity=renderer==='webgl'?'0':'1';if(canvas3d){canvas3d.style.visibility=renderer==='webgl'?'visible':'hidden';canvas3d.style.pointerEvents='none';}
  for(const id of ['cameraPick','headlightsPick'])if($(id)){$(id).disabled=renderer!=='webgl';$(id).title=renderer==='webgl'?'':'Disponible en el renderizador 3D WebGL';}
  text('renderStatus',renderer==='webgl'?'3D WEBGL':rendererFailed?'CANVAS · 3D NO DISPONIBLE':'CANVAS');
+ text('rendererHelp',renderer==='webgl'?'Renderizador activo: 3D WebGL. Cámara y faros están disponibles.':rendererFailed?'WebGL no se pudo iniciar en este navegador; el juego sigue en Canvas 2D. Prueba Automático en un navegador con WebGL.':'Renderizador activo: Canvas 2D. Automático usará 3D si WebGL está disponible.');
 }
 function size(){
  const ratio=settings.quality==='low'?1:settings.quality==='high'?2:(window.innerWidth<700?1:1.5),dpr=Math.min(window.devicePixelRatio||1,ratio)*(settings.quality==='auto'?renderScale:1);
@@ -417,9 +422,13 @@ document.addEventListener('visibilitychange',()=>{
  else if(!raf)raf=requestAnimationFrame(frame);
 });
 for(const button of document.querySelectorAll('[data-control]')){
- const name=button.dataset.control;
- button.addEventListener('pointerdown',event=>{event.preventDefault();if(!started||paused||modal)return;button.setPointerCapture(event.pointerId);button.classList.add('pressed');touchKeys.add(name);syncKey(name);focusRoad();});
- for(const type of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(type,()=>{touchKeys.delete(name);syncKey(name);button.classList.remove('pressed');});
+ const name=button.dataset.control,activate=(event,source)=>{event.preventDefault();if(!started||paused||modal)return;if(source==='pointer')try{button.setPointerCapture(event.pointerId);}catch{}(source==='pointer'?pointerKeys:touchKeys).add(name);button.classList.add('pressed');syncKey(name);focusRoad();},release=source=>{(source==='pointer'?pointerKeys:touchKeys).delete(name);syncKey(name);button.classList.toggle('pressed',pointerKeys.has(name)||touchKeys.has(name));};
+ if('PointerEvent' in window){button.addEventListener('pointerdown',event=>activate(event,'pointer'));for(const type of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(type,()=>release('pointer'));}
+ // iOS and embedded browsers can dispatch touch events even when pointer support
+ // exists. Both event paths write to the same held-key Set, so releasing either
+ // compatibility event cannot leave a control stuck.
+ button.addEventListener('touchstart',event=>activate(event,'touch'),{passive:false});for(const type of ['touchend','touchcancel'])button.addEventListener(type,()=>release('touch'),{passive:true});
+ button.addEventListener('contextmenu',event=>event.preventDefault());
 }
 document.addEventListener('keydown',event=>{
  if(event.key!=='Tab'||!modal)return;

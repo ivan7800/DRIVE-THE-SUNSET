@@ -1,0 +1,10 @@
+# Local QA evidence and transient files
+qa-output/
+qa-browser/
+node_modules/
+__pycache__/
+*.pyc
+*.log
+*.zip
+.DS_Store
+Thumbs.db

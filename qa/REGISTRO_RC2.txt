@@ -1,0 +1,127 @@
+Drive the Sunset 1.1.0-rc.2 — regresiones de la revisión actual
+Entorno: Linux, Node.js 24.19.0, Python 3.12.14, @napi-rs/canvas con DOM simulado.
+Se ejecutaron los 23 archivos *.test.mjs, dos pruebas ESM/Canvas, comprobación del bundle, empaquetado y sintaxis.
+
+=== accessibility.test.mjs (0) ===
+PASS: 8 dialog semantics, unique IDs, labelled controls and keyboard canvas (static inspection only)
+
+=== activities.test.mjs (0) ===
+PASS: clean kilometre/contact reset, 45 s flow/speed reset, three unique memories, optional free travel
+
+=== backup.test.mjs (0) ===
+PASS: full backup/restore, pre-import copy, invalid inputs preserve data, failed write rollback, blocked storage
+
+=== core-final.test.mjs (0) ===
+PASS core-final: rest, fixed-step 10/30/60/120 Hz, bounded suspension, 4 cars, 3 activities, migration, backup validation/rollback and route connections
+
+=== driving-iter2.test.mjs (0) ===
+PASS: progressive steering, release, reverse, bounds, repeatable traffic and cooldown
+
+=== driving-iter3.test.mjs (0) ===
+PASS driving iter3: smooth lane changes, bounds, disabled traffic, collision
+
+=== driving-iter4.test.mjs (0) ===
+PASS iter4: lane gaps checked, bounded lanes, traffic off
+
+=== fixed-step.test.mjs (0) ===
+PASS: fixed-step at 10/20/30/60/120/144 Hz, four vehicles stationary, suspension limit and reset
+
+=== journey-driving.test.mjs (0) ===
+PASS: eight encounters, sixteen outcomes, migration/backup validation, four handling profiles, drift recovery, pedal priority, analogue control and borders
+PASS: 16 full-distance continuous physics journeys, 122 simulated km; no browser or human driving claim
+
+=== launchers.test.mjs (0) ===
+PASS: launcher contracts inspected statically; native Windows execution remains pending
+
+=== physics.test.mjs (0) ===
+PASS: 9 comprobaciones de física, controles, bifurcación y límite de velocidad
+
+=== renderer.test.mjs (0) ===
+{"result":"PASS","samples":384,"maxVertices":59574,"contracts":["finite geometry/projection","frozen shared state","stride40","reuse/resize/dispose/context callback","200ms frame = 5fps","photo does not advance animation"],"scope":"GL API contract mock; no shader or pixel claim"}
+
+=== road-branch.test.mjs (0) ===
+PASS: seamless road fork and backward-compatible validated save
+
+=== road-geometry.test.mjs (0) ===
+PASS: distinct continuous routes, elevation and steering coherence
+
+=== road-signs.test.mjs (0) ===
+road-signs PASS
+
+=== routes.test.mjs (0) ===
+PASS rutas: cuatro recorridos, hitos y decoraciones
+
+=== save.test.mjs (0) ===
+PASS: save/load, schema, invalid values, corrupt JSON, clear
+
+=== stories.test.mjs (0) ===
+PASS: 16 memories, valid route markers, journal deduplication and legacy keys
+
+=== systems.test.mjs (0) ===
+PASS: four distinct vehicles and traffic levels
+
+=== traffic.test.mjs (0) ===
+PASS: tráfico móvil, niveles, colisiones, cooldown y vehículos
+
+=== webgl-qa-0191.test.mjs (0) ===
+PASS: camera smoothing at 30/60/120/144 Hz, near-plane clipping; no WebGL execution claim
+
+=== webgl-terrain.test.mjs (0) ===
+PASS webgl-terrain: 6 comprobaciones
+
+=== webgl-vehicle-motion.test.mjs (0) ===
+PASS movimiento visual, límites, amortiguación y transformación
+
+=== runtime-smoke (0) ===
+(node:272) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: actual native module entry and first car frame
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: start, garage/help/journal close return driving focus
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: legacy resume synchronizes vehicle, mode and garage
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: pause, blur and visibility suspend simulation and clear held keys
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: all three junctions select valid continuing destination roads
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: failed postcard/journal storage does not report persistence
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: 16 memories, four route endings and journal reload
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: backup download and photo PNG use real Canvas pixels
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: live backup import restores rather than overwrites the imported trip
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: Cruise keeps memories while Arcade alone awards exploration
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: three radio stations and unavailable audio report a useful error
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: all routes, cars and weather draw real Canvas scenes; 3D-only settings are disabled
+Canvas/DOM smoke complete. Native browser focus/layout, GPU, physical input and gameplay feel remain separate checks.
+
+=== journey-runtime (0) ===
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: actual ESM encounter UI, touch fallback with/without Pointer Events, all four story endings, focus/pause, native Canvas, alias keys, reload and JSON export; DOM events simulated
+PASS: automatic resolution adapts to slow frames; explicit quality restores chosen resolution
+(node:288) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+=== bundle-check (0) ===
+PASS: optional bundle reproduces native modules with isolated scopes (13 modules).
+
+=== package-smoke (0) ===
+PACKAGING PASS: files, relative HTML/import paths, native ESM HTTP entry
+
+=== syntax (0) ===
+
+
+Límite: esta ejecución no incluye navegador, HTTP, GLES ni dispositivo físico. El runner Playwright RC2 no pudo completar la apertura de su servidor local en este entorno (se detuvo en server.listen sin resolver); no se atribuye al juego un resultado de navegador. La evidencia Browser/HTTP/GLES que se incluye es de RC1 y está separada.

@@ -1,10 +1,10 @@
-# Drive the Sunset — auditoría de entrega 1.1.0-rc.1
+# Drive the Sunset — auditoría de entrega 1.1.0-rc.2
 
-Fecha: 13 de octubre de 2026. Alcance: ZIP derivado de 1.0.0-rc.3, sin publicación remota.
+Fecha: 13 de octubre de 2026. Esta RC2 corrige observaciones recibidas tras la publicación. La suite HTTP/Chromium/GLES completa disponible corresponde a RC1 y se conserva como historial; no se ejecutó de nuevo sobre RC2. Sin cambios remotos.
 
 ## 1. Veredicto
 
-**Release candidate jugable dentro del alcance verificado.** La conducción ampliada, los encuentros, los finales y los renderizadores pasan las pruebas indicadas. No se reproduce un bloqueo de inicio o progreso en esta suite. No se certifica una versión estable para todos los equipos ni una calidad «excelente» por haber superado automatización. Manejo humano, mezcla escuchada y plataformas físicas siguen pendientes.
+**Release candidate; mejoras RC2 verificadas en lógica y DOM simulado.** Pasan 28 grupos dirigidos sobre el código RC2, incluidas las correcciones de entrada táctil, aviso de encuentros y el nuevo manejo de AudioContext. La pasada completa con HTTP, Chromium y GLES fue sobre RC1, no se repitió tras estas ediciones. Por tanto no declaro que esta RC2 esté recertificada en navegador ni que el audio suene en iPhone. No hay prueba física del teléfono.
 
 **Verificado:** ejecutado directamente. **Observado:** inspeccionado en código. **Pendiente:** sin ejecución suficiente. Un PASS de lógica no sustituye una partida humana.
 
@@ -19,21 +19,21 @@ Fecha: 13 de octubre de 2026. Alcance: ZIP derivado de 1.0.0-rc.3, sin publicaci
 
 ## 3. Entorno de prueba
 
-Linux del entorno de ejecución; Node.js 24.19.0; Python 3.12.14; módulos ESM; `@napi-rs/canvas` con DOM simulado. Mesa EGL/GLES con llvmpipe para compilar shaders, dibujar y leer píxeles. Chromium 151.0.7922.34 headless mediante Playwright, WebGL ANGLE/SwiftShader. HTTP local habilitado para estas comprobaciones.
+RC2: Linux, Node.js 24.19.0, módulos ESM, `@napi-rs/canvas` y DOM simulado; 23 archivos `.test.mjs`, dos flujos runtime, builder y empaquetado pasaron (28 comandos). RC1, como referencia anterior: Python 3.12.14, Mesa llvmpipe, Chromium 151.0.7922.34 headless/SwiftShader y HTTP local.
 
-Resoluciones de navegador: 1280 × 720, 390 × 844 y 844 × 390. El tamaño móvil es una emulación de viewport/entrada, sin teléfono físico. Las imágenes Canvas/GLES son 1280 × 720. No se dispuso de Windows, Linux Mint físico, Safari, Firefox, mando, GPU física ni escucha humana.
+Las resoluciones 1280 × 720, 390 × 844 y 844 × 390 y las muestras Canvas/GLES pertenecen a RC1. El viewport móvil fue emulado; no es iPhone físico. No se dispuso de Windows, Linux Mint físico, Safari, Firefox, mando, GPU física ni escucha humana.
 
-Reproducción: `CHASE_BROWSER_BINARY=/ruta/chrome CHASE_QA_GLES=1 bash QA_RUN.sh`, con Playwright, Canvas, EGL/GLES y Pillow disponibles como herramientas de desarrollo. El juego no necesita estas dependencias para jugar. La pasada final terminó con código 0. Registros: `qa/REGISTRO_FINAL.txt`, `qa/browser-results.json`, `qa/runtime-smoke.json` y `qa/gles-results.json`.
+Registros RC2: `qa/REGISTRO_RC2.txt`. Registros históricos RC1: `qa/REGISTRO_RC1.txt`, `qa/browser-results.json`, `qa/runtime-smoke.json` y `qa/gles-results.json`. Playwright, Canvas y GLES son herramientas de desarrollo, no requisitos del juego.
 
 ## 4. Matriz de pruebas
 
-Entorno **L**: Node/Linux, sin navegador ni resolución. **C**: Canvas nativo/DOM simulado, 1280 × 720. **B**: Chromium descrito arriba, escritorio salvo indicación. **G**: GLES por software, 1280 × 720. Los scripts citados contienen los pasos exactos.
+Entorno **L**: Node/Linux. **C**: Canvas nativo/DOM simulado. **B**: Chromium headless (RC1). **G**: GLES por software (RC1). Nota: salvo filas identificadas RC2, las pruebas de navegador, HTTP y GLES son evidencia de RC1 y no se han repetido en RC2. `REGISTRO_RC2.txt` identifica los 28 comandos de regresión sobre el código entregado.
 
 | ID / nombre | Entorno y pasos realizados | Resultado esperado | Resultado observado / estado | Evidencia |
 |---|---|---|---|---|
-| A01 · Sintaxis y bundle | L; runner y build --check | Módulos válidos y espejo reproducible | Superada; 13 módulos | REGISTRO_FINAL |
+| A01 · Sintaxis y bundle | L; runner y build --check | Módulos válidos y espejo reproducible | Superada; 13 módulos | REGISTRO_RC1 |
 | A02 · Recursos y subruta | L/HTTP; rastrear HTML/imports y GET; B abrir /CHASE-404/ | HTTP 200, MIME válido, sin rutas rotas | Superada; 20 recursos HTTP y ninguna petición fallida en B | package-smoke, http-smoke, browser-results |
-| A03 · Lanzador Linux | L/HTTP; arrancar, consultar y cerrar dos veces | Mismo origen y recursos | Superada; 127.0.0.1:8765 estable | http-smoke, REGISTRO_FINAL |
+| A03 · Lanzador Linux | L/HTTP; arrancar, consultar y cerrar dos veces | Mismo origen y recursos | Superada; 127.0.0.1:8765 estable | http-smoke, REGISTRO_RC1 |
 | A04 · Lanzador Windows | L; inspeccionar batch/PowerShell | Rutas, fallback y host coherentes | Superada solo por contrato estático; Windows pendiente | launchers.test.mjs |
 | B01 · Conducción básica | L; gas, freno, reversa, izquierda/derecha, reposo, límite | Dirección correcta, velocidad acotada, reposo estable | Superada en simulación; W también ejecutado en B | physics, driving-iter2/3/4, core-final, browser-results |
 | B02 · Cambios y derrape | L; alternar giro, soltar, derrapar y recuperar con cuatro coches | Respuesta finita, recuperación y freno prioritario | Superada en simulación | journey-driving, driving-iter2/3/4 |
@@ -44,14 +44,14 @@ Entorno **L**: Node/Linux, sin navegador ni resolución. **C**: Canvas nativo/DO
 | C02 · Cámara/geometría | L; 384 estados y foto congelada; G dibujar 24 escenas | Geometría finita, foto estable, shaders válidos | Superada por contratos/píxeles; no partida humana | renderer.test.mjs, gles-results |
 | C03 · Recorrido continuo | L; controlador numérico de carril, 4 coches × 4 rutas | Alcanzar final sin saltar posiciones ni tocar borde | Superada; 16 recorridos, 122 km simulados | journey-driving |
 | D01 · Desvíos/recuerdos | C/B; 3 desvíos, 16 recuerdos, 4 finales con posiciones QA | Destino/diario correctos, final accesible | Superada; usa teletransporte QA, no rutas jugadas completas | runtime-smoke, browser-e2e |
-| D02 · Encuentros | C/B; situar coche en cada evento, abrir/elegir/cerrar | 8 diálogos pausados, elección persistente, foco | Superada | journey-runtime, browser-e2e |
+| D02 · Encuentros | C RC2; acercarse a 400 m, comprobar aviso y botón bloqueado; acercarse a la parada y elegir | Aviso anticipado, frenar y activar al llegar | Superada en DOM simulado; interacciones Browser de RC1 anteriores | REGISTRO_RC2, journey-runtime; browser-results es RC1 |
 | D03 · Finales | L; combinar opciones, guardar/cargar/copiar; C/B finales | Final correspondiente, persiste al recargar | Superada para 16 en lógica; B prueba 4 promise y 4 sin encuentro | journey-driving, journey-runtime, browser-results |
 | D04 · Actividades | L/C; limpio, fluidez, explorar, contactos y Crucero | Opcionales, reinicio correcto, sin bloqueo | Superada en simulación | activities, core-final, runtime-smoke |
 | E01 · Menús/foto/copia | B; inicio, garaje, ayuda, diario, rutas, PNG/JSON, Esc/foco | Controles usados funcionan, descargas válidas | Superada en 17 flujos; no auditoría exhaustiva de todos los selectores | browser-results, browser-e2e |
 | E02 · Accesibilidad | L; 8 diálogos, IDs, etiquetas, canvas; B foco | Semántica y retorno de foco correctos | Superada parcialmente; lector/contraste medido pendientes | accessibility, browser-e2e |
-| E03 · Móvil emulado | B 390×844/844×390; mantener gas, encuentro y garaje | Avance, sin desbordamiento horizontal | Superada; capturas revisadas, sin móvil físico | browser-results |
+| E03 · Móvil emulado | B RC1 390×844/844×390; mantener gas, encuentro y garaje. RC2 simula Touch Events de gas y release | Controles visibles y liberación al retirar dedo | RC1 superada; la ruta alternativa táctil de RC2 superada en DOM simulado. iPhone pendiente | browser-results (RC1), REGISTRO_RC2 |
 | F01 · Persistencia | L/C; datos inválidos, versiones, rollback, bloqueo; B recargar | Validación, conservación y aviso de fallo | Superada en casos automatizados | save, backup, core-final, journey-driving, runtime-smoke |
-| G01 · Audio | B; gesto AUDIO y analizador de compresor | AudioContext activo y señal no nula | Superada para señal; mezcla audible no ejecutada | browser-e2e |
+| G01 · Audio | B RC1; gesto AUDIO y analizador. RC2 requiere estado `running` y eleva mezcla; cambio no ejecutado en navegador | Audio activo y nivel medible | Señal probada en RC1; umbral RMS RC2 añadido al test, sin ejecución Browser; no escucha en iPhone | browser-results (RC1), REGISTRO_RC2 |
 | G02 · Apariencia | Revisar muestras B escritorio/móvil y C/G | Escena/texto legibles en muestras | Verificada parcialmente; toda la ruta y valoración humana pendientes | canvas-*.png, webgl-*.png; capturas B revisadas durante auditoría |
 | H01 · Rendimiento | B; 45 RAF por ruta y Auto tras calentamiento | Medición acotada al equipo | Superada como medición; cifras debajo | browser-results |
 | H02 · Resolución automática | C; 100 frames lentos y cambio manual; B Carmelo Auto | Reduce resolución; manual reinicia escala | Superada | journey-runtime, browser-results |
@@ -69,7 +69,7 @@ Entorno **L**: Node/Linux, sin navegador ni resolución. **C**: Canvas nativo/DO
 | carmelo / low | 24.3 | 50.1 | 20.3 | 1280 × 720 |
 | carmelo / auto | 29.4 | — | — | 1088 × 612 |
 
-Muestras cortas con SwiftShader: no demuestran ausencia de fugas ni 60 FPS sostenidos. Auto usa otro punto/instante de conducción; no es una comparación A/B controlada. Heap significa memoria JS, no toda la GPU/proceso; no se midió CPU. Contadores acumulados de geometría/caché disponibles en el JSON.
+Los datos RAF/heap de la tabla son el ensayo corto RC1 con SwiftShader; no demuestran ausencia de fugas ni 60 FPS sostenidos. Auto usa otro instante, no es comparación A/B. No se midió CPU. No se recogió nuevo benchmark RC2.
 
 ## 5. Hallazgos y causas
 
@@ -82,8 +82,12 @@ Muestras cortas con SwiftShader: no demuestran ausencia de fugas ni 60 FPS soste
 | F05 | Medio · corregido | Abrir pausa/diálogo con render activo; animación seguía avanzando | Pausa inconsistente; reloj visual congelado y contrato foto comprobado |
 | F06 | Medio · mitigado, pendiente hardware | Escena densa de Carmelo con gráficos por software | FPS limitados; caché/resolución automática añadidas. Cerrar con medición sostenida en equipos objetivo |
 | F07 | Medio · riesgo tratado | Copia con finales nuevos en cliente antiguo formato 1 | Podía omitir finales; nuevas copias formato 2, importación 1 compatible |
+| F08 | Alto · corregido en código, iPhone pendiente | Mantener GAS táctil en Safari; Pointer Capture puede variar o fallar. Ahora captura protegida, ruta Touch Events en paralelo a Pointer Events, con estado de pulsación separado y controles reposicionados | La simulación Touch Events pasa; el iPhone real debe confirmar que mantiene gas/freno/giro y los suelta |
+| F09 | Alto · mejora aplicada, escucha pendiente | Al pasar rápido cerca de un evento, el aviso previo era breve y no daba distancia de frenada | Anuncio desde 450 m, botón indica distancia y permite una recuperación breve marcha atrás. DOM simulado pasa; partida real pendiente |
+| F10 | Medio · mitigado, escucha pendiente | Audio podía figurar como ON si `resume()` no dejaba AudioContext en `running`; niveles de mezcla eran bajos | Comprueba estado, comunica bloqueo y eleva ganancia. DOM simulado pasa; nuevo RMS y escucha iPhone pendientes |
+| F11 | Medio · aclarado | En Canvas cámara/faros 3D aparecían desactivados sin explicar por qué | Garaje nombra modo gráfico y fallback; test de selector WebGL actual en navegador pendiente |
 
-F01–F05 se identificaron en código y sus nuevas condiciones de regresión se ejecutaron; no se afirma que cada defecto antiguo se reprodujera primero en navegador. F07 previene pérdida posible al mezclar versiones. No quedan bloqueantes/críticos reproducidos por esta suite; no equivale a ausencia universal de errores.
+F01–F05 se identificaron en código y sus regresiones se ejecutaron. F07 previene pérdida al mezclar versiones. RC2 añade los siguientes hallazgos reportados desde el iPhone:
 
 Las colisiones usan límites laterales y tráfico, no choque contra cada malla de edificio. Esta versión de viajes no contiene persecuciones policiales ni campaña con game over; no se las presenta como probadas.
 
@@ -97,6 +101,9 @@ La entrega previa no había logrado ejecutar Chromium ni HTTP en su entorno rest
 
 ## 7. Pendiente de comprobar
 
+- En iPhone Safari, mantener cada control táctil y comprobar que la acción comienza y termina al levantar el dedo; también probar botones del HUD y orientación.
+- Activar AUDIO y escuchar motor, emisoras y avisos; confirmar en iPhone si el modo silencio, el volumen o la política de autoplay lo bloquean.
+- En el garaje, confirmar qué opción de Modo gráfico se muestra y si WebGL, cámara y faros están disponibles.
 - Jugar manualmente todas las rutas/elecciones: derrape, peso, legibilidad en movimiento y equilibrio narrativo.
 - Escuchar mezcla y transiciones con altavoces/auriculares.
 - Windows con Python y fallback PowerShell; Linux Mint, mando y móviles físicos.
@@ -114,10 +121,10 @@ La entrega previa no había logrado ejecutar Chromium ni HTTP en su entorno rest
 
 ## 9. GitHub Pages
 
-Entrada index.html, .nojekyll, JS, CSS y recursos relativos presentes. HTTP en subdirectorio y navegador bajo /CHASE-404/ verificados. Usar el contenido de la carpeta CHASE-404 como raíz del sitio; no necesita compilación ni secretos en producción. Bundle opcional, entrada principal ESM.
+Entrada index.html, .nojekyll, JS, CSS y recursos relativos presentes. HTTP en subdirectorio y navegador bajo /CHASE-404/ se verificaron en RC1. Repetir el smoke del sitio tras subir RC2. Usar el contenido de la carpeta CHASE-404 como raíz del sitio; no necesita compilación ni secretos en producción. Bundle opcional, entrada principal ESM.
 
 Configuración remota, permisos, caché y URL publicada **pendientes**. No se modificó ni publicó repositorio remoto. El servidor local puede servir los recursos extraídos sin Internet; no se promete PWA ni recarga offline de URL alojada.
 
 ## 10. Conclusión
 
-**Release candidate ampliada y comprobada**, con mejoras implementadas en las cinco áreas. Hay evidencia de Chromium nativo por software, Canvas/GLES y 122 km de integración física simulada. Excelencia y publicación estable requieren las comprobaciones humanas y de hardware pendientes.
+**Release candidate con correcciones informadas por la prueba del usuario.** Sus 28 regresiones dirigidas pasan; no se volvió a ejecutar toda la suite Chromium/HTTP/GLES en RC2. Para cerrar el reporte, I. Roig debe verificar los controles y el audio en iPhone; después se puede repetir Chromium y subir los archivos al sitio. Sigue siendo RC, no publicación estable certificada.

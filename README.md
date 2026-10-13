@@ -4,7 +4,7 @@
 
 Un juego original de conducción arcade y viajes mediterráneos. Cuatro carreteras, coches americanos ficticios de los años 70, 80 y 90, radio sintetizada y pequeñas historias para descubrir al detenerte.
 
-**Versión: 1.1.0-rc.1.** Candidata a publicación con conducción diferenciada, ocho encuentros, dieciséis desenlaces y luz progresiva. Se ha ejecutado Chromium headless con WebGL SwiftShader, además de lógica, Canvas2D, GLES y HTTP. La mezcla escuchada, la sensación de conducción humana, Windows, Linux Mint y móviles físicos siguen pendientes. Consulta [QA_REPORT.md](QA_REPORT.md).
+**Versión: 1.1.0-rc.2.** Candidata a publicación con conducción diferenciada, ocho encuentros y dieciséis desenlaces. La base RC1 pasó Chromium headless/SwiftShader, lógica, Canvas2D, GLES y HTTP. Esta RC2 añade ajustes reportados desde iPhone; 28 regresiones dirigidas pasan, pero su recertificación en navegador y la prueba física del teléfono siguen pendientes. Consulta [QA_REPORT.md](QA_REPORT.md).
 
 ## Empezar
 

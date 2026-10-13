@@ -86,6 +86,7 @@ async function createGame(initial={},options={}){
  doc={body,documentElement,hidden:false,activeElement:ids.get('start'),getElementById:id=>ids.get(id)||null,createElement:tag=>new Element(tag),querySelectorAll:selector=>all.filter(el=>selector.split(',').some(s=>matches(el,s))),addEventListener:(type,fn)=>(docEvents[type]??=[]).push(fn)};
  const localStorage={getItem:key=>store.get(key)??null,setItem:(key,value)=>store.set(key,value),removeItem:key=>store.delete(key)};
  const window={document:doc,localStorage,location:{search:options.qa===false?'':'?qa=1',href:'http://localhost/CHASE-404/index.html'},innerWidth:options.width||1280,devicePixelRatio:1,addEventListener:(type,fn)=>(events[type]??=[]).push(fn),setTimeout:fn=>{timers.set(++idCounter,fn);return idCounter},clearTimeout:id=>timers.delete(id)};
+ if(options.pointerEvents)window.PointerEvent=class PointerEvent{};
  class HarnessURL extends URL{}
  HarnessURL.createObjectURL=blob=>{const url='blob:qa-'+ ++objectId;blobs.set(url,blob);return url};HarnessURL.revokeObjectURL=url=>blobs.delete(url);
  const navigator={getGamepads:()=>[]};

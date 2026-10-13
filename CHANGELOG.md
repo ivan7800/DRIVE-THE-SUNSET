@@ -1,5 +1,13 @@
 # Cambios de CHASE-404: DRIVE THE SUNSET
 
+## 1.1.0-rc.2 — 13 octubre 2026
+
+- Controles de conducción táctiles con compatibilidad Touch Events en paralelo a Pointer Events, con estado de pulsación separado y captura de puntero protegida ante errores. Instrucción móvil visible desde inicio; controles algo más abajo para reducir solape con el coche.
+- Los encuentros se anuncian con antelación, indican distancia y dan margen breve para recuperar una parada pasada; el botón queda deshabilitado hasta estar cerca y casi detenido.
+- El garaje nombra el modo gráfico y explica si WebGL no se pudo iniciar, por qué se desactivan cámara y faros 3D.
+- Audio con más nivel, verificación de AudioContext en estado `running` y aviso claro si iOS/navegador no lo desbloquea.
+- Añadidas regresiones de Touch Events, señalización previa de encuentros y umbral RMS de audio. Pendientes de confirmar en iPhone físico: respuesta táctil y sonido audible.
+
 ## 1.1.0-rc.1 — 13 octubre 2026
 
 - Conducción diferenciada: peso de dirección, derrape recuperable y agarre por coche; pedal de freno prioritario, stick/gatillos analógicos y control táctil de derrape.

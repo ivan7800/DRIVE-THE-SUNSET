@@ -61,6 +61,7 @@
         <div class="intro-buttons"><button id="start" class="primary">SALIR A LA CARRETERA <span>↗</span></button><button id="introGarage" class="secondary">ELEGIR COCHE Y AMBIENTE</button></div>
         <button id="continue" class="continue-button" hidden>CONTINUAR MI VIAJE GUARDADO ↗</button>
         <div class="intro-controls"><span><kbd>W</kbd><kbd>↑</kbd> ACELERAR</span><span><kbd>S</kbd><kbd>↓</kbd> FRENAR</span><span><kbd>A</kbd><kbd>D</kbd> GIRAR</span><span><kbd>P</kbd> PAUSA</span></div>
+        <p class="touch-intro-hint">En iPhone y otros móviles, mantén pulsados los controles que aparecen al salir a la carretera. Toca AUDIO para iniciar el sonido.</p>
       </div>
       <div class="intro-note" aria-hidden="true"><span>01 / 04</span><div class="note-line"></div><strong>El último sol<br>todavía te espera.</strong><small>CUATRO CARRETERAS<br>DIECISÉIS RECUERDOS</small></div>
       <div class="intro-bottom"><span>COCHES Y LUGARES ORIGINALES · UNA FICCIÓN DE VERANO</span><span>CREADO POR I. ROIG · 1.1</span></div>
@@ -70,6 +71,7 @@
   <section id="garagePane" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="garageTitle">
     <div class="panel garage-panel"><div class="panel-heading"><div><span class="eyebrow">TU VIAJE · TUS REGLAS</span><h2 id="garageTitle">El garaje.</h2></div><button id="closeGarage" class="close-button" aria-label="Cerrar garaje">↗</button></div>
       <p id="garageSummary">Ajustes en este dispositivo.</p>
+      <fieldset class="renderer-setting"><legend>MODO GRÁFICO</legend><label for="rendererPick">Dibujo<select id="rendererPick"><option value="auto">Automático · 3D con alternativa Canvas</option><option value="webgl">WebGL · 3D</option><option value="canvas">Canvas · arcade 2D</option></select></label><p id="rendererHelp" class="field-note" role="status">Renderizador activo: Canvas 2D. Automático usará 3D si WebGL está disponible.</p></fieldset>
       <div class="garage-grid">
         <fieldset><legend>COCHE Y ACABADO</legend>
           <label for="vehiclePick">Vehículo<select id="vehiclePick"><option value="vesper">Vesper GT · 1972 · Muscle</option><option value="solstice">Solstice LX · 1984 · Cabrio</option><option value="phantom">Phantom XR · 1987 · Coupé</option><option value="meridian">Meridian S · 1992 · Sedán</option></select></label>
@@ -90,7 +92,6 @@
           <p class="field-note">Tres emisoras de música sintetizada original. Activa AUDIO y cambia de emisora en la carretera.</p>
         </fieldset>
         <fieldset><legend>PRESENTACIÓN Y ACCESIBILIDAD</legend>
-          <label for="rendererPick">Dibujo<select id="rendererPick"><option value="auto">Automático · 3D con alternativa Canvas</option><option value="webgl">WebGL · 3D</option><option value="canvas">Canvas · arcade 2D</option></select></label>
           <label for="qualityPick">Detalle<select id="qualityPick"><option value="auto">Equilibrado</option><option value="low">Ahorro</option><option value="high">Alta</option></select></label>
           <label for="cameraPick">Cámara 3D<select id="cameraPick"><option value="rear">Conducción</option><option value="cinematic">Panorámica</option><option value="hood">Capó</option></select></label>
           <label for="headlightsPick">Faros 3D<select id="headlightsPick"><option value="auto">Automáticos</option><option value="on">Encendidos</option><option value="off">Apagados</option></select></label>

@@ -1,11 +1,11 @@
-# Evidencias de 1.1.0-rc.1
+# Evidencias de la release candidate 1.1.0-rc.2
 
-REGISTRO_FINAL.txt contiene la salida completa de QA_RUN.sh con HTTP, GLES y Chromium habilitados; terminó con código 0. Los avisos Canvas fallback son esperados en el DOM simulado sin WebGL. La advertencia VM Modules pertenece a Node, no a la consola del navegador.
+`REGISTRO_RC2.txt` contiene 28 comandos que pasaron sobre esta entrega: 23 archivos de lógica, runtime Canvas/DOM simulado, regresiones nuevas de Touch Events/encuentros, builder y empaquetado. No incluye navegador, HTTP, GLES ni iPhone.
 
-- browser-results.json: 17 flujos de Chromium headless/SwiftShader, muestras RAF/heap y errores/peticiones. Hubo teletransporte QA para acceder a eventos y finales; no acredita partidas humanas completas.
-- runtime-smoke.json: 12 flujos ESM/Canvas con eventos DOM simulados. journey-runtime y journey-driving añaden encuentros, finales, resolución y 122 km numéricos continuos; salida en REGISTRO_FINAL.
-- gles-results.json: 24 escenas renderizadas con EGL/GLES llvmpipe. No es un navegador.
-- canvas-*.png: píxeles de Canvas nativo con DOM simulado; webgl-*.png: replay GLES. Estas ocho imágenes no son capturas HTML/CSS de navegador. Las capturas nativas se inspeccionaron durante la auditoría; no se incluyen en el ZIP.
-- SHA256-FUENTES.json: fuentes exactas de esta entrega. CHECKSUMS.sha256 cubre el paquete, excepto a sí mismo.
+`REGISTRO_RC1.txt`, `browser-results.json`, `runtime-smoke.json` y `gles-results.json` son resultados históricos de RC1. Se incluyen como referencia de la base y no deben interpretarse como reejecución de RC2. En RC1 Chromium headless/SwiftShader pasó 17 flujos; la salida se documenta en QA_REPORT.md.
 
-Las mediciones de FPS corresponden a gráficos por software y muestras cortas. Windows, Mint, GPU/móvil/mando físicos, escucha humana y conducción humana prolongada siguen pendientes. Véase QA_REPORT.md.
+Las capturas `canvas-*.png` proceden de Canvas nativo con DOM simulado; `webgl-*.png` son escenas replay GLES por software. Ninguna es una captura HTML/CSS de navegador ni de iPhone.
+
+`SHA256-FUENTES.json` lista las fuentes de la entrega. `CHECKSUMS.sha256` verifica el contenido empaquetado, excepto el propio archivo de checksums.
+
+Pendiente en iPhone: controles táctiles mantenidos, audio audible, selector gráfico/WebGL y legibilidad. Véase QA_REPORT.md.
