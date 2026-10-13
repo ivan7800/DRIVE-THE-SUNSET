@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1d293d">
+  <meta name="description" content="Un viaje mediterráneo de conducción arcade: cuatro carreteras, cuatro coches originales y dieciséis recuerdos, ocho encuentros y dieciséis desenlaces. Sin cuentas ni servicios externos.">
+  <title>CHASE-404 · Drive the Sunset</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app" data-mood="sunset">
+  <canvas id="game" tabindex="0" aria-label="Carretera de conducción. W o arriba acelera, S o abajo frena, A o izquierda y D o derecha giran."></canvas>
+  <canvas id="game3d" aria-hidden="true"></canvas>
+  <div class="shade" aria-hidden="true"></div>
+  <header class="game-header">
+    <div class="brand"><span class="mini">CHASE—404</span><strong>DRIVE THE <i>SUNSET</i></strong><small>UN ATLAS DE CARRETERAS Y RECUERDOS</small></div>
+    <nav class="actions" aria-label="Opciones del viaje">
+      <button id="home" title="Volver al inicio y guardar" aria-label="Volver al inicio"><span aria-hidden="true">⌂</span><span class="action-label"> INICIO</span></button>
+      <button id="routeMenu" title="Elegir carretera"><span aria-hidden="true">⌖</span><span class="action-label"> RUTAS</span></button>
+      <button id="garage" title="Vehículos y ajustes"><span aria-hidden="true">⚙</span><span class="action-label"> GARAJE</span></button>
+      <button id="journal" title="Recuerdos y actividades"><span aria-hidden="true">▤</span><span class="action-label"> DIARIO</span></button>
+      <button id="photo" title="Modo foto (F)"><span aria-hidden="true">▣</span><span class="action-label"> FOTO</span></button>
+      <button id="pause" title="Pausa (P)" aria-pressed="true">▶ SEGUIR</button>
+      <button id="help" title="Controles (H)" aria-label="Mostrar controles">?</button>
+    </nav>
+  </header>
+  <div id="a11yStatus" class="sr-only" role="status" aria-live="polite"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <aside class="radio" aria-label="Radio original">
+    <div class="radio-signal" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div><small>RADIO DE CARRETERA</small><span id="radioStation">ONDA SALMAR</span></div>
+    <button id="radioNext" aria-label="Cambiar emisora" title="Cambiar emisora">↗</button>
+    <button id="audio" aria-pressed="false" title="Activar o silenciar sonido">♪ AUDIO OFF</button>
+  </aside>
+  <aside class="chapter-card"><span id="chapterDetail"></span><strong id="chapterTitle"></strong><small id="roadAdvice"></small></aside>
+  <div class="bottom">
+    <div class="speed"><span id="speed">000</span><div><b>KM/H</b><small id="gear">N · CRUCERO</small><small id="driveHint"></small></div></div>
+    <div class="road-info"><span id="landmarkHud">LA CARRETERA ES TUYA</span><strong id="location">COSTA DEL ÚLTIMO SOL</strong><span id="carHud">VESPER GT 1972</span><div class="distance-row"><span id="distance">00.0 KM</span><span id="activityHud">VIAJE LIBRE</span></div><progress id="routeProgress" value="0" max="8000" aria-label="Progreso de la ruta"></progress></div>
+    <div class="minimap" aria-hidden="true"><canvas id="mini" width="140" height="92"></canvas><small>ATLAS DEL VIAJE</small></div>
+  </div>
+  <div class="mode-row"><button id="mode" title="Cambiar Crucero / Arcade" aria-pressed="false">CRUCERO</button><button id="reset" title="Reiniciar el trayecto (R)" aria-label="Reiniciar trayecto">↺</button></div>
+  <div id="choice" class="choice hidden"><span class="eyebrow">EL CAMINO SE ABRE</span><strong>¿Por dónde seguimos?</strong><div><button id="coast">1 · COSTA</button><button id="mountain">2 · SIERRA</button></div><small>1 / 2 · Si no eliges, continúas por tu carretera</small></div>
+  <aside id="stop" class="stop hidden"><span class="eyebrow">MIRADOR DEL FARO</span><strong>Guarda la última luz.</strong><p>Frena junto al mirador. La postal puede esperar.</p><button id="postcard">GUARDAR POSTAL</button><small id="postcardState"></small></aside>
+  <aside id="storyStop" class="stop story-stop hidden"><span class="eyebrow" id="storySpeaker"></span><strong id="storyTitle"></strong><p id="storyText"></p><button id="collectMemory">GUARDAR RECUERDO</button><small id="storyHint"></small></aside>
+  <aside id="encounterStop" class="encounter-stop hidden"><span class="eyebrow">UNE HISTORIAS A TU VIAJE</span><strong id="encounterTeaser"></strong><small id="encounterHint"></small><button id="meet">ESCUCHAR · E</button></aside>
+  <div class="touch" aria-label="Controles táctiles"><div><button data-control="left" aria-label="Girar a la izquierda">◀</button><button data-control="right" aria-label="Girar a la derecha">▶</button></div><div><button data-control="handbrake" aria-label="Freno de mano y derrape">DER.</button><button data-control="brake" aria-label="Frenar y marcha atrás">FRENO</button><button data-control="gas" aria-label="Acelerar">GAS</button></div></div>
+
+  <section id="intro" class="overlay intro-overlay" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+    <div class="intro-wrap">
+      <div class="intro-copy">
+        <span class="eyebrow"><span class="dot"></span> UN VIAJE MEDITERRÁNEO</span>
+        <div class="intro-wordmark">DRIVE THE SUNSET <span>CHASE—404</span></div>
+        <h1 id="introTitle">Hay curvas<br>que merecen<br><em>quedarse.</em></h1>
+        <p>Un coche de otra época. La costa al fondo.<br>Elige una carretera y encuentra tu propio ritmo.</p>
+        <div class="trip-selects">
+          <label for="introRoutePick">LA CARRETERA<select id="introRoutePick"><option value="coast">Costa del Último Sol · 8 km</option><option value="mountain">Sierra de los Susurros · 7,5 km</option><option value="vineyards">Carretera de los Viñedos · 9 km</option><option value="carmelo">Carmelo 1984 · 6 km</option></select></label>
+          <label for="introModePick">TU RITMO<select id="introModePick"><option value="cruise">Crucero · sin presión</option><option value="arcade">Arcade · objetivos opcionales</option></select></label>
+        </div>
+        <div class="intro-buttons"><button id="start" class="primary">SALIR A LA CARRETERA <span>↗</span></button><button id="introGarage" class="secondary">ELEGIR COCHE Y AMBIENTE</button></div>
+        <button id="continue" class="continue-button" hidden>CONTINUAR MI VIAJE GUARDADO ↗</button>
+        <div class="intro-controls"><span><kbd>W</kbd><kbd>↑</kbd> ACELERAR</span><span><kbd>S</kbd><kbd>↓</kbd> FRENAR</span><span><kbd>A</kbd><kbd>D</kbd> GIRAR</span><span><kbd>P</kbd> PAUSA</span></div>
+      </div>
+      <div class="intro-note" aria-hidden="true"><span>01 / 04</span><div class="note-line"></div><strong>El último sol<br>todavía te espera.</strong><small>CUATRO CARRETERAS<br>DIECISÉIS RECUERDOS</small></div>
+      <div class="intro-bottom"><span>COCHES Y LUGARES ORIGINALES · UNA FICCIÓN DE VERANO</span><span>CREADO POR I. ROIG · 1.1</span></div>
+    </div>
+  </section>
+
+  <section id="garagePane" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="garageTitle">
+    <div class="panel garage-panel"><div class="panel-heading"><div><span class="eyebrow">TU VIAJE · TUS REGLAS</span><h2 id="garageTitle">El garaje.</h2></div><button id="closeGarage" class="close-button" aria-label="Cerrar garaje">↗</button></div>
+      <p id="garageSummary">Ajustes en este dispositivo.</p>
+      <div class="garage-grid">
+        <fieldset><legend>COCHE Y ACABADO</legend>
+          <label for="vehiclePick">Vehículo<select id="vehiclePick"><option value="vesper">Vesper GT · 1972 · Muscle</option><option value="solstice">Solstice LX · 1984 · Cabrio</option><option value="phantom">Phantom XR · 1987 · Coupé</option><option value="meridian">Meridian S · 1992 · Sedán</option></select></label>
+          <label for="paintPick">Pintura<select id="paintPick"><option value="#a54548">Granate de verano</option><option value="#e7c58e">Champán</option><option value="#588c9c">Azul laguna</option><option value="#516c66">Verde olivo</option><option value="#222d42">Azul medianoche</option><option value="#d7dbcf">Marfil</option></select></label>
+          <label for="wheelsPick">Llantas<select id="wheelsPick"><option value="classic">Clásicas</option><option value="sport">Deportivas</option></select></label>
+          <label for="steeringPick">Dirección<select id="steeringPick"><option value="soft">Suave</option><option value="normal">Normal</option><option value="sharp">Directa</option></select></label>
+        </fieldset>
+        <fieldset><legend>CARRETERA Y AMBIENTE</legend>
+          <label for="moodPick">La luz<select id="moodPick"><option value="sunset">Último sol</option><option value="dawn">Amanecer</option><option value="night">Noche de verano</option><option value="rain">Lluvia suave</option></select></label>
+          <label for="trafficPick">Tráfico<select id="trafficPick"><option value="off">Carretera vacía</option><option value="light">Ligero</option><option value="normal">Normal</option></select></label>
+          <label for="activityPick">Actividad opcional<select id="activityPick"><option value="none">Viaje libre</option><option value="clean">Viaje limpio · 1 km</option><option value="flow">Ruta fluida · 45 segundos</option><option value="explore">Explorador · 3 paradas</option></select></label>
+          <p class="field-note">En Crucero los objetivos esperan. Elige Arcade para activarlos; todas las rutas y coches siguen disponibles.</p>
+        </fieldset>
+        <fieldset><legend>RADIO Y SONIDO</legend>
+          <label for="musicVolumePick">Música original<input id="musicVolumePick" type="range" min="0" max="1" step="0.01" value="0.38"></label>
+          <label for="engineVolumePick">Motor<input id="engineVolumePick" type="range" min="0" max="1" step="0.01" value="0.5"></label>
+          <label for="ambientVolumePick">Viento y lluvia<input id="ambientVolumePick" type="range" min="0" max="1" step="0.01" value="0.45"></label>
+          <p class="field-note">Tres emisoras de música sintetizada original. Activa AUDIO y cambia de emisora en la carretera.</p>
+        </fieldset>
+        <fieldset><legend>PRESENTACIÓN Y ACCESIBILIDAD</legend>
+          <label for="rendererPick">Dibujo<select id="rendererPick"><option value="auto">Automático · 3D con alternativa Canvas</option><option value="webgl">WebGL · 3D</option><option value="canvas">Canvas · arcade 2D</option></select></label>
+          <label for="qualityPick">Detalle<select id="qualityPick"><option value="auto">Equilibrado</option><option value="low">Ahorro</option><option value="high">Alta</option></select></label>
+          <label for="cameraPick">Cámara 3D<select id="cameraPick"><option value="rear">Conducción</option><option value="cinematic">Panorámica</option><option value="hood">Capó</option></select></label>
+          <label for="headlightsPick">Faros 3D<select id="headlightsPick"><option value="auto">Automáticos</option><option value="on">Encendidos</option><option value="off">Apagados</option></select></label>
+          <label for="hudScalePick">Interfaz<select id="hudScalePick"><option value="normal">Normal</option><option value="large">Texto grande</option></select></label>
+          <label class="checkbox"><input id="livingLightPick" type="checkbox"> Luz del atardecer que evoluciona con el viaje</label>
+          <label class="checkbox"><input id="reducedMotionPick" type="checkbox"> Reducir movimiento de cámara y ambiente</label>
+          <label class="checkbox"><input id="highContrastPick" type="checkbox"> Mayor contraste de la interfaz</label>
+        </fieldset>
+      </div>
+      <div class="panel-hint">Los cambios se aplican al elegirlos. Cierra con ↗ o Esc para volver.</div>
+    </div>
+  </section>
+
+  <section id="routePane" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="routesTitle"><div class="panel route-panel"><span class="eyebrow">EL ATLAS DE LA ÚLTIMA LUZ</span><h2 id="routesTitle">Cuatro formas<br>de volver.</h2><p>Costa → Sierra → Viñedos → Carmelo. Las señales anuncian cada desvío. También puedes empezar aquí cualquier recorrido.</p><div id="routeCards" class="route-cards"></div><p class="field-note">Elegir una carretera comienza un viaje nuevo. Carmelo 1984 es una reinterpretación ficticia de Barcelona.</p><button id="closeRoutes" class="primary">VOLVER SIN CAMBIOS ↗</button></div></section>
+  <section id="journalPane" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="journalTitle"><div class="panel journal-panel"><span class="eyebrow">MEMORIAS DEL ASFALTO</span><h2 id="journalTitle">Lo que te llevas.</h2><p id="journalCount"></p><div id="journalEntries" class="journal-entries"></div><h3 id="endingCount">DESENLACES</h3><div id="endingEntries" class="journal-entries"></div><h3>ACTIVIDADES DEL VIAJE</h3><div id="activityLog" class="activity-log"></div><div class="backup-row"><button id="backupExport">DESCARGAR COPIA JSON ↓</button><button id="backupPreviousExport">DESCARGAR COPIA ANTERIOR</button><label class="file-button" for="backupImport">RESTAURAR COPIA ↑<input id="backupImport" type="file" accept=".json,application/json"></label></div><p class="field-note">Restaurar sustituye la partida, los ajustes y el diario. Se guarda una copia previa local antes de aplicar el archivo.</p><button id="closeJournal" class="primary">VOLVER A LA CARRETERA ↗</button></div></section>
+  <section id="encounterPane" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="encounterTitle"><div class="panel encounter-panel"><span class="eyebrow">UNA HISTORIA EN EL CAMINO</span><h2 id="encounterTitle"></h2><p id="encounterText"></p><div class="encounter-choices"><button id="encounterFirst" class="primary"></button><button id="encounterSecond"></button></div><button id="closeEncounter" class="encounter-later">VOLVER SIN ELEGIR ↗</button></div></section>
+  <section id="photoPane" class="overlay photo-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="photoTitle"><div class="photo-toolbar"><div><span class="eyebrow">UN MOMENTO DEL VIAJE</span><h2 id="photoTitle">La luz se queda.</h2><p>Descarga una foto PNG sin la interfaz.</p></div><div><button id="capturePhoto" class="primary">GUARDAR FOTO ↓</button><button id="closePhoto">VOLVER ↗</button></div></div></section>
+  <section id="finish" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="finishTitle"><div class="panel finish-panel"><span class="eyebrow">HAS LLEGADO</span><h2 id="finishTitle">Todavía queda<br><em>carretera.</em></h2><p id="finishStory"></p><p id="finishStats"></p><div class="finish-buttons"><button id="nextRoute" class="primary">SIGUIENTE CARRETERA ↗</button><button id="driveAgain">RECORRERLA OTRA VEZ</button><button id="returnHome">VOLVER AL INICIO</button></div></div></section>
+  <section id="helpPane" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="panel help-panel"><span class="eyebrow">GUÍA DE VIAJE</span><h2 id="helpTitle">A tu ritmo.</h2><dl class="control-list"><div><dt>W / ↑</dt><dd>Acelerar</dd></div><div><dt>S / ↓</dt><dd>Frenar; mantener para marcha atrás</dd></div><div><dt>A / ← · D / →</dt><dd>Izquierda · Derecha</dd></div><div><dt>Espacio</dt><dd>Freno de mano</dd></div><div><dt>P / Esc · H · F</dt><dd>Pausa · Ayuda · Foto</dd></div><div><dt>R · 1 / 2</dt><dd>Reiniciar · Elegir desvío</dd></div></dl><p>Crucero no tiene cronómetro ni final por conducir despacio. En Arcade, elige un objetivo en el garaje: conducción limpia, velocidad fluida o tres paradas. Los contactos son suaves y nunca cierran el viaje.</p><p>Las dieciséis paradas están señaladas. Frena cerca del lugar para guardar su historia en el diario. Ocho encuentros opcionales añaden decisiones al viaje: detente cuando aparezcan y pulsa E o Escuchar. Completa las carreteras para descubrir dieciséis desenlaces. Una copia JSON conserva tus ajustes y tus descubrimientos.</p><p class="field-note" id="gamepadStatus">Mando estándar: gatillos acelerar/frenar, stick izquierdo girar, Start pausa. También dispones de controles táctiles.</p><button id="closeHelp" class="primary">VOLVER AL VIAJE ↗</button></div></section>
+  <footer><span>MEMORIAS DEL ASFALTO · I. ROIG</span><span id="saveStatus">GUARDADO LOCAL</span><span id="renderStatus">CANVAS</span></footer>
+  <noscript><div class="no-script">Activa JavaScript para conducir. Todos los recursos están incluidos en el proyecto.</div></noscript>
+</main>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

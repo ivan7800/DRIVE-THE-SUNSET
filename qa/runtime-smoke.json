@@ -1,0 +1,66 @@
+{
+  "runtime": "v24.19.0",
+  "renderer": "@napi-rs/canvas Canvas2D",
+  "tests": [
+    {
+      "name": "actual native module entry and first car frame",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "start, garage/help/journal close return driving focus",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "legacy resume synchronizes vehicle, mode and garage",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "pause, blur and visibility suspend simulation and clear held keys",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "all three junctions select valid continuing destination roads",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "failed postcard/journal storage does not report persistence",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "16 memories, four route endings and journal reload",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "backup download and photo PNG use real Canvas pixels",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "live backup import restores rather than overwrites the imported trip",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "Cruise keeps memories while Arcade alone awards exploration",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "three radio stations and unavailable audio report a useful error",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    },
+    {
+      "name": "all routes, cars and weather draw real Canvas scenes; 3D-only settings are disabled",
+      "result": "PASS",
+      "scope": "Actual ESM + Canvas2D; simulated DOM events, no browser layout/GPU"
+    }
+  ]
+}

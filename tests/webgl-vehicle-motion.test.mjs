@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {motionStep,orientCarVertex} from '../webgl/vehicle-motion.js';
+const zero={phase:0,roll:0,pitch:0,bob:0,cameraBob:0};
+const moving=motionStep(zero,{speed:110,steer:1,acceleration:2,dt:1/60});
+assert.ok(moving.roll<0 && moving.roll>=-.085);
+assert.ok(Math.abs(moving.pitch)<.052);
+let stabilized=moving;for(let i=0;i<240;i++)stabilized=motionStep(stabilized,{speed:0,steer:0,acceleration:0,dt:1/60});
+assert.ok(Math.abs(stabilized.roll)<.001);
+assert.ok(Math.abs(stabilized.pitch)<.001);
+assert.deepEqual(orientCarVertex([1,2,3],[0,0,0],zero),[1,2,3]);
+assert.ok(Object.values(moving).every(Number.isFinite));
+console.log('PASS movimiento visual, límites, amortiguación y transformación');

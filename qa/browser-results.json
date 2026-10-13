@@ -1,0 +1,164 @@
+{
+  "result": "PASS",
+  "browser": "151.0.7922.34",
+  "viewport": [
+    1280,
+    720
+  ],
+  "benchmarks": [
+    {
+      "route": "coast",
+      "quality": "low",
+      "fps": 29.669677589503525,
+      "meanMs": 33.70444444444445,
+      "p95Ms": 33.400000000000546,
+      "frames": 45,
+      "heapBytes": 40599282,
+      "renderer": {
+        "fps": 23.80142808568568,
+        "avgMs": 42.01428571428477,
+        "p95Ms": 70,
+        "vertices": 11016,
+        "geometryBuilds": 6,
+        "cacheHits": 93,
+        "uploadKB": 430,
+        "gpuKB": 608,
+        "uploads": 99,
+        "reallocations": 1,
+        "renderer": "webgl",
+        "renderScale": 1,
+        "pixelWidth": 1280,
+        "pixelHeight": 720
+      }
+    },
+    {
+      "route": "mountain",
+      "quality": "low",
+      "fps": 29.671633917974408,
+      "meanMs": 33.70222222222223,
+      "p95Ms": 50,
+      "frames": 45,
+      "heapBytes": 41118798,
+      "renderer": {
+        "fps": 28.903822530531606,
+        "avgMs": 34.59749999999767,
+        "p95Ms": 42.799999999813735,
+        "vertices": 10638,
+        "geometryBuilds": 9,
+        "cacheHits": 167,
+        "uploadKB": 416,
+        "gpuKB": 608,
+        "uploads": 176,
+        "reallocations": 1,
+        "renderer": "webgl",
+        "renderScale": 1,
+        "pixelWidth": 1280,
+        "pixelHeight": 720
+      }
+    },
+    {
+      "route": "vineyards",
+      "quality": "low",
+      "fps": 28.126757922370135,
+      "meanMs": 35.55333333333335,
+      "p95Ms": 50,
+      "frames": 45,
+      "heapBytes": 45176621,
+      "renderer": {
+        "fps": 28.377515548515603,
+        "avgMs": 35.23916666666434,
+        "p95Ms": 42.39999999990687,
+        "vertices": 14610,
+        "geometryBuilds": 12,
+        "cacheHits": 241,
+        "uploadKB": 571,
+        "gpuKB": 608,
+        "uploads": 253,
+        "reallocations": 1,
+        "renderer": "webgl",
+        "renderScale": 1,
+        "pixelWidth": 1280,
+        "pixelHeight": 720
+      }
+    },
+    {
+      "route": "carmelo",
+      "quality": "low",
+      "fps": 24.32563922374183,
+      "meanMs": 41.10888888888888,
+      "p95Ms": 50.099999999998545,
+      "frames": 45,
+      "heapBytes": 21270373,
+      "renderer": {
+        "fps": 25.416190113102548,
+        "avgMs": 39.344999999999224,
+        "p95Ms": 47.89999999990687,
+        "vertices": 27354,
+        "geometryBuilds": 17,
+        "cacheHits": 312,
+        "uploadKB": 1069,
+        "gpuKB": 1352,
+        "uploads": 329,
+        "reallocations": 2,
+        "renderer": "webgl",
+        "renderScale": 1,
+        "pixelWidth": 1280,
+        "pixelHeight": 720
+      }
+    },
+    {
+      "route": "carmelo",
+      "quality": "auto",
+      "fps": 29.35037829376466,
+      "frames": 45,
+      "renderer": {
+        "fps": 29.23121894182855,
+        "avgMs": 34.21000000000155,
+        "p95Ms": 41.3000000002794,
+        "vertices": 34464,
+        "geometryBuilds": 30,
+        "cacheHits": 546,
+        "uploadKB": 1346,
+        "gpuKB": 2704,
+        "uploads": 576,
+        "reallocations": 3,
+        "renderer": "webgl",
+        "renderScale": 0.85,
+        "pixelWidth": 1088,
+        "pixelHeight": 612
+      }
+    }
+  ],
+  "mobileViewport": [
+    390,
+    844
+  ],
+  "gpu": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "vendor": "Google Inc. (Google)"
+  },
+  "renderer": "webgl",
+  "results": [
+    "native browser entry, first frame and W",
+    "garage state and native focus return",
+    "help, journal and routes native Escape/focus",
+    "selected renderer webgl; {\"renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\",\"vendor\":\"Google Inc. (Google)\"}",
+    "three junctions with valid destination progress",
+    "16 memories and four complete routes",
+    "native PNG photo download",
+    "native backup download",
+    "local storage after reload and resume",
+    "eight optional encounter dialogs, four native route endings and focus recovery",
+    "story endings survive native reload",
+    "real RAF/heap samples on four routes; metrics are host-specific, not hardware certification",
+    "native WebGL context loss switches to Canvas and restores 3D",
+    "Web Audio graph starts and produces signal; audible mix not listened to",
+    "QA hook absent by default",
+    "390x844 native mobile layout and pointer-held accelerator (no physical mobile claim)",
+    "native mobile portrait encounter and landscape garage"
+  ],
+  "errors": [],
+  "requests": [],
+  "consoleErrors": [],
+  "scope": "Native headless Chromium. Software WebGL where reported; no physical GPU/Windows/Mint/mobile/gamepad or gameplay-feel certification."
+}

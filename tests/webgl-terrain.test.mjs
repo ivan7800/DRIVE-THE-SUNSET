@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {roadCrossSection,followCamera} from '../webgl/terrain.js';
+const left=roadCrossSection(10,2),right=roadCrossSection(15,4);
+assert.equal(left.length,8);
+assert.ok(left.every((v,i)=>i===0||v.x>left[i-1].x));
+assert.equal(left[3].y,left[4].y);
+assert.ok(right[3].y>left[3].y);
+assert.equal(followCamera({x:0,y:null,yaw:0},{x:10,y:5,yaw:1}).y,5);
+const smooth=followCamera({x:0,y:2,yaw:0},{x:10,y:8,yaw:1},.1);
+assert.deepEqual(smooth,{x:1,y:2.6,yaw:.1});
+assert.throws(()=>roadCrossSection(Infinity,0),TypeError);
+console.log('PASS webgl-terrain: 6 comprobaciones');

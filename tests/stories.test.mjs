@@ -1,0 +1,4 @@
+import assert from 'node:assert/strict';import {STORIES,storyKey,storyNear,safeJournal} from '../js/stories.js';
+import {ROUTES} from '../js/routes.js';
+for(const [route,stories] of Object.entries(STORIES)){assert.equal(stories.length,4);const ids=new Set(stories.map(s=>s.id));assert.equal(ids.size,4);for(const s of stories){assert.equal(storyNear(route,s.at)?.id,s.id);assert.equal(storyNear(route,s.at+500),null);assert(s.title&&s.text&&s.memento);assert(s.at>0&&s.at<ROUTES[route].length,'memory inside route');}}
+assert.deepEqual(safeJournal({schemaVersion:1,memories:['coast:faro','coast:faro','invalid','carmelo:plaza']}).memories,['coast:faro','carmelo:plaza']);assert.equal(safeJournal({schemaVersion:99,memories:['coast:faro']}).memories.length,0);assert.equal(storyKey('coast','salmar'),'coast:salmar');console.log('PASS: 16 memories, valid route markers, journal deduplication and legacy keys');

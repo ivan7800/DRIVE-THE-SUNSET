@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {readTrip,writeTrip,clearTrip,validateTrip,TRIP_KEY} from '../js/save.js';
+const m=new Map();const db={getItem:k=>m.get(k)||null,setItem:(k,v)=>m.set(k,v),removeItem:k=>m.delete(k)};
+const trip={route:'coast',vehicle:'vesper',mode:'cruise',distance:244,x:0.2,selected:false,postcard:false,finished:false};
+assert.equal(readTrip(db),null);
+assert(writeTrip(db,trip));assert.deepEqual(readTrip(db),trip);
+assert.equal(validateTrip({...trip,schemaVersion:1,distance:Infinity}),null);
+assert.equal(validateTrip({...trip,schemaVersion:1,route:'fake'}),null);
+m.set(TRIP_KEY,'{bad');assert.equal(readTrip(db),null);
+assert(clearTrip(db));assert.equal(readTrip(db),null);
+console.log('PASS: save/load, schema, invalid values, corrupt JSON, clear');

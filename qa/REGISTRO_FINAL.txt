@@ -1,0 +1,74 @@
+1/5 · Sintaxis real de los módulos y scripts
+2/5 · Bundle opcional reproducible (la entrada HTTP usa ESM)
+PASS: optional bundle reproduces native modules with isolated scopes (13 modules).
+3/5 · Pruebas de lógica, datos y flujos
+PASS: 8 dialog semantics, unique IDs, labelled controls and keyboard canvas (static inspection only)
+PASS: clean kilometre/contact reset, 45 s flow/speed reset, three unique memories, optional free travel
+PASS: full backup/restore, pre-import copy, invalid inputs preserve data, failed write rollback, blocked storage
+PASS core-final: rest, fixed-step 10/30/60/120 Hz, bounded suspension, 4 cars, 3 activities, migration, backup validation/rollback and route connections
+PASS: progressive steering, release, reverse, bounds, repeatable traffic and cooldown
+PASS driving iter3: smooth lane changes, bounds, disabled traffic, collision
+PASS iter4: lane gaps checked, bounded lanes, traffic off
+PASS: fixed-step at 10/20/30/60/120/144 Hz, four vehicles stationary, suspension limit and reset
+PASS: eight encounters, sixteen outcomes, migration/backup validation, four handling profiles, drift recovery, pedal priority, analogue control and borders
+PASS: 16 full-distance continuous physics journeys, 122 simulated km; no browser or human driving claim
+PASS: launcher contracts inspected statically; native Windows execution remains pending
+PASS: 9 comprobaciones de física, controles, bifurcación y límite de velocidad
+{"result":"PASS","samples":384,"maxVertices":59574,"contracts":["finite geometry/projection","frozen shared state","stride40","reuse/resize/dispose/context callback","200ms frame = 5fps","photo does not advance animation"],"scope":"GL API contract mock; no shader or pixel claim"}
+PASS: seamless road fork and backward-compatible validated save
+PASS: distinct continuous routes, elevation and steering coherence
+road-signs PASS
+PASS rutas: cuatro recorridos, hitos y decoraciones
+PASS: save/load, schema, invalid values, corrupt JSON, clear
+PASS: 16 memories, valid route markers, journal deduplication and legacy keys
+PASS: four distinct vehicles and traffic levels
+PASS: tráfico móvil, niveles, colisiones, cooldown y vehículos
+PASS: camera smoothing at 30/60/120/144 Hz, near-plane clipping; no WebGL execution claim
+PASS webgl-terrain: 6 comprobaciones
+PASS movimiento visual, límites, amortiguación y transformación
+(node:6510) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: actual native module entry and first car frame
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: start, garage/help/journal close return driving focus
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: legacy resume synchronizes vehicle, mode and garage
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: pause, blur and visibility suspend simulation and clear held keys
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: all three junctions select valid continuing destination roads
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: failed postcard/journal storage does not report persistence
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: 16 memories, four route endings and journal reload
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: backup download and photo PNG use real Canvas pixels
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: live backup import restores rather than overwrites the imported trip
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: Cruise keeps memories while Arcade alone awards exploration
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: three radio stations and unavailable audio report a useful error
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: all routes, cars and weather draw real Canvas scenes; 3D-only settings are disabled
+Canvas/DOM smoke complete. Native browser focus/layout, GPU, physical input and gameplay feel remain separate checks.
+CHASE-404: Canvas fallback WebGL no disponible
+CHASE-404: Canvas fallback WebGL no disponible
+PASS: actual ESM encounter UI, all four story endings, focus/pause, native Canvas, alias keys, reload and JSON export; DOM events simulated
+PASS: automatic resolution adapts to slow frames; explicit quality restores chosen resolution
+(node:6549) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+4/5 · Empaquetado y recursos bajo /CHASE-404/
+PACKAGING PASS: files, relative HTML/import paths, native ESM HTTP entry
+{"result": "PASS", "project_subdirectory": "/drive-sunset/", "subdirectory_resources": 20, "linux_launcher_resources": 20, "relaunch_resources": 20, "stable_relaunch_origin": "http://127.0.0.1:8765/", "scope": "HTTP requests and stable local origin only, no browser or native Windows verification"}
+5/5 · Navegador opcional
+Captured 24 actual renderer scenes. Compilation/drawing still requires native GLES replay.
+{"result": "PASS", "scenes": 24, "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)", "scope": "Actual software GLES compile/link/upload/draw/readback from captured game renderer calls. Not a browser, WebGL platform, physical GPU or gameplay-feel test."}
+PASS: 17 native browser flows; see evidence for actual renderer and platform scope.
+QA completado. Las pruebas manuales de plataformas y sensación de conducción se documentan en QA_REPORT.md.

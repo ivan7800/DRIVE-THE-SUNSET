@@ -1,0 +1,16 @@
+CHASE-404: DRIVE THE SUNSET — 1.1.0-rc.1
+
+1. Extrae el ZIP completo y entra en la carpeta CHASE-404.
+2. Linux Mint: abre una terminal aquí y ejecuta bash INICIAR-LINUX.sh
+3. Windows: abre INICIAR-WINDOWS.bat
+4. Mantén la terminal abierta mientras juegas; Ctrl+C cierra el servidor.
+5. Elige carretera y coche. W/arriba acelera; S/abajo frena; A/izquierda y D/derecha giran. P pausa.
+
+El juego necesita HTTP; abrir index.html como archivo no carga los módulos.
+Todos los recursos son locales. No hace falta instalar paquetes para jugar.
+
+Contenido: cuatro carreteras, cuatro coches, 16 recuerdos, ocho encuentros, dieciséis finales, tres desvíos, radio original, foto y copias JSON.
+El diario permite trasladar y recuperar el progreso con copias de seguridad.
+
+Estado RC: lógica, HTTP, Chromium nativo y gráficos por software superados; dispositivos físicos, conducción humana y mezcla audible pendientes.
+Consulta README.md y QA_REPORT.md para instrucciones y evidencia completa.

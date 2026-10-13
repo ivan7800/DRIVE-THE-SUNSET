@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const read=file=>readFileSync(new URL('../'+file,import.meta.url),'utf8');
+const batch=read('INICIAR-WINDOWS.bat'),powershell=read('launch/server-windows.ps1'),linux=read('INICIAR-LINUX.sh'),python=read('launch/server.py');
+assert.match(batch,/cd\s+\/d\s+"%~dp0"/i,'launch directory independent of caller');
+assert(!/if\s+%errorlevel%\s*==\s*0\s+exit/i.test(batch),'no block-expanded stale success exit code');
+assert.match(batch,/if\s+(?:not\s+)?errorlevel\s+1/i,'dynamic interpreter status checked');
+assert.match(batch,/launch\\server-windows\.ps1/i,'PowerShell fallback path');
+assert.match(linux,/exec python3 launch\/server\.py/,'Linux replaces shell with server');
+assert.match(python,/127\.0\.0\.1/,'Python binds loopback');
+assert.match(python,/Cache-Control/,'local launcher bypasses stale files');
+assert.match(powershell,/http:\/\/127\.0\.0\.1:\$port\//,'PowerShell uses the same host and origin as Python');
+assert.doesNotMatch(powershell,/http:\/\/localhost:/,'fallback must not split localStorage between hosts');
+assert.match(powershell,/GetFullPath/,'normalizes file path');
+assert.match(powershell,/StartsWith/,'path containment checked');
+assert.match(powershell,/'\.js'\s*=\s*'text\/javascript/,'module MIME type');
+console.log('PASS: launcher contracts inspected statically; native Windows execution remains pending');

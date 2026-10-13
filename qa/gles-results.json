@@ -1,0 +1,572 @@
+{
+  "result": "PASS",
+  "egl": "1.5",
+  "gles": "OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.2",
+  "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+  "vendor": "Mesa",
+  "frames": [
+    {
+      "name": "coast-village-sunset",
+      "route": "coast",
+      "landmark": "village",
+      "mood": "sunset",
+      "vehicle": "vesper",
+      "distance": 945,
+      "result": "PASS",
+      "pixel_stddev": [
+        47.90060390943453,
+        29.02897589196547,
+        18.590360345699327
+      ]
+    },
+    {
+      "name": "coast-lighthouse-night",
+      "route": "coast",
+      "landmark": "lighthouse",
+      "mood": "night",
+      "vehicle": "solstice",
+      "distance": 2665,
+      "result": "PASS",
+      "pixel_stddev": [
+        24.5268023099095,
+        21.48839512103942,
+        17.061090648570673
+      ]
+    },
+    {
+      "name": "coast-tunnel-rain",
+      "route": "coast",
+      "landmark": "tunnel",
+      "mood": "rain",
+      "vehicle": "phantom",
+      "distance": 3965,
+      "result": "PASS",
+      "pixel_stddev": [
+        24.24050335456705,
+        18.416231295357495,
+        16.840503652515853
+      ]
+    },
+    {
+      "name": "coast-cove-dawn",
+      "route": "coast",
+      "landmark": "cove",
+      "mood": "dawn",
+      "vehicle": "meridian",
+      "distance": 6865,
+      "result": "PASS",
+      "pixel_stddev": [
+        50.88625136437078,
+        35.91970571469131,
+        35.387300001818254
+      ]
+    },
+    {
+      "name": "mountain-bridge-sunset",
+      "route": "mountain",
+      "landmark": "bridge",
+      "mood": "sunset",
+      "vehicle": "vesper",
+      "distance": 1165,
+      "result": "PASS",
+      "pixel_stddev": [
+        46.98058097894943,
+        27.77270889707749,
+        21.237252109861572
+      ]
+    },
+    {
+      "name": "mountain-lookout-night",
+      "route": "mountain",
+      "landmark": "lookout",
+      "mood": "night",
+      "vehicle": "solstice",
+      "distance": 2765,
+      "result": "PASS",
+      "pixel_stddev": [
+        21.787968493431563,
+        19.892615143201084,
+        17.368467653452363
+      ]
+    },
+    {
+      "name": "mountain-tunnel-rain",
+      "route": "mountain",
+      "landmark": "tunnel",
+      "mood": "rain",
+      "vehicle": "phantom",
+      "distance": 3895,
+      "result": "PASS",
+      "pixel_stddev": [
+        21.146247378495204,
+        17.045031117081404,
+        17.691654129445492
+      ]
+    },
+    {
+      "name": "mountain-lake-dawn",
+      "route": "mountain",
+      "landmark": "lake",
+      "mood": "dawn",
+      "vehicle": "meridian",
+      "distance": 6565,
+      "result": "PASS",
+      "pixel_stddev": [
+        48.10420232785234,
+        33.6700463863844,
+        34.21226353972223
+      ]
+    },
+    {
+      "name": "vineyards-farm-sunset",
+      "route": "vineyards",
+      "landmark": "farm",
+      "mood": "sunset",
+      "vehicle": "vesper",
+      "distance": 1015,
+      "result": "PASS",
+      "pixel_stddev": [
+        43.95389610509969,
+        30.845093717740433,
+        22.444553811115046
+      ]
+    },
+    {
+      "name": "vineyards-station-night",
+      "route": "vineyards",
+      "landmark": "station",
+      "mood": "night",
+      "vehicle": "solstice",
+      "distance": 2515,
+      "result": "PASS",
+      "pixel_stddev": [
+        23.852352113860164,
+        22.378993740906342,
+        18.046977947346708
+      ]
+    },
+    {
+      "name": "vineyards-village-rain",
+      "route": "vineyards",
+      "landmark": "village",
+      "mood": "rain",
+      "vehicle": "phantom",
+      "distance": 3615,
+      "result": "PASS",
+      "pixel_stddev": [
+        25.697544714938193,
+        22.056777421529006,
+        18.65252432118514
+      ]
+    },
+    {
+      "name": "vineyards-windmill-dawn",
+      "route": "vineyards",
+      "landmark": "windmill",
+      "mood": "dawn",
+      "vehicle": "meridian",
+      "distance": 7865,
+      "result": "PASS",
+      "pixel_stddev": [
+        44.739110395490854,
+        34.84138534226562,
+        40.4838735149932
+      ]
+    },
+    {
+      "name": "carmelo-plaza-sunset",
+      "route": "carmelo",
+      "landmark": "plaza",
+      "mood": "sunset",
+      "vehicle": "vesper",
+      "distance": 865,
+      "result": "PASS",
+      "pixel_stddev": [
+        37.89367620919168,
+        26.846165836715002,
+        22.035687640622836
+      ]
+    },
+    {
+      "name": "carmelo-viewcity-night",
+      "route": "carmelo",
+      "landmark": "viewcity",
+      "mood": "night",
+      "vehicle": "solstice",
+      "distance": 2315,
+      "result": "PASS",
+      "pixel_stddev": [
+        32.24101607739572,
+        25.454623601038733,
+        16.277468125529566
+      ]
+    },
+    {
+      "name": "carmelo-bridge-rain",
+      "route": "carmelo",
+      "landmark": "bridge",
+      "mood": "rain",
+      "vehicle": "phantom",
+      "distance": 3515,
+      "result": "PASS",
+      "pixel_stddev": [
+        34.164317601361816,
+        30.680581994986056,
+        21.71013369953444
+      ]
+    },
+    {
+      "name": "carmelo-cinema-dawn",
+      "route": "carmelo",
+      "landmark": "cinema",
+      "mood": "dawn",
+      "vehicle": "meridian",
+      "distance": 5115,
+      "result": "PASS",
+      "pixel_stddev": [
+        40.528258572499155,
+        30.28231633927457,
+        28.146438524483262
+      ]
+    },
+    {
+      "name": "lateral-left",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 0,
+      "x": -0.5,
+      "expectedCarSide": "left",
+      "result": "PASS",
+      "pixel_stddev": [
+        51.184199371370184,
+        37.588986525603204,
+        38.51026472767652
+      ],
+      "car_centroid_x": 549.9454981992798
+    },
+    {
+      "name": "lateral-right",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 0,
+      "x": 0.5,
+      "expectedCarSide": "right",
+      "result": "PASS",
+      "pixel_stddev": [
+        50.32507770213866,
+        37.26052123561171,
+        38.57533871914003
+      ],
+      "car_centroid_x": 721.3517060367454
+    },
+    {
+      "name": "camera-rear",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 500,
+      "camera": "rear",
+      "result": "PASS",
+      "pixel_stddev": [
+        50.962120495152035,
+        30.340116047654067,
+        18.86213088630325
+      ]
+    },
+    {
+      "name": "camera-cinematic",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 500,
+      "camera": "cinematic",
+      "result": "PASS",
+      "pixel_stddev": [
+        50.22418407684837,
+        30.927920386164054,
+        18.78703857170065
+      ]
+    },
+    {
+      "name": "camera-hood",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 500,
+      "camera": "hood",
+      "result": "PASS",
+      "pixel_stddev": [
+        48.2620314114446,
+        26.988770078638083,
+        16.73808382196957
+      ]
+    },
+    {
+      "name": "junction-coast",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 1705,
+      "choices": [
+        "coast",
+        "mountain"
+      ],
+      "result": "PASS",
+      "pixel_stddev": [
+        46.12776655311657,
+        28.365115085958593,
+        18.32004256961519
+      ]
+    },
+    {
+      "name": "junction-mountain",
+      "route": "mountain",
+      "vehicle": "vesper",
+      "distance": 4690,
+      "choices": [
+        "mountain",
+        "vineyards"
+      ],
+      "result": "PASS",
+      "pixel_stddev": [
+        33.10147468014511,
+        22.763392527086157,
+        16.130151226738032
+      ]
+    },
+    {
+      "name": "junction-vineyards",
+      "route": "vineyards",
+      "vehicle": "vesper",
+      "distance": 6690,
+      "choices": [
+        "vineyards",
+        "carmelo"
+      ],
+      "result": "PASS",
+      "pixel_stddev": [
+        29.954598809843343,
+        25.836233780335487,
+        19.17361742596616
+      ]
+    }
+  ],
+  "geometry": [
+    {
+      "name": "coast-village-sunset",
+      "route": "coast",
+      "landmark": "village",
+      "mood": "sunset",
+      "vehicle": "vesper",
+      "distance": 945,
+      "vertices": 9702
+    },
+    {
+      "name": "coast-lighthouse-night",
+      "route": "coast",
+      "landmark": "lighthouse",
+      "mood": "night",
+      "vehicle": "solstice",
+      "distance": 2665,
+      "vertices": 10062
+    },
+    {
+      "name": "coast-tunnel-rain",
+      "route": "coast",
+      "landmark": "tunnel",
+      "mood": "rain",
+      "vehicle": "phantom",
+      "distance": 3965,
+      "vertices": 8139
+    },
+    {
+      "name": "coast-cove-dawn",
+      "route": "coast",
+      "landmark": "cove",
+      "mood": "dawn",
+      "vehicle": "meridian",
+      "distance": 6865,
+      "vertices": 8586
+    },
+    {
+      "name": "mountain-bridge-sunset",
+      "route": "mountain",
+      "landmark": "bridge",
+      "mood": "sunset",
+      "vehicle": "vesper",
+      "distance": 1165,
+      "vertices": 11622
+    },
+    {
+      "name": "mountain-lookout-night",
+      "route": "mountain",
+      "landmark": "lookout",
+      "mood": "night",
+      "vehicle": "solstice",
+      "distance": 2765,
+      "vertices": 12762
+    },
+    {
+      "name": "mountain-tunnel-rain",
+      "route": "mountain",
+      "landmark": "tunnel",
+      "mood": "rain",
+      "vehicle": "phantom",
+      "distance": 3895,
+      "vertices": 9990
+    },
+    {
+      "name": "mountain-lake-dawn",
+      "route": "mountain",
+      "landmark": "lake",
+      "mood": "dawn",
+      "vehicle": "meridian",
+      "distance": 6565,
+      "vertices": 7590
+    },
+    {
+      "name": "vineyards-farm-sunset",
+      "route": "vineyards",
+      "landmark": "farm",
+      "mood": "sunset",
+      "vehicle": "vesper",
+      "distance": 1015,
+      "vertices": 11610
+    },
+    {
+      "name": "vineyards-station-night",
+      "route": "vineyards",
+      "landmark": "station",
+      "mood": "night",
+      "vehicle": "solstice",
+      "distance": 2515,
+      "vertices": 9558
+    },
+    {
+      "name": "vineyards-village-rain",
+      "route": "vineyards",
+      "landmark": "village",
+      "mood": "rain",
+      "vehicle": "phantom",
+      "distance": 3615,
+      "vertices": 16872
+    },
+    {
+      "name": "vineyards-windmill-dawn",
+      "route": "vineyards",
+      "landmark": "windmill",
+      "mood": "dawn",
+      "vehicle": "meridian",
+      "distance": 7865,
+      "vertices": 11364
+    },
+    {
+      "name": "carmelo-plaza-sunset",
+      "route": "carmelo",
+      "landmark": "plaza",
+      "mood": "sunset",
+      "vehicle": "vesper",
+      "distance": 865,
+      "vertices": 39342
+    },
+    {
+      "name": "carmelo-viewcity-night",
+      "route": "carmelo",
+      "landmark": "viewcity",
+      "mood": "night",
+      "vehicle": "solstice",
+      "distance": 2315,
+      "vertices": 27612
+    },
+    {
+      "name": "carmelo-bridge-rain",
+      "route": "carmelo",
+      "landmark": "bridge",
+      "mood": "rain",
+      "vehicle": "phantom",
+      "distance": 3515,
+      "vertices": 37806
+    },
+    {
+      "name": "carmelo-cinema-dawn",
+      "route": "carmelo",
+      "landmark": "cinema",
+      "mood": "dawn",
+      "vehicle": "meridian",
+      "distance": 5115,
+      "vertices": 59286
+    },
+    {
+      "name": "lateral-left",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 0,
+      "x": -0.5,
+      "expectedCarSide": "left",
+      "vertices": 8466
+    },
+    {
+      "name": "lateral-right",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 0,
+      "x": 0.5,
+      "expectedCarSide": "right",
+      "vertices": 8466
+    },
+    {
+      "name": "camera-rear",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 500,
+      "camera": "rear",
+      "vertices": 10782
+    },
+    {
+      "name": "camera-cinematic",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 500,
+      "camera": "cinematic",
+      "vertices": 10782
+    },
+    {
+      "name": "camera-hood",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 500,
+      "camera": "hood",
+      "vertices": 8802
+    },
+    {
+      "name": "junction-coast",
+      "route": "coast",
+      "vehicle": "vesper",
+      "distance": 1705,
+      "choices": [
+        "coast",
+        "mountain"
+      ],
+      "vertices": 9000
+    },
+    {
+      "name": "junction-mountain",
+      "route": "mountain",
+      "vehicle": "vesper",
+      "distance": 4690,
+      "choices": [
+        "mountain",
+        "vineyards"
+      ],
+      "vertices": 8952
+    },
+    {
+      "name": "junction-vineyards",
+      "route": "vineyards",
+      "vehicle": "vesper",
+      "distance": 6690,
+      "choices": [
+        "vineyards",
+        "carmelo"
+      ],
+      "vertices": 10626
+    }
+  ],
+  "scope": "Actual software GLES compile/link/upload/draw/readback from captured game renderer calls. Not a browser, WebGL platform, physical GPU or gameplay-feel test."
+}
