@@ -20,4 +20,4 @@ Pendiente; no se afirma como ejecutado:
 - Juego humano con WebGL/GPU, rendimiento prolongado y ajuste subjetivo de cámara.
 - Safari/iPhone, tacto físico y escucha de las nuevas señales.
 - El smoke HTTP se intentó pero quedó bloqueado antes de servir recursos; Chromium E2E, verificación HTTP bajo subruta, Windows, Mint y mando físico siguen pendientes.
-- No se modificó ni publicó el repositorio remoto.
+- Esta RC4 se publicó en `main`; el flujo de GitHub Pages terminó correctamente. El navegador de comprobación cargó la página, pero WebGL no está disponible en ese entorno.

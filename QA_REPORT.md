@@ -6,7 +6,7 @@
 
 **Pruebas RC4:** `journey-driving.test.mjs` verifica tres encuentros por ruta y la persistencia de decisiones; `journey-runtime.cjs` recorre la interfaz de los doce encuentros con DOM simulado. `experience-upgrade.test.mjs` verifica framing a velocidad, límites, inmutabilidad y cuatro paletas. No se afirma escucha física.
 
-**No ejecutado en RC4:** sesión humana, mando, Safari/iPhone, audio audible, Chromium con GPU y rendimiento sostenido. El smoke HTTP se intentó pero quedó bloqueado antes de servir recursos; por ello no se verificó HTTP bajo subruta. Evidencia RC1/RC3 es histórica y no certifica esta candidata.
+**No ejecutado en RC4:** sesión humana, mando, Safari/iPhone, audio audible, Chromium con GPU y rendimiento sostenido. El smoke HTTP se intentó pero quedó bloqueado antes de servir recursos; por ello no se verificó HTTP bajo subruta. Evidencia RC1/RC3 es histórica y no certifica esta candidata. El commit RC4 se publicó en `main` y el flujo de GitHub Pages terminó correctamente; el navegador de comprobación cargó la app, pero no dispone de WebGL.
 
 ---
 

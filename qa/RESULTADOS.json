@@ -22,8 +22,8 @@
   ],
   "historical_only": "RC1 Chromium/SwiftShader/GLES evidence does not certify RC4",
   "publication": {
-    "repository_commit": "sin cambios remotos",
-    "github_pages_rc4_observed": false,
-    "note": "RC4 solo está en este paquete local; no se publicó"
+    "status": "published to main; GitHub Pages workflow succeeded",
+    "github_pages_rc4_observed": true,
+    "audit_browser_webgl": "unavailable; deployed page loaded with the WebGL warning visible"
   }
 }
