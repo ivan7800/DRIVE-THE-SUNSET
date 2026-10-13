@@ -46,6 +46,11 @@ export function createAudio(){
    beat++;nextBeat+=step;
   }
  }
+ function cue(kind='encounter'){
+  if(!enabled||!context||context.state!=='running'||disposed)return false;
+  const notes=kind==='choice'?[76,83]:kind==='route'?[67,74]:[72,79],start=context.currentTime+.015;
+  notes.forEach((note,index)=>tone(note,start+index*.085,.20,.055,'sine',context.destination));return true;
+ }
  function levels(state={speed:0,vehicle:'vesper'},settings=mix,isPaused=paused){
   if(!context)return;const time=context.currentTime,active=enabled&&!isPaused&&context.state==='running';
   music.gain.setTargetAtTime(active?mix.musicVolume*(Math.abs(state.slide||0)>.2?.62:.82):0,time,.18);
@@ -64,6 +69,7 @@ export function createAudio(){
   setMix(settings){mix={musicVolume:finite(settings.musicVolume,.38),engineVolume:finite(settings.engineVolume,.5),ambientVolume:finite(settings.ambientVolume,.45)};},
   update(state,settings,isPaused){if(!context||disposed)return;paused=!!isPaused;levels(state,settings,paused);if(enabled&&!paused&&context.state==='running')schedule();else nextBeat=context.currentTime+.05;},
   nextStation(){station=(station+1)%STATIONS.length;beat=0;if(context){nextBeat=context.currentTime+.04;for(const voice of voices){try{voice.stop(context.currentTime+.02);}catch{}}}return STATIONS[station].name;},
+  cue,
   stationName(){return STATIONS[station].name+' · '+STATIONS[station].title;},
   dispose(){disposed=true;enabled=false;if(context){for(const voice of voices){try{voice.stop();}catch{}}context.close().catch(()=>{});}voices.clear();},
   get enabled(){return enabled;}

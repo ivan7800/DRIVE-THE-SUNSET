@@ -1,5 +1,13 @@
 # Cambios de CHASE-404: DRIVE THE SUNSET
 
+## 1.1.0-rc.4 — 13 octubre 2026
+
+- Un encuentro narrativo nuevo en cada carretera (12 en total), con decisiones persistentes y recuperación mediante guardado. Los finales conservan sus 16 variantes y usan la última escena disponible.
+- Cámara trasera y cinematográfica con encuadre progresivo al ganar velocidad; capó conserva el encuadre original.
+- Atmósfera y relleno de luz sutilmente diferenciados por costa, sierra, viñedos y Carmelo.
+- Señales musicales breves para encuentros, elecciones y desvíos, solo con Audio activado.
+- Pruebas nuevas para encuentro/guardado y framing/iluminación. Requiere repetir la verificación del navegador tras estos cambios.
+
 ## 1.1.0-rc.3 — 13 octubre 2026
 
 - Retirado el renderizador de carretera Canvas 2D y su selector; la conducción utiliza WebGL exclusivamente.

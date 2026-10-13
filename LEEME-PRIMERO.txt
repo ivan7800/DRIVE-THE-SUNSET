@@ -9,7 +9,7 @@ CHASE-404: DRIVE THE SUNSET — 1.1.0-rc.2
 El juego necesita HTTP; abrir index.html como archivo no carga los módulos.
 Todos los recursos son locales. No hace falta instalar paquetes para jugar.
 
-Contenido: cuatro carreteras, cuatro coches, 16 recuerdos, ocho encuentros, dieciséis finales, tres desvíos, radio original, foto y copias JSON.
+Contenido: cuatro carreteras, cuatro coches, 16 recuerdos, doce encuentros, dieciséis finales, tres desvíos, radio original, foto y copias JSON.
 El diario permite trasladar y recuperar el progreso con copias de seguridad.
 
 Estado RC2: 28 regresiones dirigidas superadas. HTTP, Chromium y GLES se probaron en la RC1 previa, no se repitieron tras los ajustes RC2. Verifica controles y audio en iPhone; consulta QA_REPORT.md.

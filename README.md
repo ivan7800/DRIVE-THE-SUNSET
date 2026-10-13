@@ -4,7 +4,7 @@
 
 Un juego original de conducción arcade y viajes mediterráneos. Cuatro carreteras, coches americanos ficticios de los años 70, 80 y 90, radio sintetizada y pequeñas historias para descubrir al detenerte.
 
-**Versión: 1.1.0-rc.3.** Candidata a publicación con conducción diferenciada, ocho encuentros y dieciséis desenlaces. RC3 retira el renderizador de carretera 2D: el juego requiere WebGL y bloquea la conducción si no puede inicializarlo. La recertificación en navegador y la prueba física del teléfono siguen pendientes. Consulta [QA_REPORT.md](QA_REPORT.md).
+**Versión: 1.1.0-rc.4.** Candidata a publicación con conducción diferenciada, doce encuentros, cámara dinámica, atmósferas por ruta y señales sonoras. WebGL es el renderizador exclusivo de conducción; la prueba física de móvil y audio audible siguen pendientes. Consulta [QA_REPORT.md](QA_REPORT.md).
 
 ## Empezar
 
@@ -88,7 +88,7 @@ Activa **AUDIO** tras empezar. Las tres emisoras contienen piezas originales sin
 
 ## Ocho encuentros y dieciséis despedidas
 
-Cada carretera tiene dos encuentros opcionales. Cuando aparezca el aviso, detente por debajo de 5 km/h a menos de 125 m del punto y pulsa **E / ESCUCHAR**. La conversación pausa el viaje y permite dos decisiones. Puedes cerrarla sin elegir o pasar de largo.
+Cada carretera tiene tres encuentros opcionales. Cuando aparezca el aviso, detente por debajo de 5 km/h a menos de 125 m del punto y pulsa **E / ESCUCHAR**. La conversación pausa el viaje y permite dos decisiones. Puedes cerrarla sin elegir o pasar de largo; las decisiones se guardan en el viaje.
 
 | Ruta | Primer encuentro | Último encuentro |
 |---|---:|---:|

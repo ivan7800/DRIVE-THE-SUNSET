@@ -1,30 +1,29 @@
 {
-  "version": "1.1.0-rc.3",
+  "version": "1.1.0-rc.4",
   "date": "2026-10-13",
   "classification": "release candidate",
-  "change": "retired full-scene Canvas 2D renderer and automatic fallback; WebGL-only driving with explicit unavailable state",
+  "change": "four additional narrative encounters, speed-aware camera, route atmosphere and interaction audio cues",
   "passed": [
-    "23 logic/data/renderer test files (*.test.mjs)",
-    "runtime smoke with mocked WebGL and simulated DOM",
-    "journey runtime with simulated DOM and events",
-    "build and reproducible bundle check (13 modules)",
-    "syntax checks",
-    "package and relative-path smoke",
-    "no-WebGL path shows warning, disables start and does not start 2D driving",
-    "legacy saved renderer value is ignored and omitted from new saves"
+    "25 archivos tests/*.test.mjs: lógica, controles, guardado, audio cue, cámara y atmósfera",
+    "12 encuentros comprobados en lógica y recorrido de DOM simulado; decisiones persistentes",
+    "framing dinámico por velocidad y cuatro perfiles de luz comprobados",
+    "runtime smoke con WebGL simulado y DOM",
+    "journey runtime con DOM simulado",
+    "bundle reproducible de 15 módulos y sintaxis",
+    "smoke de empaquetado y rutas relativas"
   ],
   "blocked": [
-    "HTTP smoke could not bind loopback socket: PermissionError [Errno 1] Operation not permitted; QA runner stopped before Chromium/GLES"
+    "tests/http-smoke.py no pudo abrir socket loopback: PermissionError [Errno 1] Operation not permitted; runner se detuvo antes de navegador/GLES"
   ],
   "not_executed": [
-    "native browser E2E and WebGL context loss/restoration on real browser",
-    "iPhone/Safari physical device, controls and audio listening",
-    "physical GPU, Windows, Linux Mint, gamepad and long session"
+    "Chromium E2E y WebGL en navegador real sobre RC4",
+    "Safari/iPhone físico, controles táctiles físicos y escucha de audio",
+    "GPU física, Windows, Linux Mint, mando y sesión larga"
   ],
-  "historical_only": "RC1 Chromium/SwiftShader/GLES evidence does not certify RC3",
+  "historical_only": "RC1 Chromium/SwiftShader/GLES evidence does not certify RC4",
   "publication": {
-    "repository_commit": "ddb88258fcc1c5180dcaeddd37736d29fb174b11",
-    "github_pages_rc3_observed": true,
-    "audit_browser_webgl": "unavailable; warning visible and start disabled"
+    "repository_commit": "sin cambios remotos",
+    "github_pages_rc4_observed": false,
+    "note": "RC4 solo está en este paquete local; no se publicó"
   }
 }

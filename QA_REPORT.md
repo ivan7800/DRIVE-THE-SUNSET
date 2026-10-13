@@ -1,4 +1,14 @@
-# Drive the Sunset — auditoría de entrega 1.1.0-rc.3
+# Drive the Sunset — auditoría de entrega 1.1.0-rc.4
+
+## Anexo RC4 · eventos, cámara y atmósfera
+
+**Veredicto:** candidata a release con mayor variedad de escenas y respuesta audiovisual. Se añadió un encuentro por carretera, cámara dinámica en vistas traseras y perfiles de iluminación ambiental por zona. La recertificación completa de Chromium/WebGL, iPhone y audio audible queda pendiente; no se considera publicación certificada.
+
+**Pruebas RC4:** `journey-driving.test.mjs` verifica tres encuentros por ruta y la persistencia de decisiones; `journey-runtime.cjs` recorre la interfaz de los doce encuentros con DOM simulado. `experience-upgrade.test.mjs` verifica framing a velocidad, límites, inmutabilidad y cuatro paletas. No se afirma escucha física.
+
+**No ejecutado en RC4:** sesión humana, mando, Safari/iPhone, audio audible, Chromium con GPU, HTTP local bajo subruta y rendimiento sostenido. Evidencia RC1/RC3 es histórica y no certifica esta candidata.
+
+---
 
 ## Anexo RC3 · retirada del renderizador 2D
 

@@ -8,7 +8,7 @@ import {writeTrip,readTrip,writeJournal,createBackup,validateBackup,importBackup
 const storage=()=>{const m=new Map();return {getItem:k=>m.get(k)||null,setItem:(k,v)=>m.set(k,v),removeItem:k=>m.delete(k)};};
 const endings=[];
 for(const [route,events] of Object.entries(ENCOUNTERS)){
- assert.equal(events.length,2);assert.equal(CHAPTERS[route].length,ROUTES[route].sections.length);
+ assert.equal(events.length,3);assert.equal(CHAPTERS[route].length,ROUTES[route].sections.length);
  for(const event of events){assert(event.at>0&&event.at<ROUTES[route].length);assert.equal(event.options.length,2);}
  const first=events[0];assert.equal(encounterApproach(route,first.at-400,{}).id,first.id,'encounter cue is visible before braking distance');assert.equal(encounterApproach(route,first.at+160,{}).id,first.id,'passed encounter remains recoverable briefly');
  for(const kind of ['quiet','promise','together','home']){
@@ -33,7 +33,7 @@ for(const vehicle of Object.keys(VEHICLES)){
 }
 let hit=advance({...base,route:'carmelo',x:1.36,steerMomentum:1},{right:true,gas:true},1/60);assert(hit.wallContact);assert(hit.x<=1.36);hit=resolveTrafficContact(hit,[],1/60);assert(hit.contact,'border contact survives traffic step');
 const analogue=advance(base,{steerAxis:.4,throttle:.4},1/60),digital=advance(base,{right:true,gas:true},1/60);assert(analogue.steerMomentum<digital.steerMomentum&&analogue.speed<digital.speed);
-console.log('PASS: eight encounters, sixteen outcomes, migration/backup validation, four handling profiles, drift recovery, pedal priority, analogue control and borders');
+console.log('PASS: twelve encounters, sixteen endings, migration/backup validation, four handling profiles, drift recovery, pedal priority, analogue control and borders');
 // Traverse complete road distances with continuous integration, without teleporting.
 const tours=[];
 for(const route of Object.keys(ROUTES))for(const vehicle of Object.keys(VEHICLES)){

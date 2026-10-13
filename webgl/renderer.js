@@ -4,6 +4,8 @@ import {getRoute,routeSection} from '../js/routes.js';
 import {roadCrossSection,followCamera} from './terrain.js';
 import {smoothWeight} from './render-utils.js';
 import {motionStep,orientCarVertex} from './vehicle-motion.js';
+import {cameraFraming} from './camera.js';
+import {routeAtmosphere} from './atmosphere.js';
 
 const CAMERAS=Object.freeze({
  rear:{distance:12.5,height:4.2,look:29,follow:.085},near:{distance:12.5,height:4.2,look:29,follow:.085},
@@ -428,8 +430,9 @@ export function createWebGLRenderer(canvas,options={}){
   if(disposed)throw new Error('Renderizador WebGL cerrado');if(contextLost||gl.isContextLost?.())throw new Error('Contexto WebGL perdido');if(!nextState||!Number.isFinite(nextState.distance)||!Number.isFinite(nextState.x)||!Number.isFinite(nextState.speed))throw new TypeError('Estado del viaje inválido');
   state=nextState;settings=nextSettings;mood=MOODS[settings.mood]||MOODS.sunset;
   if(settings.mood==='sunset'&&settings.livingLight!==false){const t=clamp(state.distance/getRoute(state.route).length,0,1)*.65;mood={};for(const key of Object.keys(MOODS.sunset)){const a=MOODS.sunset[key],b=MOODS.night[key];mood[key]=Array.isArray(a)?a.map((v,i)=>v+(b[i]-v)*t):a+(b-a)*t;}}
+  mood=routeAtmosphere(state.route,mood);
   prepareShape(state);dt=clamp(Number.isFinite(dt)?dt:0,0,.1);time=Number.isFinite(time)?time:0;animationTime=time;viewDistance=settings.quality==='low'?260:settings.quality==='high'?460:350;detailDistance=settings.quality==='low'?65:110;
-  const d=state.distance,route=state.route||'coast',preset=CAMERAS[settings.camera]||CAMERAS.rear;
+  const d=state.distance,route=state.route||'coast',preset=cameraFraming(CAMERAS[settings.camera]||CAMERAS.rear,state.speed);
   if(lastDistance===null||Math.abs(d-lastDistance)>120||(lastRoute!==route&&!state.branchFrom)){camera={x:centerAt(d)+state.x*2.0,y:heightAt(d)+preset.height,yaw:headingAt(d)};motion={phase:0,roll:0,pitch:0,bob:0,cameraBob:0};lastSpeed=state.speed;}
   const reduced=!!settings.reducedMotion,forward=headingAt(d),playerX=centerAt(d)+state.x*5;
   const motionDt=lastAnimationTime===null?dt:clamp(time-lastAnimationTime,0,.1);lastAnimationTime=time;

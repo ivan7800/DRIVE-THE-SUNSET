@@ -109,7 +109,7 @@ function choose(route){
  const previous=s.route;
  s.choices=[...new Set([...(s.choices||[]),previous])];s.selected=true;
  if(route!==previous){s.branchFrom=previous;s.branchSourceDistance=s.distance;s.branchAt=0;s.route=route;s.distance=0;}
- hide('choice',true);saveTrip(true);updateHud();focusRoad();announce('RUMBO A '+getRoute(route).name);
+ hide('choice',true);saveTrip(true);updateHud();focusRoad();audio.cue('route');announce('RUMBO A '+getRoute(route).name);
 }
 function toggleMode(){s.mode=s.mode==='cruise'?'arcade':'cruise';saveTrip(true);updateHud();announce(s.mode==='cruise'?'CRUCERO · TU RITMO':'ARCADE · ACTIVIDADES OPCIONALES');}
 
@@ -196,13 +196,13 @@ function openEncounter(){
  const event=encounterNear(s.route,s.distance,s.run.journey);
  if(!event||!started||paused||modal||Math.abs(s.speed)>=5)return;
  currentEncounter=event;text('encounterTitle',event.title);text('encounterText',event.text);
- text('encounterFirst',event.options[0][0]);text('encounterSecond',event.options[1][0]);openModal('encounter');
+ text('encounterFirst',event.options[0][0]);text('encounterSecond',event.options[1][0]);audio.cue('encounter');openModal('encounter');
 }
 bind('meet',openEncounter);bind('closeEncounter',()=>closeModal());
 for(const [button,index] of [['encounterFirst',0],['encounterSecond',1]])bind(button,()=>{
  if(modal!=='encounter'||!currentEncounter)return;
  const event=currentEncounter;s.run.journey=chooseEncounter(s.run.journey,event.id,index);currentEncounter=null;
- saveTrip(true);closeModal();announce(event.options[index][2]);syncRoadEvents();
+ saveTrip(true);closeModal();audio.cue('choice');announce(event.options[index][2]);syncRoadEvents();
 });
 function updateEncounter(){
  const event=encounterApproach(s.route,s.distance,s.run.journey);

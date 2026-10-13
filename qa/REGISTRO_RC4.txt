@@ -1,0 +1,23 @@
+Drive the Sunset 1.1.0-rc.4 — eventos y acabado audiovisual
+Fecha: 13 octubre 2026
+
+Verificado en esta intervención:
+- Build del bundle: 15 módulos aislados; verificación reproducible PASS.
+- 25 archivos de pruebas de lógica: PASS, incluidos los 12 encuentros, las decisiones, la continuidad de los finales y la persistencia del viaje.
+- Runtime smoke y journey runtime con WebGL mock/DOM simulado: PASS.
+- Nueva prueba de cámara dependiente de velocidad y cuatro perfiles de atmósfera: PASS.
+- Smoke de empaquetado/rutas relativas: PASS.
+- QA_RUN.sh llegó a la etapa HTTP; `tests/http-smoke.py` quedó bloqueado por PermissionError del entorno al abrir loopback; no es un resultado de fallo de la app.
+
+Cambios:
+- Cada una de las cuatro rutas recibe una nueva parada narrativa intermedia; total 12 encuentros opcionales.
+- La validación acepta hasta 12 decisiones y los finales conservan 16 variantes.
+- La cámara trasera/cinemática abre distancia, altura y anticipación con la velocidad; la vista capó se conserva.
+- Costa, sierra, viñedos y Carmelo reciben matices distintos de luz ambiente.
+- Tonos breves de radio señalan apertura/resolución de encuentros y desvíos, solo cuando AUDIO ya está activo.
+
+Pendiente; no se afirma como ejecutado:
+- Juego humano con WebGL/GPU, rendimiento prolongado y ajuste subjetivo de cámara.
+- Safari/iPhone, tacto físico y escucha de las nuevas señales.
+- Smoke HTTP, Chromium E2E, comprobación de publicación bajo subruta, Windows, Mint y mando físico.
+- No se modificó ni publicó el repositorio remoto.
