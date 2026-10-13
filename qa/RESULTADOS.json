@@ -1,29 +1,25 @@
 {
-  "version": "1.1.0-rc.2",
+  "version": "1.1.0-rc.3",
   "date": "2026-10-13",
   "classification": "release candidate",
-  "rc2_targeted_groups_passed": 28,
-  "rc2_targeted_groups_total": 28,
-  "new_checks": [
-    "touch event fallback and release",
-    "early encounter signage",
-    "renderer status/help",
-    "audio context resume reporting and stronger output threshold test added but browser audio RMS not rerun"
+  "change": "retired full-scene Canvas 2D renderer and automatic fallback; WebGL-only driving with explicit unavailable state",
+  "passed": [
+    "23 logic/data/renderer test files (*.test.mjs)",
+    "runtime smoke with mocked WebGL and simulated DOM",
+    "journey runtime with simulated DOM and events",
+    "build and reproducible bundle check (13 modules)",
+    "syntax checks",
+    "package and relative-path smoke",
+    "no-WebGL path shows warning, disables start and does not start 2D driving",
+    "legacy saved renderer value is ignored and omitted from new saves"
   ],
-  "rc1_full_suite": "PASS, retained as historical evidence only",
-  "not_retested_on_rc2": [
-    "HTTP server",
-    "native Chromium",
-    "GLES",
-    "physical iPhone/audio/hardware"
+  "blocked": [
+    "HTTP smoke could not bind loopback socket: PermissionError [Errno 1] Operation not permitted; QA runner stopped before Chromium/GLES"
   ],
-  "pending": [
-    "physical iPhone touch and audio",
-    "iPhone/Safari WebGL",
-    "human driving feel",
-    "Windows/Linux Mint physical",
-    "Firefox/Safari",
-    "long session",
-    "public URL smoke test after rc2 upload"
-  ]
+  "not_executed": [
+    "native browser E2E and WebGL context loss/restoration on real browser",
+    "iPhone/Safari physical device, controls and audio listening",
+    "physical GPU, Windows, Linux Mint, gamepad and long session"
+  ],
+  "historical_only": "RC1 Chromium/SwiftShader/GLES evidence does not certify RC3"
 }

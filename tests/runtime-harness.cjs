@@ -1,5 +1,5 @@
-/* DOM/event harness using the real packaged ESM graph and an actual Canvas2D
- * implementation when available. This is not a browser or a layout engine.
+/* DOM/event harness using the real packaged ESM graph and a test WebGL renderer.
+ * This is not a browser, GPU, or layout engine.
  * No calls to unimplemented drawing methods are silently fabricated.
  */
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
@@ -43,7 +43,7 @@ async function createGame(initial={},options={}){
   getClientRects(){if(this.hidden||this.classList.contains('hidden'))return [];return [{width:this.clientWidth,height:this.clientHeight}];}
   setPointerCapture(){}
   getContext(type){
-   if(type!=='2d')return null; // Explicit unavailable WebGL -> game's real Canvas fallback.
+   if(type!=='2d')return null;
    this.bitmap??=createCanvas(this.width,this.height);
    if(this.context)return this.context;
    const native=this.bitmap.getContext('2d');
@@ -86,6 +86,10 @@ async function createGame(initial={},options={}){
  doc={body,documentElement,hidden:false,activeElement:ids.get('start'),getElementById:id=>ids.get(id)||null,createElement:tag=>new Element(tag),querySelectorAll:selector=>all.filter(el=>selector.split(',').some(s=>matches(el,s))),addEventListener:(type,fn)=>(docEvents[type]??=[]).push(fn)};
  const localStorage={getItem:key=>store.get(key)??null,setItem:(key,value)=>store.set(key,value),removeItem:key=>store.delete(key)};
  const window={document:doc,localStorage,location:{search:options.qa===false?'':'?qa=1',href:'http://localhost/CHASE-404/index.html'},innerWidth:options.width||1280,devicePixelRatio:1,addEventListener:(type,fn)=>(events[type]??=[]).push(fn),setTimeout:fn=>{timers.set(++idCounter,fn);return idCounter},clearTimeout:id=>timers.delete(id)};
+ if(options.qa!==false)window.__CHASE_QA__={rendererFactory:options.webgl===false?null:target=>({
+  render(){const ctx=target.getContext('2d');ctx.fillStyle='#36495b';ctx.fillRect(0,0,target.width,target.height);},
+  resize(){},dispose(){},metrics(){return {vertices:6,drawCalls:1,fps:60}}
+ })};
  if(options.pointerEvents)window.PointerEvent=class PointerEvent{};
  class HarnessURL extends URL{}
  HarnessURL.createObjectURL=blob=>{const url='blob:qa-'+ ++objectId;blobs.set(url,blob);return url};HarnessURL.revokeObjectURL=url=>blobs.delete(url);
@@ -104,13 +108,13 @@ async function createGame(initial={},options={}){
  else{const entry=load(path.resolve(root,entryRef));await entry.link((ref,parent)=>load(path.resolve(path.dirname(parent.identifier),ref)));await entry.evaluate();}
  function dispatch(type,extra={}){const event={target:doc.activeElement,currentTarget:window,code:'',key:'',repeat:false,preventDefault(){this.defaultPrevented=true},...extra};for(const fn of events[type]||[])fn(event);return event;}
  return {elements:ids,all,document:doc,window,store,storage:localStorage,downloads,frames,navigator,
-  get qa(){return window.__CHASE_QA__},get nativeCanvas(){return ids.get('game').bitmap;},
+  get qa(){return window.__CHASE_QA__},get nativeCanvas(){return ids.get('game3d').bitmap;},
   click:id=>{const el=ids.get(id);if(!el)throw Error('Missing control: '+id);el.click()},
   change:(id,value,type='change')=>{const el=ids.get(id);if(!el)throw Error('Missing control: '+id);el.value=value;return el.dispatch(type)},
   key:(code,type='keydown',extra={})=>dispatch(type,{code,key:code,...extra}),dispatch,
   frame:time=>{const first=frames.entries().next().value;if(first){frames.delete(first[0]);first[1](time)}},
   visible:hidden=>{doc.hidden=hidden;for(const fn of docEvents.visibilitychange||[])fn();},
-  savePng:filename=>fs.writeFileSync(filename,ids.get('game').bitmap.toBuffer('image/png'))
+  savePng:filename=>fs.writeFileSync(filename,ids.get('game3d').bitmap.toBuffer('image/png'))
  };
 }
 module.exports={createGame,hasCanvas:!!createCanvas};

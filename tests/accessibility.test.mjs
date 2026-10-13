@@ -11,6 +11,9 @@ for(const [id,label] of [['intro','introTitle'],['helpPane','helpTitle'],['finis
 }
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]);assert.equal(new Set(ids).size,ids.length,'unique HTML IDs');
 assert.match(html,/<canvas\b[^>]*id="game"[^>]*tabindex="0"/,'driving canvas can receive keyboard focus');
+assert.doesNotMatch(html,/id="rendererPick"|Canvas · arcade 2D/,'the 2D driving renderer is not selectable');
+assert.match(html,/<aside\b[^>]*id="rendererWarning"[^>]*role="alert"/,'WebGL failure is announced accessibly');
+assert.match(html,/id="retryRenderer"/,'WebGL can be retried from the visible warning');
 const implicitLabels=[...html.matchAll(/<label\b[^>]*>([\s\S]*?)<\/label>/g)].map(match=>match[1]);
 for(const match of html.matchAll(/<input\b[^>]*id="([^"]+)"[^>]*>/g))assert(html.includes('for="'+match[1]+'"')||/aria-label=/.test(match[0])||implicitLabels.some(label=>label.includes('id="'+match[1]+'"')),'input labelled: '+match[1]);
 console.log('PASS: 8 dialog semantics, unique IDs, labelled controls and keyboard canvas (static inspection only)');

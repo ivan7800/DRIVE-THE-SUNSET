@@ -13,7 +13,7 @@ const {createGame}=require('./runtime-harness.cjs');
  }
  assert.equal(game.qa.snapshot().journal.endings.length,4);const saved=Object.fromEntries(game.store);game=await createGame(saved);assert.equal(game.qa.snapshot().journal.endings.length,4);game.click('continue');game.qa.teleport({route:'coast',distance:1030,speed:0});game.click('collectMemory');assert.equal(game.qa.snapshot().journal.endings.length,4,'collecting a memory preserves endings');
  game.click('journal');game.click('backupExport');const backup=JSON.parse(await game.downloads.at(-1).blob.text());assert.equal(backup.data.journal.endings.length,4);
- console.log('PASS: actual ESM encounter UI, touch fallback with/without Pointer Events, all four story endings, focus/pause, native Canvas, alias keys, reload and JSON export; DOM events simulated');
+ console.log('PASS: actual ESM encounter UI, touch fallback with/without Pointer Events, all four story endings, focus/pause, WebGL mock, alias keys, reload and JSON export; DOM events simulated');
  game.click('closeJournal');game.click('garage');game.change('qualityPick','auto');game.click('closeGarage');
  for(let i=0;i<100;i++)game.frame(3000+i*45);
  assert(game.qa.metrics().renderScale<1,'auto quality adapts after slow frame samples');

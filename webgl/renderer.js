@@ -129,7 +129,7 @@ export function createWebGLRenderer(canvas,options={}){
  let lastDistance=null,lastRoute=null,lastSpeed=0,lastRender=0,lastAnimationTime=null,frameTimes=[];
  let state={},settings={},mood=MOODS.sunset,viewDistance=340,detailDistance=100,animationTime=0;
  function onLost(event){event.preventDefault();contextLost=true;options.onContextLost?.(new Error('Contexto WebGL perdido'));}
- function onRestored(){contextLost=true;options.onContextLost?.(new Error('Contexto restaurado: usa Canvas o vuelve a elegir WebGL'));}
+ function onRestored(){contextLost=true;options.onContextLost?.(new Error('Contexto restaurado: vuelve a intentar WebGL'));}
  canvas.addEventListener('webglcontextlost',onLost);canvas.addEventListener('webglcontextrestored',onRestored);
  function resize(width,height){
   if(disposed)return;const w=Math.max(1,Math.floor(width||canvas.clientWidth||1)),h=Math.max(1,Math.floor(height||canvas.clientHeight||1));

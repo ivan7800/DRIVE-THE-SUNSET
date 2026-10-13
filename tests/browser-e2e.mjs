@@ -34,13 +34,13 @@ try{
  const snapshot=()=>page.evaluate(()=>window.__CHASE_QA__.snapshot());
  await page.goto(base+'index.html?qa=1');await page.waitForFunction(()=>!!window.__CHASE_QA__);await page.screenshot({path:resolve(evidence,'browser-desktop-intro.png')});
  await page.locator('#start').click();assert((await snapshot()).started);await page.keyboard.down('KeyW');await page.waitForTimeout(300);await page.keyboard.up('KeyW');assert((await snapshot()).state.distance>0);results.push('native browser entry, first frame and W');
- await page.locator('#garage').click();await page.locator('#rendererPick').selectOption('canvas');await page.locator('#vehiclePick').selectOption('meridian');await page.locator('#moodPick').selectOption('rain');await page.locator('#closeGarage').click();
+ await page.locator('#garage').click();await page.locator('#vehiclePick').selectOption('meridian');await page.locator('#moodPick').selectOption('rain');await page.locator('#closeGarage').click();
  assert.equal(await page.evaluate(()=>document.activeElement.id),'game');assert.equal((await snapshot()).state.vehicle,'meridian');await page.keyboard.down('KeyW');await page.waitForTimeout(150);await page.keyboard.up('KeyW');results.push('garage state and native focus return');
  for(const [open,close] of [['help','closeHelp'],['journal','closeJournal'],['routeMenu','closeRoutes']]){
   await page.locator('#'+open).click();assert((await snapshot()).modal);await page.keyboard.press('Escape');assert.equal((await snapshot()).modal,null);assert.equal(await page.evaluate(()=>document.activeElement.id),'game');
  }
  results.push('help, journal and routes native Escape/focus');
- await page.locator('#garage').click();await page.locator('#rendererPick').selectOption('webgl');await page.locator('#closeGarage').click();
+ await page.locator('#garage').click();await page.locator('#closeGarage').click();
  const renderer=(await snapshot()).renderer;
  const gpu=await page.evaluate(()=>{const canvas=document.getElementById('game3d'),gl=canvas?.getContext('webgl');if(!gl)return null;const ext=gl.getExtension('WEBGL_debug_renderer_info');return {renderer:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER),vendor:ext?gl.getParameter(ext.UNMASKED_VENDOR_WEBGL):gl.getParameter(gl.VENDOR)}});
  await page.screenshot({path:resolve(evidence,'browser-desktop-driving.png')});results.push('selected renderer '+renderer+'; '+JSON.stringify(gpu));
@@ -71,7 +71,7 @@ try{
  results.push('eight optional encounter dialogs, four native route endings and focus recovery');
  await page.reload();await page.waitForFunction(()=>!!window.__CHASE_QA__);const recoveredEndings=(await snapshot()).journal.endings;assert(Object.keys(ENCOUNTERS).every(route=>recoveredEndings.includes(route+':promise')));await page.locator('#continue').click();results.push('story endings survive native reload');
  // Sample real RAF intervals. SwiftShader and this host are explicitly reported.
- await page.locator('#garage').click();await page.locator('#rendererPick').selectOption('webgl');await page.locator('#qualityPick').selectOption('low');await page.locator('#moodPick').selectOption('sunset');await page.locator('#closeGarage').click();
+ await page.locator('#garage').click();await page.locator('#qualityPick').selectOption('low');await page.locator('#moodPick').selectOption('sunset');await page.locator('#closeGarage').click();
  for(const [route,distance] of [['coast',620],['mountain',2500],['vineyards',3400],['carmelo',2250]]){
   await page.locator('#routeMenu').click();await page.locator('[data-route="'+route+'"]').click();
   await page.evaluate(({route,distance})=>window.__CHASE_QA__.teleport({route,distance,speed:70,x:0}),{route,distance});
@@ -82,9 +82,9 @@ try{
  await page.locator('#garage').click();await page.locator('#qualityPick').selectOption('auto');await page.locator('#closeGarage').click();await page.keyboard.down('KeyW');
  const autoSample=await page.evaluate(async()=>{const times=[];let last=null;await new Promise(resolve=>{let count=0;function tick(t){if(last!==null&&count>180)times.push(t-last);last=t;if(++count>=226)resolve();else requestAnimationFrame(tick);}requestAnimationFrame(tick);});return {fps:1000/(times.reduce((a,b)=>a+b,0)/times.length),frames:times.length,renderer:window.__CHASE_QA__.metrics()};});await page.keyboard.up('KeyW');benchmarks.push({route:'carmelo',quality:'auto',...autoSample});
  assert.equal(await page.evaluate(()=>document.getElementById('game3d').getContext('webgl').getError()),0,'browser WebGL no GL error after driving');
- // Exercise context loss/restoration using the browser extension, including fallback.
+ // Exercise context loss/restoration using the browser extension; the game blocks input while WebGL is unavailable.
  const canLose=await page.evaluate(()=>{const gl=document.getElementById('game3d').getContext('webgl'),ext=gl?.getExtension('WEBGL_lose_context');if(!ext)return false;window.__qaLose=ext;ext.loseContext();return true;});
- if(canLose){await page.waitForFunction(()=>window.__CHASE_QA__.snapshot().renderer==='canvas');await page.evaluate(()=>window.__qaLose.restoreContext());await page.waitForFunction(()=>window.__CHASE_QA__.snapshot().renderer==='webgl');results.push('native WebGL context loss switches to Canvas and restores 3D');}
+ if(canLose){await page.waitForFunction(()=>window.__CHASE_QA__.snapshot().renderer==='unavailable');assert(await page.locator('#rendererWarning').isVisible());await page.evaluate(()=>window.__qaLose.restoreContext());await page.waitForFunction(()=>window.__CHASE_QA__.snapshot().renderer==='webgl');assert.equal(await page.locator('#rendererWarning').isVisible(),false);results.push('native WebGL context loss blocks rendering and restores 3D without 2D fallback');}
  // Verify Web Audio produces a signal, without claiming a human listening test.
  await page.evaluate(()=>{const AC=window.AudioContext||window.webkitAudioContext,create=AC.prototype.createDynamicsCompressor;AC.prototype.createDynamicsCompressor=function(){const node=create.call(this),analyser=this.createAnalyser();analyser.fftSize=2048;node.connect(analyser);window.__qaAudio={context:this,analyser};return node;};});
  await page.locator('#audio').click();await page.waitForFunction(()=>window.__qaAudio?.context.state==='running');await page.waitForTimeout(350);

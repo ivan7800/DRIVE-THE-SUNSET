@@ -1,6 +1,6 @@
 import {readTrip,writeTrip,clearTrip,readSettings,writeSettings,readJournal,writeJournal,readActivityLog,writeActivityLog,readPostcard,writePostcard,createBackup,validateBackup,importBackup,validateTrip,validateSettings,DEFAULT_SETTINGS,SETTINGS_KEY,PREIMPORT_KEY} from './save.js';
 import {STORIES,storyKey,storyNear,safeJournal} from './stories.js';
-import {drawScene,drawMiniMap} from './visuals.js';
+import {drawMiniMap} from './visuals.js';
 import {CHAPTERS,ENCOUNTERS,ENDINGS,encounterNear,encounterApproach,chooseEncounter,endingFor} from './journey.js';
 import {ROUTES,getRoute,nearestLandmark,routeSection} from './routes.js';
 import {advance,clamp,junctionApproach,VEHICLES,HANDLING,trafficCars,resolveTrafficContact} from './physics.js';
@@ -9,14 +9,16 @@ import {createAudio} from './audio.js';
 import {createWebGLRenderer} from '../webgl/renderer.js';
 
 const $=id=>document.getElementById(id);
-const canvas=$('game'),canvas3d=$('game3d'),ctx=canvas.getContext('2d',{alpha:false}),mini=$('mini'),mctx=mini.getContext('2d');
+const canvas=$('game'),canvas3d=$('game3d'),mini=$('mini'),mctx=mini.getContext('2d');
+const rendererFactory=new URLSearchParams(window.location.search).has('qa')?window.__CHASE_QA__?.rendererFactory:null;
+const makeWebGLRenderer=rendererFactory||createWebGLRenderer;
 let storage;
 try{storage=window.localStorage;}catch{storage={getItem(){return null;},setItem(){throw new Error('Storage blocked');},removeItem(){throw new Error('Storage blocked');}};}
 let settings=readSettings(storage),journalData=readJournal(storage),activityLog=readActivityLog(storage),savedTrip=readTrip(storage);
 try{if(!storage.getItem(SETTINGS_KEY)&&window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)settings.reducedMotion=true;}catch{}
 let s=initialState('coast','cruise'),started=false,paused=true,modal='intro',pausedBeforeModal=true;
 let raf=0,last=0,lastSaveTime=0,lastSavedDistance=-1,trafficClock=0,animationClock=0,activeStory=null;
-let audioEnabled=false,webgl=null,renderer='canvas',rendererFailed=false,storageWarning=false,toastTimer=0;
+let audioEnabled=false,webgl=null,renderer='unavailable',rendererFailed=true,storageWarning=false,toastTimer=0;
 let renderScale=1,performanceSamples=[],fastWindows=0;
 const audio=createAudio(),stepper=createFixedStepper();
 const keyCodes=new Set(),touchKeys=new Set(),pointerKeys=new Set();
@@ -71,6 +73,7 @@ function openModal(name){
  hide(panelIds[name],false);$(panelFirst[name])?.focus({preventScroll:true});updateHud();
 }
 function beginTrip(resume=false){
+ if(renderer!=='webgl'||!webgl){announce('WEBGL NO DISPONIBLE · ACTIVA LA ACELERACIÓN GRÁFICA Y REINTENTA');return;}
  if(resume){
   savedTrip=readTrip(storage);if(!savedTrip){announce('NO HAY UN VIAJE VÁLIDO PARA RECUPERAR');refreshContinue();return;}
   const legacyChoices=savedTrip.choices||(savedTrip.selected?[savedTrip.branchFrom||savedTrip.route]:[]);
@@ -88,7 +91,7 @@ function pause(force){
  announce(paused?'VIAJE EN PAUSA':'BUEN VIAJE');if(!paused)focusRoad();
 }
 function reset(route=s.route){
- if(!Object.hasOwn(ROUTES,route))return;
+ if(renderer!=='webgl'||!webgl||!Object.hasOwn(ROUTES,route))return;
  const activity=s.run.activity.type;s.route=route;if(modal)closeModal(false,false);
  s=initialState(route,s.mode);s.run=selectActivity(s.run,activity,0);started=true;paused=false;activeStory=null;trafficClock=0;last=0;lastSavedDistance=-1;clearKeys();
  hide('finish',true);hide('choice',true);hide('stop',true);hide('storyStop',true);text('postcardState','');
@@ -135,7 +138,7 @@ for(const key of Object.keys(DEFAULT_SETTINGS)){
   if(!candidate||candidate[key]!==value){syncSettingsControls();return;}
   settings=candidate;if(key==='vehicle'){s.vehicle=settings.vehicle;settings.paint=VEHICLES[s.vehicle].color;}
   if(!writeSettings(storage,settings))warnStorage();
-  applySettings();if(key==='renderer'){rendererFailed=false;configureRenderer();}if(key==='quality'){renderScale=1;performanceSamples=[];fastWindows=0;size();}
+  applySettings();if(key==='quality'){renderScale=1;performanceSamples=[];fastWindows=0;size();}
   updateHud();saveTrip(true);
  },['musicVolume','engineVolume','ambientVolume'].includes(key)?'input':'change');
 }
@@ -273,15 +276,16 @@ bind('backupImport',async event=>{
   saveTrip(true);
   const result=importBackup(storage,raw);if(!result.ok)throw new Error(result.rollbackOk===false?'No se ha restaurado: revisa el almacenamiento y conserva tu copia':result.error);
   settings=readSettings(storage);journalData=readJournal(storage);activityLog=readActivityLog(storage);started=false;s=initialState();
-  applySettings();rendererFailed=false;configureRenderer();returnHome();refreshContinue();announce('COPIA RESTAURADA · PUEDES CONTINUAR EL VIAJE');
+  applySettings();configureRenderer();returnHome();refreshContinue();announce('COPIA RESTAURADA · PUEDES CONTINUAR EL VIAJE');
  }catch(error){announce('IMPORTACIÓN CANCELADA · '+error.message);}finally{input.value='';}
 },'change');
 bind('capturePhoto',()=>{
  try{
-  render();const source=renderer==='webgl'?canvas3d:canvas,photo=document.createElement('canvas');photo.width=source.width;photo.height=source.height;
+  if(renderer!=='webgl'||!webgl)throw new Error('WebGL no disponible');
+  render();const source=canvas3d,photo=document.createElement('canvas');photo.width=source.width;photo.height=source.height;
   photo.getContext('2d').drawImage(source,0,0);
   photo.toBlob(blob=>{if(!blob){announce('NO SE HA PODIDO CAPTURAR LA FOTO');return;}downloadBlob(blob,'CHASE-404_'+s.route+'_'+new Date().toISOString().replace(/[:.]/g,'-')+'.png');announce('FOTO DESCARGADA · SIN INTERFAZ');},'image/png');
- }catch{announce('CAPTURA NO DISPONIBLE · PRUEBA EL MODO CANVAS');}
+ }catch{announce('FOTO NO DISPONIBLE · REINTENTA CUANDO WEBGL ESTÉ ACTIVO');}
 });
 
 function updateHud(){
@@ -330,31 +334,32 @@ function simulate(dt,input){
 }
 
 function configureRenderer(){
- if(settings.renderer==='canvas'||rendererFailed||!canvas3d){renderer='canvas';}
- else{
-  try{
-   if(!webgl)webgl=createWebGLRenderer(canvas3d,{onContextLost:()=>{rendererFailed=true;renderer='canvas';showRenderer();announce('CONTEXTO 3D PERDIDO · CONTINUAMOS EN CANVAS');}});
-   renderer='webgl';
-  }catch(error){renderer='canvas';rendererFailed=true;console.info('CHASE-404: Canvas fallback',error.message);}
- }
+ try{
+  if(!canvas3d)throw new Error('No existe el lienzo WebGL');
+  if(!webgl)webgl=makeWebGLRenderer(canvas3d,{onContextLost:()=>{rendererFailed=true;renderer='unavailable';paused=true;clearKeys();saveTrip(true);showRenderer();announce('CONTEXTO WEBGL PERDIDO · EL VIAJE ESTÁ EN PAUSA');}});
+  renderer='webgl';rendererFailed=false;
+ }catch(error){renderer='unavailable';rendererFailed=true;webgl=null;console.info('CHASE-404: WebGL unavailable',error.message);}
  showRenderer();size();
 }
+bind('retryRenderer',()=>{try{webgl?.dispose();}catch{}webgl=null;configureRenderer();announce(renderer==='webgl'?'WEBGL ACTIVO · YA PUEDES CONDUCIR':'WEBGL SIGUE SIN ESTAR DISPONIBLE · REVISA LA ACELERACIÓN GRÁFICA');});
 function showRenderer(){
- canvas.style.visibility='visible';canvas.style.opacity=renderer==='webgl'?'0':'1';if(canvas3d){canvas3d.style.visibility=renderer==='webgl'?'visible':'hidden';canvas3d.style.pointerEvents='none';}
- for(const id of ['cameraPick','headlightsPick'])if($(id)){$(id).disabled=renderer!=='webgl';$(id).title=renderer==='webgl'?'':'Disponible en el renderizador 3D WebGL';}
- text('renderStatus',renderer==='webgl'?'3D WEBGL':rendererFailed?'CANVAS · 3D NO DISPONIBLE':'CANVAS');
- text('rendererHelp',renderer==='webgl'?'Renderizador activo: 3D WebGL. Cámara y faros están disponibles.':rendererFailed?'WebGL no se pudo iniciar en este navegador; el juego sigue en Canvas 2D. Prueba Automático en un navegador con WebGL.':'Renderizador activo: Canvas 2D. Automático usará 3D si WebGL está disponible.');
+ const ready=renderer==='webgl'&&!!webgl;
+ canvas.style.visibility='visible';canvas.style.opacity='0';if(canvas3d){canvas3d.style.visibility=ready?'visible':'hidden';canvas3d.style.pointerEvents='none';}
+ for(const id of ['cameraPick','headlightsPick'])if($(id)){$(id).disabled=!ready;$(id).title=ready?'':'Requiere WebGL activo';}
+ for(const id of ['start','continue'])if($(id))$(id).disabled=!ready;
+ hide('rendererWarning',ready);
+ text('renderStatus',ready?'WEBGL · 3D':'WEBGL NO DISPONIBLE');
 }
 function size(){
  const ratio=settings.quality==='low'?1:settings.quality==='high'?2:(window.innerWidth<700?1:1.5),dpr=Math.min(window.devicePixelRatio||1,ratio)*(settings.quality==='auto'?renderScale:1);
  const w=Math.max(1,Math.round(canvas.clientWidth*dpr)),h=Math.max(1,Math.round(canvas.clientHeight*dpr));
- canvas.width=w;canvas.height=h;ctx.setTransform(dpr,0,0,dpr,0,0);
+ canvas.width=w;canvas.height=h;
  if(canvas3d){canvas3d.width=w;canvas3d.height=h;if(webgl)webgl.resize(w,h);}
 }
 function render(dt=0){
- if(renderer==='webgl'){
-  try{webgl.render(s,settings,dt,animationClock);}catch(error){rendererFailed=true;renderer='canvas';showRenderer();console.info('CHASE-404: rendering fallback',error.message);drawScene(ctx,canvas.clientWidth,canvas.clientHeight,s,settings,animationClock);announce('3D NO DISPONIBLE · CONTINUAMOS EN CANVAS');}
- }else drawScene(ctx,canvas.clientWidth,canvas.clientHeight,s,settings,animationClock);
+ if(renderer==='webgl'&&webgl){
+  try{webgl.render(s,settings,dt,animationClock);}catch(error){rendererFailed=true;renderer='unavailable';paused=true;clearKeys();showRenderer();console.info('CHASE-404: WebGL rendering failed',error.message);saveTrip(true);announce('ERROR DE RENDERIZADO WEBGL · EL VIAJE ESTÁ EN PAUSA');}
+ }
  drawMiniMap(mctx,s);
 }
 let gamepadStart=false,gamepadConnected=false;

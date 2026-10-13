@@ -1,4 +1,22 @@
-# Drive the Sunset — auditoría de entrega 1.1.0-rc.2
+# Drive the Sunset — auditoría de entrega 1.1.0-rc.3
+
+## Anexo RC3 · retirada del renderizador 2D
+
+**Veredicto:** RC3 elimina el renderizado 2D de la carretera y su selección. El modo de conducción ya no cae silenciosamente a Canvas cuando WebGL falla: bloquea el inicio, explica el requisito y permite reintentar. Sigue siendo candidata; no certifico publicación porque no se pudo iniciar el servidor HTTP de pruebas ni repetir Chromium/GPU en esta intervención.
+
+**Hallazgo corregido:** la causa era `configureRenderer()` en `js/main.js`: ante un error de contexto WebGL seleccionaba `renderer='canvas'` y dibujaba la escena completa con `drawScene()`. La pantalla mostraba una presentación 2D aunque el usuario buscara la versión 3D. Ahora ese camino se ha retirado; Canvas se conserva solo para minimapa y exportación PNG.
+
+**Pruebas RC3 ejecutadas:** 23 archivos `*.test.mjs`, los dos flujos de runtime, generación/verificación del bundle y prueba de empaquetado pasan. El smoke incluye WebGL simulado y verifica que, si falta, el juego muestra `rendererWarning`, deshabilita iniciar y no empieza una partida 2D. Esto no equivale a ejecutar WebGL real ni comprobar una GPU.
+
+**Prueba bloqueada:** `tests/http-smoke.py` no pudo abrir un puerto local; Python devolvió `PermissionError: [Errno 1] Operation not permitted`. El runner se detuvo ahí. HTTP, Chromium E2E, shaders con navegador y conducción en iPhone/Safari quedan pendientes en RC3. La causa observada es la restricción del entorno de pruebas, no un fallo del juego.
+
+**Impacto intencional:** los dispositivos y navegadores sin WebGL ya no podrán conducir; verán un aviso que pide activar la aceleración gráfica y ofrece reintentar. Los guardados previos siguen aceptándose y su campo obsoleto `renderer` se ignora.
+
+**Estado de publicación:** los cambios de esta RC3 están en el árbol local del proyecto. La actualización del repositorio y de GitHub Pages debe confirmarse por separado antes de afirmar que la web pública ya la sirve.
+
+---
+
+## Registro histórico RC2
 
 Fecha: 13 de octubre de 2026. Esta RC2 corrige observaciones recibidas tras la publicación. La suite HTTP/Chromium/GLES completa disponible corresponde a RC1 y se conserva como historial; no se ejecutó de nuevo sobre RC2. Sin cambios remotos.
 

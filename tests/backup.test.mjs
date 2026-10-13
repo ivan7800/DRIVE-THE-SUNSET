@@ -5,8 +5,10 @@ const createStorage=()=>{const entries=new Map();return {entries,getItem:key=>en
 const source=createStorage();
 const trip={route:'carmelo',vehicle:'meridian',mode:'arcade',distance:4200,x:-.1,selected:true,postcard:true,finished:false,choices:['coast','mountain','vineyards'],run:createRun(0,'trip-backup-test')};
 assert(writeTrip(source,trip));assert(writeSettings(source,{...DEFAULT_SETTINGS,vehicle:'meridian',renderer:'canvas',mood:'rain',reducedMotion:true}));
+assert.equal(Object.hasOwn(readSettings(source),'renderer'),false,'legacy renderer choice is ignored after 2D mode retirement');
 assert(writeJournal(source,{schemaVersion:1,memories:['coast:faro','carmelo:cine']}));assert(writePostcard(source));
 const backup=createBackup(source);assert(validateBackup(backup));
+assert.equal(Object.hasOwn(backup.data.settings,'renderer'),false,'new backups do not store an obsolete renderer choice');
 const restored=createStorage();assert(importBackup(restored,backup).ok);assert.deepEqual(readTrip(restored),trip);assert.equal(readSettings(restored).mood,'rain');assert.deepEqual(readJournal(restored).memories,['coast:faro','carmelo:cine']);assert.equal(restored.getItem(POSTCARD_KEY),'true');
 assert(restored.getItem(PREIMPORT_KEY),'pre-import safety backup exists');
 for(const modify of [b=>b.app='OTHER',b=>b.schemaVersion=99,b=>b.data.trip.route='bogus',b=>b.data.trip.distance=Infinity,b=>b.data.settings.renderer='script',b=>b.data.settings.paint='url(https://bad)',b=>b.data.journal.memories.push('<img onerror=alert(1)>'),b=>b.data.activities.records.push({})]){

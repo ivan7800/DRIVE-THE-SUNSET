@@ -4,7 +4,7 @@
 
 Un juego original de conducción arcade y viajes mediterráneos. Cuatro carreteras, coches americanos ficticios de los años 70, 80 y 90, radio sintetizada y pequeñas historias para descubrir al detenerte.
 
-**Versión: 1.1.0-rc.2.** Candidata a publicación con conducción diferenciada, ocho encuentros y dieciséis desenlaces. La base RC1 pasó Chromium headless/SwiftShader, lógica, Canvas2D, GLES y HTTP. Esta RC2 añade ajustes reportados desde iPhone; 28 regresiones dirigidas pasan, pero su recertificación en navegador y la prueba física del teléfono siguen pendientes. Consulta [QA_REPORT.md](QA_REPORT.md).
+**Versión: 1.1.0-rc.3.** Candidata a publicación con conducción diferenciada, ocho encuentros y dieciséis desenlaces. RC3 retira el renderizador de carretera 2D: el juego requiere WebGL y bloquea la conducción si no puede inicializarlo. La recertificación en navegador y la prueba física del teléfono siguen pendientes. Consulta [QA_REPORT.md](QA_REPORT.md).
 
 ## Empezar
 
@@ -101,7 +101,7 @@ Cada ruta tiene cuatro despedidas: sin encuentro final, cumplir el encargo, comp
 
 La resolución de escenas y recorridos se ha probado con automatización; no es una afirmación sobre horas de juego humano.
 
-**FOTO** pausa la simulación y oculta el HUD. «Guardar foto» descarga un PNG del renderizador activo. La cámara y los faros configurables pertenecen a WebGL y se desactivan en Canvas.
+**FOTO** pausa la simulación y oculta el HUD. «Guardar foto» descarga un PNG de la escena WebGL.
 
 ## Datos y copias
 
@@ -115,10 +115,7 @@ Los guardados v1 anteriores se siguen leyendo y se escriben como v2. No se borra
 
 ## Gráficos y accesibilidad
 
-Un único viaje alimenta los dos renderizadores. Automático intenta WebGL y cambia a Canvas si falla el contexto o la inicialización. La elección manual está en el garaje.
-
-- **WebGL:** geometría 3D original, luz, faros, fachadas, terreno, tráfico y tres cámaras.
-- **Canvas:** presentación arcade con perspectiva, los mismos coches, rutas y sistemas; alternativa de menor complejidad gráfica.
+La carretera se dibuja únicamente con **WebGL**: geometría 3D original, luz, faros, fachadas, terreno, tráfico y tres cámaras. El minimapa y la exportación PNG usan Canvas 2D como utilidades de interfaz; no son un modo alternativo de conducción. Si WebGL no está disponible, el juego informa del requisito y bloquea el inicio en lugar de cambiar a otra presentación.
 
 No requieren frameworks, CDN, fuentes descargadas ni archivos de modelos externos. La calidad «Ahorro» reduce detalle y resolución. «Automático» adapta la resolución interna tras 90 muestras lentas y la recupera de forma gradual; el HUD conserva su resolución. El terreno y los edificios se reutilizan entre tramos de 24 m. Los valores medidos pertenecen al equipo de prueba, no son FPS universales. Movimiento reducido, contraste y texto grande son independientes del clima; la preferencia del sistema para movimiento reducido se usa por defecto cuando aún no hay ajustes.
 
@@ -143,7 +140,7 @@ bash QA_RUN.sh
 
 La entrada del juego usa módulos nativos, no el bundle. El builder mantiene ámbitos separados y comprueba un espejo clásico reproducible; nunca concatenes los módulos retirando sus imports.
 
-El smoke de Canvas necesita `@napi-rs/canvas` como herramienta de desarrollo. Si no está disponible se informa como pendiente. El test de navegador opcional necesita Playwright y un Chromium operativo: define `CHASE_BROWSER_BINARY` antes del runner. Ninguna de esas dependencias se carga en el juego.
+El smoke de runtime usa un renderizador WebGL simulado para validar DOM, controles y progresión; no comprueba una GPU. El test de navegador opcional necesita Playwright y un Chromium operativo: define `CHASE_BROWSER_BINARY` antes del runner. Ninguna de esas dependencias se carga en el juego.
 
 El replay GLES se reproduce en Linux con EGL/GLES de Mesa y Pillow:
 

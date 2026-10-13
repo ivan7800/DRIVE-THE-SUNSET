@@ -1,0 +1,19 @@
+Drive the Sunset 1.1.0-rc.3 — retirada del renderizador de carretera 2D
+Fecha: 13 octubre 2026.
+
+Verificado en Linux / Node.js 24.19.0 / Python 3.12.14:
+- 23 archivos tests/*.test.mjs: PASS.
+- tests/runtime-smoke.cjs: PASS con WebGL simulado, DOM simulado y Canvas nativo solo para utilidades/PNG.
+- tests/journey-runtime.cjs: PASS con DOM/eventos simulados.
+- node tools/build.mjs y node tools/build.mjs --check: PASS, 13 módulos.
+- tests/package-smoke.py: PASS (rutas relativas, entrada ESM, archivos).
+- Syntax check de scripts/módulos en QA_RUN.sh: PASS.
+- Fallo WebGL: PASS; sin rendererFactory real, renderizador queda unavailable, aviso visible, inicio deshabilitado, no comienza viaje.
+- Compatibilidad de guardado: PASS; el campo renderer antiguo se acepta con valor permitido, se descarta al leer y no se exporta en copia nueva.
+
+No ejecutado / bloqueado:
+- tests/http-smoke.py no pudo abrir el loopback: PermissionError [Errno 1] Operation not permitted.
+- El runner se detuvo antes de Chromium/GLES; no se ejecutó navegador nativo ni GPU real en RC3.
+- No se probó iPhone/Safari físico, controles físicos ni sensación de conducción.
+
+El renderizador WebGL se probó mediante contrato simulado en runtime-smoke. Eso no demuestra que el shader o una GPU real funcionen; la suite browser/GLES histórica RC1 se mantiene únicamente como historial.

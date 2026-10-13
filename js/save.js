@@ -10,11 +10,12 @@ export const ACTIVITY_KEY='last-light-activities-v1';
 export const POSTCARD_KEY='last-light-postcard-v1';
 export const PREIMPORT_KEY='last-light-before-import-v1';
 export const PAINTS=['#a54548','#e7c58e','#588c9c','#516c66','#222d42','#d7dbcf'];
-export const DEFAULT_SETTINGS=Object.freeze({vehicle:'vesper',traffic:'light',steering:'normal',quality:'auto',renderer:'auto',mood:'sunset',paint:'#a54548',wheels:'classic',musicVolume:.38,engineVolume:.5,ambientVolume:.45,livingLight:true,reducedMotion:false,highContrast:false,hudScale:'normal',camera:'rear',headlights:'auto'});
+export const DEFAULT_SETTINGS=Object.freeze({vehicle:'vesper',traffic:'light',steering:'normal',quality:'auto',mood:'sunset',paint:'#a54548',wheels:'classic',musicVolume:.38,engineVolume:.5,ambientVolume:.45,livingLight:true,reducedMotion:false,highContrast:false,hudScale:'normal',camera:'rear',headlights:'auto'});
 const finite=(v,a,b)=>typeof v==='number'&&Number.isFinite(v)&&v>=a&&v<=b;
-const choices={traffic:TRAFFIC_LEVELS,steering:['soft','normal','sharp'],quality:['auto','low','high'],renderer:['auto','canvas','webgl'],mood:['sunset','night','rain','dawn'],wheels:['classic','sport'],hudScale:['normal','large'],camera:['rear','cinematic','hood'],headlights:['auto','on','off']};
+const choices={traffic:TRAFFIC_LEVELS,steering:['soft','normal','sharp'],quality:['auto','low','high'],mood:['sunset','night','rain','dawn'],wheels:['classic','sport'],hudScale:['normal','large'],camera:['rear','cinematic','hood'],headlights:['auto','on','off']};
 export function validateSettings(raw){
  if(!raw||![1,2].includes(raw.schemaVersion))return null;
+ if(raw.renderer!==undefined&&!['auto','canvas','webgl'].includes(raw.renderer))return null;
  const valid={...DEFAULT_SETTINGS};
  if(Object.hasOwn(VEHICLES,raw.vehicle))valid.vehicle=raw.vehicle;
  for(const [key,allowed] of Object.entries(choices))if(allowed.includes(raw[key]))valid[key]=raw[key];

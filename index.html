@@ -28,6 +28,7 @@
   </header>
   <div id="a11yStatus" class="sr-only" role="status" aria-live="polite"></div>
   <div id="toast" role="status" aria-live="polite"></div>
+  <aside id="rendererWarning" class="renderer-warning hidden" role="alert"><strong>WEBGL NO DISPONIBLE</strong><p>Drive the Sunset requiere WebGL para mostrar la carretera. Activa la aceleración gráfica del navegador y vuelve a intentarlo.</p><button id="retryRenderer">REINTENTAR WEBGL</button></aside>
   <aside class="radio" aria-label="Radio original">
     <div class="radio-signal" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <div><small>RADIO DE CARRETERA</small><span id="radioStation">ONDA SALMAR</span></div>
@@ -71,7 +72,6 @@
   <section id="garagePane" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="garageTitle">
     <div class="panel garage-panel"><div class="panel-heading"><div><span class="eyebrow">TU VIAJE · TUS REGLAS</span><h2 id="garageTitle">El garaje.</h2></div><button id="closeGarage" class="close-button" aria-label="Cerrar garaje">↗</button></div>
       <p id="garageSummary">Ajustes en este dispositivo.</p>
-      <fieldset class="renderer-setting"><legend>MODO GRÁFICO</legend><label for="rendererPick">Dibujo<select id="rendererPick"><option value="auto">Automático · 3D con alternativa Canvas</option><option value="webgl">WebGL · 3D</option><option value="canvas">Canvas · arcade 2D</option></select></label><p id="rendererHelp" class="field-note" role="status">Renderizador activo: Canvas 2D. Automático usará 3D si WebGL está disponible.</p></fieldset>
       <div class="garage-grid">
         <fieldset><legend>COCHE Y ACABADO</legend>
           <label for="vehiclePick">Vehículo<select id="vehiclePick"><option value="vesper">Vesper GT · 1972 · Muscle</option><option value="solstice">Solstice LX · 1984 · Cabrio</option><option value="phantom">Phantom XR · 1987 · Coupé</option><option value="meridian">Meridian S · 1992 · Sedán</option></select></label>
@@ -111,7 +111,7 @@
   <section id="photoPane" class="overlay photo-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="photoTitle"><div class="photo-toolbar"><div><span class="eyebrow">UN MOMENTO DEL VIAJE</span><h2 id="photoTitle">La luz se queda.</h2><p>Descarga una foto PNG sin la interfaz.</p></div><div><button id="capturePhoto" class="primary">GUARDAR FOTO ↓</button><button id="closePhoto">VOLVER ↗</button></div></div></section>
   <section id="finish" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="finishTitle"><div class="panel finish-panel"><span class="eyebrow">HAS LLEGADO</span><h2 id="finishTitle">Todavía queda<br><em>carretera.</em></h2><p id="finishStory"></p><p id="finishStats"></p><div class="finish-buttons"><button id="nextRoute" class="primary">SIGUIENTE CARRETERA ↗</button><button id="driveAgain">RECORRERLA OTRA VEZ</button><button id="returnHome">VOLVER AL INICIO</button></div></div></section>
   <section id="helpPane" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="panel help-panel"><span class="eyebrow">GUÍA DE VIAJE</span><h2 id="helpTitle">A tu ritmo.</h2><dl class="control-list"><div><dt>W / ↑</dt><dd>Acelerar</dd></div><div><dt>S / ↓</dt><dd>Frenar; mantener para marcha atrás</dd></div><div><dt>A / ← · D / →</dt><dd>Izquierda · Derecha</dd></div><div><dt>Espacio</dt><dd>Freno de mano</dd></div><div><dt>P / Esc · H · F</dt><dd>Pausa · Ayuda · Foto</dd></div><div><dt>R · 1 / 2</dt><dd>Reiniciar · Elegir desvío</dd></div></dl><p>Crucero no tiene cronómetro ni final por conducir despacio. En Arcade, elige un objetivo en el garaje: conducción limpia, velocidad fluida o tres paradas. Los contactos son suaves y nunca cierran el viaje.</p><p>Las dieciséis paradas están señaladas. Frena cerca del lugar para guardar su historia en el diario. Ocho encuentros opcionales añaden decisiones al viaje: detente cuando aparezcan y pulsa E o Escuchar. Completa las carreteras para descubrir dieciséis desenlaces. Una copia JSON conserva tus ajustes y tus descubrimientos.</p><p class="field-note" id="gamepadStatus">Mando estándar: gatillos acelerar/frenar, stick izquierdo girar, Start pausa. También dispones de controles táctiles.</p><button id="closeHelp" class="primary">VOLVER AL VIAJE ↗</button></div></section>
-  <footer><span>MEMORIAS DEL ASFALTO · I. ROIG</span><span id="saveStatus">GUARDADO LOCAL</span><span id="renderStatus">CANVAS</span></footer>
+  <footer><span>MEMORIAS DEL ASFALTO · I. ROIG</span><span id="saveStatus">GUARDADO LOCAL</span><span id="renderStatus">WEBGL · 3D</span></footer>
   <noscript><div class="no-script">Activa JavaScript para conducir. Todos los recursos están incluidos en el proyecto.</div></noscript>
 </main>
 <script type="module" src="js/main.js"></script>

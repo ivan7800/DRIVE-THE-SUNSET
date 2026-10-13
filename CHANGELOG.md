@@ -1,5 +1,12 @@
 # Cambios de CHASE-404: DRIVE THE SUNSET
 
+## 1.1.0-rc.3 — 13 octubre 2026
+
+- Retirado el renderizador de carretera Canvas 2D y su selector; la conducción utiliza WebGL exclusivamente.
+- Si WebGL no inicia o pierde el contexto, se detiene el viaje, aparece un aviso accesible y se ofrece reintentar. No se presenta la vista 2D como si el juego siguiera operativo.
+- Guardados anteriores con una preferencia `renderer` siguen siendo legibles; esa opción obsoleta se ignora. El minimapa y la captura PNG conservan Canvas 2D como utilidades.
+- Regresión de fallo WebGL añadida; la validación con Chromium/GPU y móviles queda pendiente en esta candidata.
+
 ## 1.1.0-rc.2 — 13 octubre 2026
 
 - Controles de conducción táctiles con compatibilidad Touch Events en paralelo a Pointer Events, con estado de pulsación separado y captura de puntero protegida ante errores. Instrucción móvil visible desde inicio; controles algo más abajo para reducir solape con el coche.
