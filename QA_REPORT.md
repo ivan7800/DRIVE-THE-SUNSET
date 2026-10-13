@@ -12,7 +12,7 @@
 
 **Impacto intencional:** los dispositivos y navegadores sin WebGL ya no podrán conducir; verán un aviso que pide activar la aceleración gráfica y ofrece reintentar. Los guardados previos siguen aceptándose y su campo obsoleto `renderer` se ignora.
 
-**Estado de publicación:** los cambios de esta RC3 están en el árbol local del proyecto. La actualización del repositorio y de GitHub Pages debe confirmarse por separado antes de afirmar que la web pública ya la sirve.
+**Estado de publicación:** commit `ddb88258fcc1c5180dcaeddd37736d29fb174b11` verificado en `main`; la URL de GitHub Pages sirve RC3. En el navegador de auditoría se observó el aviso de WebGL no disponible y el botón de inicio deshabilitado. Esto confirma la retirada del fallback 2D, pero ese navegador no permite probar la conducción 3D.
 
 ---
 

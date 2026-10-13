@@ -21,5 +21,10 @@
     "iPhone/Safari physical device, controls and audio listening",
     "physical GPU, Windows, Linux Mint, gamepad and long session"
   ],
-  "historical_only": "RC1 Chromium/SwiftShader/GLES evidence does not certify RC3"
+  "historical_only": "RC1 Chromium/SwiftShader/GLES evidence does not certify RC3",
+  "publication": {
+    "repository_commit": "ddb88258fcc1c5180dcaeddd37736d29fb174b11",
+    "github_pages_rc3_observed": true,
+    "audit_browser_webgl": "unavailable; warning visible and start disabled"
+  }
 }
